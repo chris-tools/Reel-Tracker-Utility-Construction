@@ -8,8 +8,8 @@
   <!-- XLSX with basic styling support -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 
-  <!-- ZXing scanner -->
-  <script src="https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/index.min.js"></script>
+  <!-- Html5Qrcode (TAU-style scanner) -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.10/minified/html5-qrcode.min.js"></script>
 
   <style>
     :root{
@@ -162,7 +162,7 @@
       word-break:break-word;
     }
 
-    /* Scanner box */
+    /* Scanner area */
     .scannerWrap{display:none; margin-top:10px;}
     .scannerBox{
       background: rgba(0,0,0,.25);
@@ -170,10 +170,13 @@
       border-radius: var(--radius);
       padding:10px;
     }
-    video{
+
+    /* Html5Qrcode renders into this div */
+    #reader{
       width:100%;
       border-radius: 14px;
-      background: black;
+      overflow:hidden;
+      background: #000;
     }
 
     /* List */
@@ -218,7 +221,7 @@
     }
     .tiny-attrib{
       font-size:5px;
-      color: var(--bg); /* hidden on bg */
+      color: var(--bg);
       user-select:text;
       margin-top:8px;
     }
@@ -231,7 +234,6 @@
       <div class="banner">🏗️ Construction Build — Not for Field Use</div>
       <div class="head">
         <div class="logo" aria-hidden="true" title="placeholder logo">
-          <!-- Simple placeholder mark -->
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
             <path d="M12 2l2.2 7.1H22l-5.9 4.3 2.2 7.1L12 16.2 5.7 20.5 7.9 13.4 2 9.1h7.8L12 2z" fill="rgba(255,255,255,.9)"/>
           </svg>
@@ -246,7 +248,6 @@
 
     <div class="grid">
 
-      <!-- Left column -->
       <div class="card">
         <h2>Required Info</h2>
 
@@ -273,7 +274,7 @@
 
         <div class="scannerWrap" id="scannerWrap">
           <div class="scannerBox">
-            <video id="video" playsinline></video>
+            <div id="reader"></div>
             <div class="btnrow" style="margin-top:10px;">
               <button id="scanAgainBtn" class="secondary" disabled>Scan Again</button>
             </div>
@@ -312,7 +313,6 @@
         </div>
       </div>
 
-      <!-- Right column -->
       <div class="card">
         <div class="listHead">
           <h2 style="margin:0;">Scanned Reels</h2>
@@ -361,15 +361,14 @@
     }
 
     // ---------- State ----------
-    let reels = []; // array of reelId strings
+    let reels = [];
     let clearArmed = false;
     let clearArmTimer = null;
 
-    // Scanner state
-    let codeReader = null;
-    let currentDeviceId = null;
-    let controls = null;
+    // Html5Qrcode state
+    let qr = null;
     let scanning = false;
+    let lastAccepted = { text: "", t: 0 };
 
     // ---------- Elements ----------
     const nameInput = $("nameInput");
@@ -379,7 +378,6 @@
     const stopScannerBtn = $("stopScannerBtn");
     const scanAgainBtn = $("scanAgainBtn");
     const scannerWrap = $("scannerWrap");
-    const videoEl = $("video");
     const lastScannedValue = $("lastScannedValue");
 
     const manualInput = $("manualInput");
@@ -409,23 +407,18 @@
     }
 
     function updateControls(){
-      // Scanner button enable (like TAU mode buttons)
       const canScan = requiredFieldsFilled();
       openScannerBtn.disabled = !canScan || scanning;
       stopScannerBtn.disabled = !scanning;
 
-      // Manual add enable
       addManualBtn.disabled = !normalizeReelId(manualInput.value);
 
-      // Export + clear enable
       const hasReels = reels.length > 0;
       exportBtn.disabled = !hasReels || !requiredFieldsFilled();
       clearBtn.disabled = !hasReels;
 
-      // Scan-again enable only when scanning
       scanAgainBtn.disabled = !scanning;
 
-      // Count label
       countLabel.textContent = `SCANNED REELS (${reels.length})`;
     }
 
@@ -472,7 +465,6 @@
       const id = normalizeReelId(reelId);
       if(!id) return;
 
-      // v1: prevent duplicates (safer)
       if(reels.includes(id)){
         lastScannedValue.textContent = id + " (already)";
         setStatus("Duplicate ignored");
@@ -501,7 +493,6 @@
       clearBtn.classList.add("danger");
       clearBtn.textContent = "Confirm Clear";
       setStatus("Confirm to clear");
-
       if(clearArmTimer) clearTimeout(clearArmTimer);
       clearArmTimer = setTimeout(disarmClear, 5000);
     }
@@ -516,7 +507,6 @@
     }
 
     document.addEventListener("click", (e) => {
-      // If armed and click is outside the clear button, disarm.
       if(clearArmed && e.target !== clearBtn){
         disarmClear();
       }
@@ -528,7 +518,6 @@
         armClear();
         return;
       }
-      // Option A: clear reels + notes only (keep name/company/build)
       reels = [];
       notesInput.value = "";
       lastScannedValue.textContent = "—";
@@ -538,39 +527,48 @@
       setStatus("Cleared");
     });
 
-    // ---------- Scanner ----------
+    // ---------- Scanner (Html5Qrcode) ----------
     async function startScanner(){
       if(scanning) return;
       scannerWrap.style.display = "block";
-
       setStatus("Starting camera…");
 
       try{
-        if(!codeReader) codeReader = new ZXingBrowser.BrowserMultiFormatReader();
-
-        // Pick default camera (prefer back/environment when possible)
-        const devices = await ZXingBrowser.BrowserCodeReader.listVideoInputDevices();
-        if(!devices || devices.length === 0) throw new Error("No camera devices found.");
-
-        // naive preference: pick last device (often back camera on phones)
-        currentDeviceId = devices[devices.length - 1].deviceId;
+        if(!qr) qr = new Html5Qrcode("reader");
 
         scanning = true;
         updateControls();
 
-        controls = await codeReader.decodeFromVideoDevice(
-          currentDeviceId,
-          videoEl,
-          (result, err, controlsRef) => {
-            if(result){
-              const text = result.getText ? result.getText() : String(result);
-              addReel(text);
-            }
-          }
-        );
+        const config = {
+          fps: 12,
+          qrbox: { width: 250, height: 250 },
+          rememberLastUsedCamera: true,
+          supportedScanTypes: [ Html5QrcodeScanType.SCAN_TYPE_CAMERA ]
+        };
 
-        // Best-effort focus/zoom tuning (silently ignores unsupported browsers)
-        tryApplyCameraTuning();
+        const onSuccess = async (decodedText) => {
+          const now = Date.now();
+          // light debouncing so the same code doesn't fire 10x a second
+          if(decodedText === lastAccepted.text && (now - lastAccepted.t) < 1200) return;
+          lastAccepted = { text: decodedText, t: now };
+
+          addReel(decodedText);
+
+          // brief pause makes it feel smoother + avoids repeated reads
+          try{
+            qr.pause(true);
+            setTimeout(() => { try{ qr.resume(); }catch(_){} }, 450);
+          }catch(_){}
+        };
+
+        const onFail = (_err) => { /* ignore per-frame decode errors */ };
+
+        await qr.start(
+          { facingMode: "environment" },
+          config,
+          onSuccess,
+          onFail
+        );
 
         setStatus("Scanning");
       }catch(err){
@@ -581,38 +579,13 @@
       }
     }
 
-    async function tryApplyCameraTuning(){
-      try{
-        const stream = videoEl.srcObject;
-        if(!stream) return;
-        const track = stream.getVideoTracks()[0];
-        if(!track) return;
-
-        const caps = track.getCapabilities ? track.getCapabilities() : null;
-        if(!caps) return;
-
-        // Zoom best-effort: attempt ~3.3x feel is device-dependent.
-        if(caps.zoom){
-          const target = Math.min(caps.zoom.max, Math.max(caps.zoom.min, 3.3));
-          await track.applyConstraints({ advanced: [{ zoom: target }] });
-        }
-
-        // Continuous focus best-effort
-        if(caps.focusMode && caps.focusMode.includes("continuous")){
-          await track.applyConstraints({ advanced: [{ focusMode: "continuous" }] });
-        }
-      }catch(_){
-        // ignore silently
-      }
-    }
-
     async function stopScanner(){
       if(!scanning) return;
       setStatus("Stopping…");
       try{
-        if(controls && controls.stop) controls.stop();
+        await qr.stop();
+        await qr.clear();
       }catch(_){}
-      controls = null;
       scanning = false;
       updateControls();
       setStatus("Ready");
@@ -621,9 +594,9 @@
     openScannerBtn.addEventListener("click", startScanner);
     stopScannerBtn.addEventListener("click", stopScanner);
 
-    // Scan Again = kept for UI parity (ZXing loop continuously scans)
     scanAgainBtn.addEventListener("click", () => {
       setStatus("Scanning");
+      try{ qr && qr.resume(); }catch(_){}
     });
 
     // ---------- Export (Excel + Share) ----------
@@ -634,34 +607,19 @@
       const dateStr = todayMMDDYYYY();
       const notes = (notesInput.value || "").trim();
 
-      // Columns in your exact order:
       const header = ["Name","Company/Garage","Reel ID","Build Town","Date","Notes"];
-
-      const rows = reels.map(reelId => ([
-        name,
-        company,
-        reelId,
-        buildTown,
-        dateStr,   // MM/DD/YYYY as requested
-        notes
-      ]));
-
+      const rows = reels.map(reelId => ([ name, company, reelId, buildTown, dateStr, notes ]));
       const aoa = [header, ...rows];
 
       const ws = XLSX.utils.aoa_to_sheet(aoa);
 
-      // Basic formatting (xlsx-js-style supports .s)
       const headerStyle = {
         font: { bold: true, color: { rgb: "FFFFFF" } },
         fill: { fgColor: { rgb: "1F3B73" } },
         alignment: { horizontal: "center", vertical: "center" }
       };
+      const cellStyle = { alignment: { vertical: "center" } };
 
-      const cellStyle = {
-        alignment: { vertical: "center" }
-      };
-
-      // Apply styles
       const range = XLSX.utils.decode_range(ws["!ref"]);
       for(let C = range.s.c; C <= range.e.c; C++){
         const addr = XLSX.utils.encode_cell({ r: 0, c: C });
@@ -674,22 +632,18 @@
         }
       }
 
-      // Column widths (readability)
       ws["!cols"] = [
-        { wch: 18 }, // Name
-        { wch: 22 }, // Company/Garage
-        { wch: 18 }, // Reel ID
-        { wch: 18 }, // Build Town
-        { wch: 12 }, // Date
-        { wch: 40 }, // Notes
+        { wch: 18 },
+        { wch: 22 },
+        { wch: 18 },
+        { wch: 18 },
+        { wch: 12 },
+        { wch: 40 },
       ];
-
-      // Freeze top row
       ws["!freeze"] = { xSplit: 0, ySplit: 1 };
 
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Reels");
-
       return wb;
     }
 
@@ -707,19 +661,13 @@
         const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
         const blob = new Blob([wbout], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
 
-        // Share sheet
         if(navigator.canShare && navigator.canShare({ files: [new File([blob], filename, { type: blob.type })] })){
           const file = new File([blob], filename, { type: blob.type });
-          await navigator.share({
-            files: [file],
-            title: "Reel Tracker Utility Export"
-          });
+          await navigator.share({ files: [file], title: "Reel Tracker Utility Export" });
           setStatus("Shared");
-          // Option A: do NOT auto-clear
-          return;
+          return; // Option A: do NOT auto-clear
         }
 
-        // Fallback: download
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -736,7 +684,6 @@
       }
     });
 
-    // Update enable/disable on load
     updateControls();
   </script>
 </body>
