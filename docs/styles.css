@@ -20,9 +20,9 @@ html,body{ margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI,
   top: 0;
   z-index: 9999;
 
-  display:grid;
-  grid-template-columns: 72px 1fr 220px;
+  display:flex;
   align-items:center;
+  justify-content:space-between;
 
   background: rgba(11,42,111,0.92);
   backdrop-filter: blur(10px);
