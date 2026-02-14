@@ -14,19 +14,18 @@ html,body{ margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI,
 .container{ width:min(980px, 92vw); margin: 14px auto 24px auto; }
 
 .topbar{
-  width:100%;
-  padding: 14px 14px;
-  position: sticky;
-  top: 0;
-  z-index: 9999;
+  background:var(--blue);
+  color:white;
+  padding:14px 14px;
 
   display:flex;
   align-items:center;
-  justify-content:space-between;
-
-  background: rgba(11,42,111,0.92);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255,255,255,0.10);
+  justify-content:center;
+  gap:10px;
+  text-align:center;
+  
+  border-radius:18px;
+  overflow:hidden;
 }
 
 .brand{
