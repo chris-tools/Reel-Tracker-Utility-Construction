@@ -19,10 +19,16 @@ html,body{ margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI,
   position: sticky;
   top: 0;
   z-index: 9999;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
   background: rgba(11,42,111,0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255,255,255,0.10);
 }
+
 .brand{
   display:flex;
   align-items:center;
