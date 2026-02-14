@@ -28,6 +28,10 @@ html,body{ margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI,
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255,255,255,0.10);
 }
+.topbarSpacer{
+  width: 220px; /* matches the button area so the brand stays centered */
+  flex: 0 0 220px;
+}
 
 .brand{
   display:flex;
