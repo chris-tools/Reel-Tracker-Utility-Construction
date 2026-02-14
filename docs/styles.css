@@ -20,24 +20,20 @@ html,body{ margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI,
   top: 0;
   z-index: 9999;
 
-  display:flex;
+  display:grid;
+  grid-template-columns: 72px 1fr 220px;
   align-items:center;
-  justify-content:space-between;
 
   background: rgba(11,42,111,0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255,255,255,0.10);
 }
-.topbarSpacer{
-  width: 220px; /* matches the button area so the brand stays centered */
-  flex: 0 0 220px;
-}
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
 }
 
 #brandLogo{ width:44px; height:44px; border-radius: 12px; background:#fff; }
@@ -47,12 +43,10 @@ html,body{ margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI,
   font-size:1.4rem;
   line-height:1.2;
   text-align:center;
-  flex: 0 0 60px;
  }
 
 .titles{
-  flex: 1 1 auto;
-  text-align: center;
+   text-align: center;
 }
 
 
