@@ -3,688 +3,166 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Reel Tracker Utility</title>
+  <title>Reel Tracking Utility</title>
 
-  <!-- XLSX with basic styling support -->
-  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
-
-  <!-- Html5Qrcode (TAU-style scanner) -->
-  <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.10/minified/html5-qrcode.min.js"></script>
-
-  <style>
-    :root{
-      --bg:#06152e;            /* very dark blue */
-      --panel:#0b2248;         /* card background */
-      --panel2:#0a1b38;        /* deeper card */
-      --text:#eaf2ff;
-      --muted:#a9c0e6;
-      --accent:#3f8cff;        /* button */
-      --accent2:#2c6fe0;
-      --danger:#d64545;        /* confirm clear */
-      --ok:#2fbf71;
-      --shadow:0 10px 26px rgba(0,0,0,.35);
-      --radius:16px;
-    }
-
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% -10%, rgba(63,140,255,.18), transparent 55%),
-                  radial-gradient(900px 600px at 80% 0%, rgba(47,191,113,.10), transparent 50%),
-                  var(--bg);
-      color:var(--text);
-    }
-
-    .wrap{max-width:980px; margin:0 auto; padding:18px 14px 28px;}
-    .topbar{
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      margin-bottom:14px;
-    }
-    .topbar .banner{
-      padding:10px 14px;
-      background: rgba(214,69,69,.18);
-      border-bottom:1px solid rgba(255,255,255,.10);
-      font-weight:700;
-      letter-spacing:.2px;
-    }
-    .topbar .head{
-      display:flex; gap:14px; align-items:center;
-      padding:14px;
-    }
-    .logo{
-      width:44px; height:44px; border-radius:12px;
-      background: linear-gradient(135deg, rgba(63,140,255,.9), rgba(47,191,113,.6));
-      display:grid; place-items:center;
-      flex:0 0 auto;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.22);
-    }
-    .logo svg{opacity:.95}
-    h1{margin:0; font-size:22px; letter-spacing:.2px}
-    .sub{margin:2px 0 0; color:var(--muted); font-size:13px}
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media(min-width:900px){
-      .grid{grid-template-columns: 1.1fr .9fr;}
-    }
-
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.10);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding:14px;
-    }
-    .card h2{
-      margin:0 0 10px;
-      font-size:14px;
-      letter-spacing:.7px;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-
-    .row{display:flex; gap:10px; flex-wrap:wrap;}
-    .field{flex:1 1 220px; min-width:220px;}
-    label{display:block; margin:0 0 6px; font-size:12px; color:var(--muted); letter-spacing:.2px;}
-    input, textarea{
-      width:100%;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.22);
-      color:var(--text);
-      padding:11px 12px;
-      outline:none;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
-    }
-    input::placeholder, textarea::placeholder{color: rgba(233,242,255,.45);}
-    textarea{min-height:76px; resize:vertical;}
-
-    .btnrow{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px;}
-    button{
-      border:0;
-      border-radius: 14px;
-      padding:12px 14px;
-      font-weight:800;
-      letter-spacing:.2px;
-      color:white;
-      background: linear-gradient(180deg, var(--accent), var(--accent2));
-      box-shadow: 0 10px 18px rgba(0,0,0,.28);
-      cursor:pointer;
-    }
-    button.secondary{
-      background: rgba(255,255,255,.10);
-      box-shadow:none;
-      border:1px solid rgba(255,255,255,.14);
-      color:var(--text);
-      font-weight:700;
-    }
-    button.danger{
-      background: linear-gradient(180deg, #e25555, var(--danger));
-    }
-    button:disabled{
-      cursor:not-allowed;
-      opacity:.45;
-      background: rgba(255,255,255,.10);
-      box-shadow:none;
-    }
-
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      color:var(--muted);
-      font-size:12px;
-      margin-left:auto;
-    }
-
-    /* Last scanned */
-    .last{
-      padding:14px;
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(47,191,113,.16), rgba(0,0,0,.14));
-      border:1px solid rgba(47,191,113,.25);
-    }
-    .last .k{font-size:12px; color:rgba(233,242,255,.75); letter-spacing:.7px; text-transform:uppercase;}
-    .last .v{
-      margin-top:6px;
-      font-size:26px;
-      font-weight:900;
-      letter-spacing:.6px;
-      word-break:break-word;
-    }
-
-    /* Scanner area */
-    .scannerWrap{display:none; margin-top:10px;}
-    .scannerBox{
-      background: rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius: var(--radius);
-      padding:10px;
-    }
-
-    /* Html5Qrcode renders into this div */
-    #reader{
-      width:100%;
-      border-radius: 14px;
-      overflow:hidden;
-      background: #000;
-    }
-
-    /* List */
-    .listHead{
-      display:flex; align-items:center; gap:10px;
-      margin-bottom:8px;
-    }
-    .count{
-      color:var(--muted);
-      font-size:12px;
-      letter-spacing:.6px;
-      text-transform:uppercase;
-    }
-    ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;}
-    li{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding:10px 12px;
-      border-radius: 14px;
-      background: rgba(0,0,0,.20);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .id{
-      font-weight:900;
-      letter-spacing:.4px;
-      word-break:break-word;
-    }
-    .xbtn{
-      border:0;
-      background: rgba(214,69,69,.18);
-      color:#ffd7d7;
-      padding:7px 10px;
-      border-radius: 12px;
-      font-weight:900;
-      cursor:pointer;
-    }
-
-    .foot{
-      margin-top:14px;
-      color:rgba(233,242,255,.65);
-      font-size:12px;
-      text-align:center;
-    }
-    .tiny-attrib{
-      font-size:5px;
-      color: var(--bg);
-      user-select:text;
-      margin-top:8px;
-    }
-  </style>
+  <meta name="theme-color" content="#0b2a6f">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="wrap">
 
-    <div class="topbar">
-      <div class="banner">🏗️ Construction Build — Not for Field Use</div>
-      <div class="head">
-        <div class="logo" aria-hidden="true" title="placeholder logo">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2l2.2 7.1H22l-5.9 4.3 2.2 7.1L12 16.2 5.7 20.5 7.9 13.4 2 9.1h7.8L12 2z" fill="rgba(255,255,255,.9)"/>
-          </svg>
-        </div>
-        <div>
-          <h1>Reel Tracker Utility</h1>
-          <div class="sub">Scan reels for a build town • Export & share formatted Excel</div>
-        </div>
-        <div class="pill" id="statusPill">Ready</div>
-      </div>
-    </div>
-
-    <div class="grid">
-
-      <div class="card">
-        <h2>Required Info</h2>
-
-        <div class="row">
-          <div class="field">
-            <label for="nameInput">Name (required)</label>
-            <input id="nameInput" autocomplete="name" placeholder="Chris" />
-          </div>
-          <div class="field">
-            <label for="companyInput">Company / Garage (required)</label>
-            <input id="companyInput" placeholder="Nashua Garage" />
-          </div>
-          <div class="field">
-            <label for="buildTownInput">Build Town (required)</label>
-            <input id="buildTownInput" placeholder="Manchester" />
-          </div>
-        </div>
-
-        <div class="btnrow">
-          <button id="openScannerBtn" disabled>Open Scanner</button>
-          <button id="stopScannerBtn" class="secondary" disabled>Finish</button>
-          <span class="pill" id="datePill"></span>
-        </div>
-
-        <div class="scannerWrap" id="scannerWrap">
-          <div class="scannerBox">
-            <div id="reader"></div>
-            <div class="btnrow" style="margin-top:10px;">
-              <button id="scanAgainBtn" class="secondary" disabled>Scan Again</button>
-            </div>
-          </div>
-        </div>
-
-        <div style="height:12px;"></div>
-
-        <div class="last">
-          <div class="k">Last Scanned</div>
-          <div class="v" id="lastScannedValue">—</div>
-        </div>
-
-        <div style="height:12px;"></div>
-
-        <h2>Manual Entry</h2>
-        <div class="row">
-          <div class="field" style="flex: 1 1 420px; min-width:260px;">
-            <label for="manualInput">Reel ID (manual)</label>
-            <input id="manualInput" placeholder="Type reel ID, then tap Add" />
-          </div>
-          <div class="field" style="flex: 0 0 140px; min-width:140px;">
-            <label>&nbsp;</label>
-            <button id="addManualBtn" disabled style="width:100%;">Add</button>
-          </div>
-        </div>
-
-        <div style="height:12px;"></div>
-
-        <h2>Session Notes</h2>
-        <textarea id="notesInput" placeholder="Optional notes for this session (applies to all reels)"></textarea>
-
-        <div class="btnrow" style="margin-top:12px;">
-          <button id="exportBtn" disabled>Export & Share (Excel)</button>
-          <button id="clearBtn" class="secondary" disabled>Clear Session</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="listHead">
-          <h2 style="margin:0;">Scanned Reels</h2>
-          <div class="count" id="countLabel">SCANNED REELS (0)</div>
-        </div>
-
-        <ul id="reelList"></ul>
-
-        <div class="foot">
-          Tip: Tap the ✕ to remove a bad scan any time.
-        </div>
-      </div>
-
-    </div>
-
-    <div class="foot">
-      Reel Tracker Utility v1.0 | Construction | 02/12/2026
-      <div class="tiny-attrib">[hidden attribution placeholder]</div>
-    </div>
-
+  <!-- ===== RTU CONSTRUCTION BANNER : BEGIN (construction repo only) ===== -->
+  <div id="rtuConstructionBanner">
+    <span class="rtuConstructionLabel">🚧 RTU Construction 🚧</span>
   </div>
+  <!-- ===== RTU CONSTRUCTION BANNER : END ===== -->
 
-  <script>
-    // ---------- Utilities ----------
-    const $ = (id) => document.getElementById(id);
+  <header class="topbar">
+    <div class="brand">
+      <img id="brandLogo" src="icon-192.png" alt="Reel Tracking Utility icon" />
+      <div class="titles">
+        <div class="appname">Reel Tracking Utility</div>
+        <div class="subtitle">Scan reel labels • Export a session CSV</div>
+      </div>
+    </div>
+    <button id="installBtn" class="ghost" hidden>Add to Home Screen</button>
+  </header>
 
-    function todayMMDDYYYY(){
-      const d = new Date();
-      const mm = String(d.getMonth()+1).padStart(2,'0');
-      const dd = String(d.getDate()).padStart(2,'0');
-      const yyyy = d.getFullYear();
-      return `${mm}/${dd}/${yyyy}`;
-    }
+  <main class="container">
 
-    function nowTimeHHMMSS(){
-      const d = new Date();
-      const hh = String(d.getHours()).padStart(2,'0');
-      const mm = String(d.getMinutes()).padStart(2,'0');
-      const ss = String(d.getSeconds()).padStart(2,'0');
-      return `${hh}:${mm}:${ss}`;
-    }
+    <section class="card">
+      <h2>1) Choose a mode</h2>
 
-    function normalizeReelId(raw){
-      if(!raw) return "";
-      return String(raw).trim().replace(/\s+/g,'');
-    }
+      <div class="modeRow">
+        <button id="modePickupBtn" class="primary">Pick Up / Deliver</button>
+        <button id="modeReturnBtn" class="secondary">Return</button>
+      </div>
 
-    // ---------- State ----------
-    let reels = [];
-    let clearArmed = false;
-    let clearArmTimer = null;
+      <p class="hint">Works offline <em>after</em> the first load.</p>
+    </section>
 
-    // Html5Qrcode state
-    let qr = null;
-    let scanning = false;
-    let lastAccepted = { text: "", t: 0 };
+    <!-- ===== PICKUP / DELIVER ===== -->
+    <section id="pickupSection" class="card" hidden>
+      <h2>2) Pick Up / Deliver details</h2>
 
-    // ---------- Elements ----------
-    const nameInput = $("nameInput");
-    const companyInput = $("companyInput");
-    const buildTownInput = $("buildTownInput");
-    const openScannerBtn = $("openScannerBtn");
-    const stopScannerBtn = $("stopScannerBtn");
-    const scanAgainBtn = $("scanAgainBtn");
-    const scannerWrap = $("scannerWrap");
-    const lastScannedValue = $("lastScannedValue");
+      <div class="grid2">
+        <div class="field">
+          <label for="techName">Your Name</label>
+          <input id="techName" type="text" placeholder="(Required)" autocomplete="name" />
+        </div>
 
-    const manualInput = $("manualInput");
-    const addManualBtn = $("addManualBtn");
+        <div class="field">
+          <label for="company">Company / Garage</label>
+          <input id="company" type="text" placeholder="(Required)" autocomplete="organization" />
+        </div>
 
-    const notesInput = $("notesInput");
-    const exportBtn = $("exportBtn");
-    const clearBtn = $("clearBtn");
+        <div class="field full">
+          <label for="build">Build / Assignment</label>
+          <input id="build" type="text" placeholder="(Required)" />
+        </div>
+      </div>
 
-    const reelList = $("reelList");
-    const countLabel = $("countLabel");
-    const datePill = $("datePill");
-    const statusPill = $("statusPill");
+      <div class="row">
+        <button id="pickupGoScan" class="primary bigAction" disabled>Start Scanning Reels</button>
+      </div>
+    </section>
 
-    // ---------- Init ----------
-    datePill.textContent = `Date: ${todayMMDDYYYY()}`;
-    setStatus("Ready");
+    <!-- ===== RETURN ===== -->
+    <section id="returnSection" class="card" hidden>
+      <h2>2) Return details</h2>
 
-    function setStatus(text){
-      statusPill.textContent = text;
-    }
+      <div class="grid2">
+        <div class="field full">
+          <label for="returnReelName">Reel Name</label>
+          <input id="returnReelName" type="text" placeholder="(Required)" />
+        </div>
 
-    function requiredFieldsFilled(){
-      return !!normalizeReelId(nameInput.value)
-        && !!normalizeReelId(companyInput.value)
-        && !!normalizeReelId(buildTownInput.value);
-    }
+        <div class="field">
+          <label for="insideFt">Inside Footage</label>
+          <input id="insideFt" type="number" inputmode="numeric" placeholder="(Required)" />
+        </div>
 
-    function updateControls(){
-      const canScan = requiredFieldsFilled();
-      openScannerBtn.disabled = !canScan || scanning;
-      stopScannerBtn.disabled = !scanning;
+        <div class="field">
+          <label for="outsideFt">Outside Footage</label>
+          <input id="outsideFt" type="number" inputmode="numeric" placeholder="(Required)" />
+        </div>
 
-      addManualBtn.disabled = !normalizeReelId(manualInput.value);
+        <div class="field full">
+          <label for="totalFt">Total Footage (auto)</label>
+          <input id="totalFt" type="number" inputmode="numeric" readonly />
+        </div>
+      </div>
 
-      const hasReels = reels.length > 0;
-      exportBtn.disabled = !hasReels || !requiredFieldsFilled();
-      clearBtn.disabled = !hasReels;
+      <div class="row">
+        <button id="returnExport" class="primary bigAction" disabled>Export Return CSV</button>
+      </div>
+    </section>
 
-      scanAgainBtn.disabled = !scanning;
+    <!-- ===== SCAN ===== -->
+    <section id="scanSection" class="card" hidden>
+      <h2>3) Scan reel label</h2>
 
-      countLabel.textContent = `SCANNED REELS (${reels.length})`;
-    }
+      <div id="banner" class="banner" hidden></div>
 
-    nameInput.addEventListener("input", updateControls);
-    companyInput.addEventListener("input", updateControls);
-    buildTownInput.addEventListener("input", updateControls);
+      <div class="videoWrap">
+        <video id="video" muted playsinline></video>
+        <div class="scanGuide" aria-hidden="true"></div>
+      </div>
 
-    manualInput.addEventListener("input", updateControls);
-    manualInput.addEventListener("keydown", (e) => {
-      if(e.key === "Enter"){
-        e.preventDefault();
-        if(!addManualBtn.disabled) addManualBtn.click();
-      }
-    });
+      <div class="card lastScanned">
+        <div class="lastScannedHeader">
+          <div class="lastScannedTitle">Last Scanned</div>
+        </div>
 
-    // ---------- List rendering ----------
-    function renderList(){
-      reelList.innerHTML = "";
-      reels.forEach((id, idx) => {
-        const li = document.createElement("li");
+        <div class="lastScannedField">
+          <span id="lastScannedCheck" class="lastScannedCheck" hidden>✓</span>
 
-        const left = document.createElement("div");
-        left.className = "id";
-        left.textContent = id;
+          <div id="lastScannedValue" class="lastScannedValue">
+            Nothing scanned yet
+          </div>
 
-        const right = document.createElement("button");
-        right.className = "xbtn";
-        right.type = "button";
-        right.textContent = "✕";
-        right.title = "Remove";
-        right.addEventListener("click", () => {
-          reels.splice(idx, 1);
-          renderList();
-          updateControls();
-        });
+          <button id="dismissLastScanned" type="button"
+                  class="lastScannedClear"
+                  aria-label="Dismiss last scanned" disabled>
+            ✕
+          </button>
+        </div>
+      </div>
 
-        li.appendChild(left);
-        li.appendChild(right);
-        reelList.appendChild(li);
-      });
-    }
+      <div class="row scanControls">
+        <button id="startScan" class="primary bigAction">Scan</button>
+        <button id="flashBtn" class="ghost lightBtn" disabled>Flashlight</button>
+        <button id="stopScan" class="secondary" disabled>Finished</button>
+      </div>
 
-    function addReel(reelId){
-      const id = normalizeReelId(reelId);
-      if(!id) return;
+      <div class="row">
+        <button id="addScan" class="secondary bigAction" disabled>Add This Reel</button>
+      </div>
 
-      if(reels.includes(id)){
-        lastScannedValue.textContent = id + " (already)";
-        setStatus("Duplicate ignored");
-        return;
-      }
+      <div class="card">
+        <h3>Session Reels <span id="reelCount">(0)</span></h3>
+        <div id="reelList" class="list"></div>
 
-      reels.push(id);
-      lastScannedValue.textContent = id;
-      setStatus("Captured");
-      renderList();
-      updateControls();
-    }
+        <div class="row exportRow">
+          <button id="exportPickupCsv" class="primary" disabled>Export Pick Up / Deliver CSV</button>
+          <button id="copyAllReels" class="ghost" disabled>Copy All Reels</button>
+          <button id="clearSession" class="ghost danger" disabled>Clear Session</button>
+        </div>
 
-    // ---------- Manual add ----------
-    addManualBtn.addEventListener("click", () => {
-      addReel(manualInput.value);
-      manualInput.value = "";
-      updateControls();
-      manualInput.focus();
-    });
+        <p class="hint small">Tip: For your Adtran ONT-style labels, ~3.3× camera zoom tends to scan best.</p>
+      </div>
 
-    // ---------- Clear session (no popup) ----------
-    function armClear(){
-      clearArmed = true;
-      clearBtn.classList.remove("secondary");
-      clearBtn.classList.add("danger");
-      clearBtn.textContent = "Confirm Clear";
-      setStatus("Confirm to clear");
-      if(clearArmTimer) clearTimeout(clearArmTimer);
-      clearArmTimer = setTimeout(disarmClear, 5000);
-    }
+    </section>
 
-    function disarmClear(){
-      clearArmed = false;
-      clearBtn.classList.remove("danger");
-      clearBtn.classList.add("secondary");
-      clearBtn.textContent = "Clear Session";
-      setStatus("Ready");
-      if(clearArmTimer){ clearTimeout(clearArmTimer); clearArmTimer = null; }
-    }
+    <footer class="foot">
+      <span>v0.1 • Reel Tracking Utility (RTU)</span>
+    </footer>
 
-    document.addEventListener("click", (e) => {
-      if(clearArmed && e.target !== clearBtn){
-        disarmClear();
-      }
-    });
+  </main>
 
-    clearBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if(!clearArmed){
-        armClear();
-        return;
-      }
-      reels = [];
-      notesInput.value = "";
-      lastScannedValue.textContent = "—";
-      renderList();
-      disarmClear();
-      updateControls();
-      setStatus("Cleared");
-    });
+  <!-- Libs -->
+  <script src="zxing-browser.min.js"></script>
+  <script src="app.js?v=rtu_001"></script>
 
-    // ---------- Scanner (Html5Qrcode) ----------
-    async function startScanner(){
-      if(scanning) return;
-      scannerWrap.style.display = "block";
-      setStatus("Starting camera…");
-
-      try{
-        if(!qr) qr = new Html5Qrcode("reader");
-
-        scanning = true;
-        updateControls();
-
-        const config = {
-          fps: 12,
-          qrbox: { width: 250, height: 250 },
-          rememberLastUsedCamera: true,
-          supportedScanTypes: [ Html5QrcodeScanType.SCAN_TYPE_CAMERA ]
-        };
-
-        const onSuccess = async (decodedText) => {
-          const now = Date.now();
-          // light debouncing so the same code doesn't fire 10x a second
-          if(decodedText === lastAccepted.text && (now - lastAccepted.t) < 1200) return;
-          lastAccepted = { text: decodedText, t: now };
-
-          addReel(decodedText);
-
-          // brief pause makes it feel smoother + avoids repeated reads
-          try{
-            qr.pause(true);
-            setTimeout(() => { try{ qr.resume(); }catch(_){} }, 450);
-          }catch(_){}
-        };
-
-        const onFail = (_err) => { /* ignore per-frame decode errors */ };
-
-        await qr.start(
-          { facingMode: "environment" },
-          config,
-          onSuccess,
-          onFail
-        );
-
-        setStatus("Scanning");
-      }catch(err){
-        scanning = false;
-        updateControls();
-        setStatus("Camera error");
-        alert("Camera could not start. Make sure camera permissions are allowed, then try again.\n\n" + (err?.message || err));
-      }
-    }
-
-    async function stopScanner(){
-      if(!scanning) return;
-      setStatus("Stopping…");
-      try{
-        await qr.stop();
-        await qr.clear();
-      }catch(_){}
-      scanning = false;
-      updateControls();
-      setStatus("Ready");
-    }
-
-    openScannerBtn.addEventListener("click", startScanner);
-    stopScannerBtn.addEventListener("click", stopScanner);
-
-    scanAgainBtn.addEventListener("click", () => {
-      setStatus("Scanning");
-      try{ qr && qr.resume(); }catch(_){}
-    });
-
-    // ---------- Export (Excel + Share) ----------
-    function buildWorkbook(){
-      const name = normalizeReelId(nameInput.value);
-      const company = normalizeReelId(companyInput.value);
-      const buildTown = normalizeReelId(buildTownInput.value);
-      const dateStr = todayMMDDYYYY();
-      const notes = (notesInput.value || "").trim();
-
-      const header = ["Name","Company/Garage","Reel ID","Build Town","Date","Notes"];
-      const rows = reels.map(reelId => ([ name, company, reelId, buildTown, dateStr, notes ]));
-      const aoa = [header, ...rows];
-
-      const ws = XLSX.utils.aoa_to_sheet(aoa);
-
-      const headerStyle = {
-        font: { bold: true, color: { rgb: "FFFFFF" } },
-        fill: { fgColor: { rgb: "1F3B73" } },
-        alignment: { horizontal: "center", vertical: "center" }
-      };
-      const cellStyle = { alignment: { vertical: "center" } };
-
-      const range = XLSX.utils.decode_range(ws["!ref"]);
-      for(let C = range.s.c; C <= range.e.c; C++){
-        const addr = XLSX.utils.encode_cell({ r: 0, c: C });
-        if(ws[addr]) ws[addr].s = headerStyle;
-      }
-      for(let R = 1; R <= range.e.r; R++){
-        for(let C = 0; C <= range.e.c; C++){
-          const addr = XLSX.utils.encode_cell({ r: R, c: C });
-          if(ws[addr]) ws[addr].s = cellStyle;
-        }
-      }
-
-      ws["!cols"] = [
-        { wch: 18 },
-        { wch: 22 },
-        { wch: 18 },
-        { wch: 18 },
-        { wch: 12 },
-        { wch: 40 },
-      ];
-      ws["!freeze"] = { xSplit: 0, ySplit: 1 };
-
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Reels");
-      return wb;
-    }
-
-    function makeFilename(){
-      const buildTown = normalizeReelId(buildTownInput.value).replace(/[^\w-]+/g, "_");
-      const date = todayMMDDYYYY().replaceAll("/","-");
-      const time = nowTimeHHMMSS().replaceAll(":","-");
-      return `Reel_Tracker_${buildTown}_${date}_${time}.xlsx`;
-    }
-
-    exportBtn.addEventListener("click", async () => {
-      try{
-        const wb = buildWorkbook();
-        const filename = makeFilename();
-        const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-        const blob = new Blob([wbout], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-
-        if(navigator.canShare && navigator.canShare({ files: [new File([blob], filename, { type: blob.type })] })){
-          const file = new File([blob], filename, { type: blob.type });
-          await navigator.share({ files: [file], title: "Reel Tracker Utility Export" });
-          setStatus("Shared");
-          return; // Option A: do NOT auto-clear
-        }
-
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-
-        setStatus("Downloaded");
-      }catch(err){
-        setStatus("Export error");
-        alert("Export/share failed.\n\n" + (err?.message || err));
-      }
-    });
-
-    updateControls();
-  </script>
 </body>
 </html>
