@@ -23,7 +23,13 @@ html,body{ margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI,
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255,255,255,0.10);
 }
-.brand{ display:flex; align-items:center; gap:12px; }
+.brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+}
+
 #brandLogo{ width:44px; height:44px; border-radius: 12px; background:#fff; }
 .titles .appname{ color:#fff; font-weight:900; font-size: 1.1rem; line-height:1.1; }
 .titles .subtitle{ color: rgba(255,255,255,0.78); font-size: 0.9rem; }
