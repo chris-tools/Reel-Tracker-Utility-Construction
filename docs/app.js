@@ -198,14 +198,14 @@ lastSeenAt = nowMs;
         setBanner('ok', 'Added to session');
         beep(2000, 120, 0.9);
         armed = false;
-        await stopCamera();
+        stopCamera();
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
 
       } else {
         setBanner('bad', 'Duplicate (already in session)');
         armed = false;
-        await stopCamera();
+        stopCamera();
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
       }
@@ -442,7 +442,7 @@ lastSeenAt = nowMs;
 
 
   stopScan?.addEventListener('click', async ()=>{
-    await stopCamera();
+    stopCamera();
   });
 
   flashBtn?.addEventListener('click', ()=>toggleTorch());
