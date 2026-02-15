@@ -52,6 +52,10 @@
   let sessionReels = []; // keep order
   let sessionSet = new Set();
 
+  let lastSeenValue = '';
+  let lastSeenAt = 0;
+
+
   // --- Small helpers ---
   function setBanner(kind, text){
     if(!banner) return;
@@ -176,6 +180,12 @@
 
     if(looksLikeReelName(val)){
       const v = val;
+      // Debounce: ignore the same code if we just saw it a moment ago
+const nowMs = Date.now();
+if (v === lastSeenValue && (nowMs - lastSeenAt) < 1200) return;
+lastSeenValue = v;
+lastSeenAt = nowMs;
+
 
       if(!sessionSet.has(v)){
         sessionSet.add(v);
