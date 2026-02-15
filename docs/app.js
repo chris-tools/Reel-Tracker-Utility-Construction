@@ -212,13 +212,14 @@ lastSeenAt = nowMs;
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
 
-      } else {
+     } else {
         setBanner('bad', 'Duplicate (already in session)');
+        beep(550, 220, 1.0);
         armed = false;
         stopCamera();
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
-      }
+       }
     }
   }
 });
@@ -296,7 +297,7 @@ lastSeenAt = nowMs;
 
     if(sessionSet.has(v)){
       setBanner('bad', 'Duplicate (already in session)');
-      beep(800, 140, 0.7);
+      beep(700, 180, 0.9);
       return;
     }
 
