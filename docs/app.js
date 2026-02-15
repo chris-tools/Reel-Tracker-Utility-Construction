@@ -27,7 +27,6 @@
   const startScan = $('startScan');
   const stopScan = $('stopScan');
   const flashBtn = $('flashBtn');
-  const addScan = $('addScan');
   const clearSession = $('clearSession');
   const exportPickupCsv = $('exportPickupCsv');
   const copyAllReels = $('copyAllReels');
@@ -97,7 +96,6 @@
   }
 
   function updateScanUI(){
-    addScan.disabled = !lastScan;
     dismissLastScanned.disabled = !lastScan;
 
     const hasAny = sessionReels.length > 0;
@@ -170,21 +168,30 @@
       const deviceId = (devices && devices[0] && devices[0].deviceId) ? devices[0].deviceId : undefined;
 
       // Use the library helper to attach camera to the <video>
-      await scanner.decodeFromVideoDevice(deviceId, video, (result, err, controls) => {
-        // result shows up repeatedly while it remains in view; we accept “last seen”
-        if(result){
-          const raw = (typeof result.getText === 'function') ? result.getText() : (result.text || '');
-          const val = normalize(raw);
+    await scanner.decodeFromVideoDevice(deviceId, video, (result, err, controls) => {
+  // result shows up repeatedly while it remains in view; we accept “last seen”
+  if(result){
+    const raw = (typeof result.getText === 'function') ? result.getText() : (result.text || '');
+    const val = normalize(raw);
 
-          if(looksLikeReelName(val)){
-            lastScan = val;
-            showLastScan(val, true);
-            setBanner('ok', 'Scan successful');
-            beep(2000, 120, 0.9);
-            updateScanUI();
-          }
-        }
-      });
+    if(looksLikeReelName(val)){
+      const v = val;
+
+      if(!sessionSet.has(v)){
+        sessionSet.add(v);
+        sessionReels.push(v);
+        renderSession();
+
+        showLastScan(v);
+        setBanner('ok', 'Added to session');
+        beep(2000, 120, 0.9);
+      } else {
+        setBanner('bad', 'Duplicate (already in session)');
+        beep(800, 140, 0.7);
+      }
+    }
+  }
+});
 
       // Grab underlying stream for torch support
       cameraStream = video.srcObject;
@@ -416,7 +423,6 @@
 
   flashBtn?.addEventListener('click', ()=>toggleTorch());
 
-  addScan?.addEventListener('click', ()=>addLastScanToSession());
   dismissLastScanned?.addEventListener('click', ()=>resetLastScan());
   clearSession?.addEventListener('click', ()=>clearSessionNow());
   copyAllReels?.addEventListener('click', ()=>copyAll());
