@@ -37,8 +37,7 @@
 
   const lastScannedValue = $('lastScannedValue');
   const dismissLastScanned = $('dismissLastScanned');
-  const lastScannedCheck = $('lastScannedCheck');
-
+  
   const reelList = $('reelList');
   const reelCount = $('reelCount');
 
@@ -109,11 +108,11 @@
     reelCount.textContent = `(${sessionReels.length})`;
   }
 
-  function showLastScan(text, ok){
+  function showLastScan(text){
     lastScannedValue.textContent = text || 'Nothing scanned yet';
-    lastScannedCheck.hidden = !ok;
-    lastScannedValue.style.color = ok ? '#111827' : '#6b7280';
-  }
+    lastScannedValue.style.color = text ? '#111827' : '#6b7280';
+}
+
 
   function resetLastScan(){
     lastScan = '';
