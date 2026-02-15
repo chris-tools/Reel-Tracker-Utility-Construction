@@ -315,3 +315,17 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   color: #000;
 }
 /* ===== RTU CONSTRUCTION BANNER : END ===== */
+
+/* --- Last Scanned size adjustment --- */
+
+.lastScannedTitle{
+  font-size: 1.15rem;
+}
+
+.lastScannedValue{
+  font-size: 1.1rem;
+}
+
+.lastScannedField{
+  padding: 14px 16px;
+}
