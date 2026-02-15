@@ -170,8 +170,18 @@
     scanner = new ZXingBrowser.BrowserMultiFormatReader();
 
     try{
-      const devices = await ZXingBrowser.BrowserCodeReader.listVideoInputDevices();
-      const deviceId = (devices && devices[0] && devices[0].deviceId) ? devices[0].deviceId : undefined;
+     const devices = await ZXingBrowser.BrowserCodeReader.listVideoInputDevices();
+
+// Prefer a back/rear/environment camera if we can detect it from the label.
+// Fallback: use the last camera in the list (often the rear cam on phones).
+let preferred = null;
+if (devices && devices.length) {
+  preferred =
+    devices.find(d => /back|rear|environment/i.test(d.label || '')) ||
+    devices[devices.length - 1];
+}
+const deviceId = preferred?.deviceId;
+
 
       // Use the library helper to attach camera to the <video>
     await scanner.decodeFromVideoDevice(deviceId, video, (result, err, controls) => {
