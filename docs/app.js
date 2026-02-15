@@ -197,9 +197,17 @@ lastSeenAt = nowMs;
         showLastScan(v);
         setBanner('ok', 'Added to session');
         beep(2000, 120, 0.9);
+        armed = false;
+        await stopCamera();
+        startScan.disabled = false;
+        startScan.textContent = 'Scan Next';
+
       } else {
         setBanner('bad', 'Duplicate (already in session)');
-        beep(800, 140, 0.7);
+        armed = false;
+        await stopCamera();
+        startScan.disabled = false;
+        startScan.textContent = 'Scan Next';
       }
     }
   }
