@@ -51,6 +51,8 @@
   let lastScan = '';
   let sessionReels = []; // keep order
   let sessionSet = new Set();
+  let armed = false; // one scan per tap
+
 
   let lastSeenValue = '';
   let lastSeenAt = 0;
@@ -174,7 +176,7 @@
       // Use the library helper to attach camera to the <video>
     await scanner.decodeFromVideoDevice(deviceId, video, (result, err, controls) => {
   // result shows up repeatedly while it remains in view; we accept “last seen”
-  if(result){
+  if(result && armed){
     const raw = (typeof result.getText === 'function') ? result.getText() : (result.text || '');
     const val = normalize(raw);
 
@@ -424,8 +426,12 @@ lastSeenAt = nowMs;
   });
 
   startScan?.addEventListener('click', async ()=>{
+    startScan.disabled = true;
+    startScan.textContent = 'Scanning…';
+    armed = true;
     await startCamera();
-  });
+});
+
 
   stopScan?.addEventListener('click', async ()=>{
     await stopCamera();
