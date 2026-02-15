@@ -58,6 +58,17 @@ html,body{ margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI,
   line-height:1.15;
   text-align:center;
 }
+#brandLogoRight{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  background:transparent;
+
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+}
 
 .titles{
    text-align: center;
