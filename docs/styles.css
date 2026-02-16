@@ -152,6 +152,19 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   color:#fff;
   border: 1px solid rgba(255,255,255,0.20);
 }
+/* Secondary button should match Ghost styling (esp. when disabled) */
+.secondary{
+  background: rgba(255,255,255,0.10);
+  color:#fff;
+  border: 1px solid rgba(255,255,255,0.20);
+}
+
+.secondary:disabled{
+  background: rgba(255,255,255,0.10);
+  color:#fff;
+  border: 1px solid rgba(255,255,255,0.20);
+}
+
 .ghost.danger{
   background: rgba(220,38,38,0.12);
   color: #fecaca;  /* soft red text */
