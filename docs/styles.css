@@ -282,8 +282,8 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   padding: 12px 14px;
   border-radius: 14px;
 
-  background: rgba(31,111,235,0.18); /* subtle blue tint */
-  border: 1px solid rgba(31,111,235,0.45);
+  background: rgba(31,111,235,0.14); /* subtle blue tint */
+  border: 1px solid rgba(31,111,235,0.35);
   box-shadow:
     0 6px 20px rgba(0,0,0,0.25),
     0 0 0 1px rgba(31,111,235,0.15) inset;
@@ -291,6 +291,10 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   color: #ffffff;
   font-size: 1rem;
   font-weight: 500;
+}
+
+.undoBar[hidden]{
+  display: none !important;
 }
 
 .undoBtn{
@@ -304,6 +308,7 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
 .undoBtn:active{
   transform: translateY(1px);
 }
+
 
 .lastScannedValue{
   font-size: 14px;
