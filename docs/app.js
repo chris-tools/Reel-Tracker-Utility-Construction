@@ -69,7 +69,7 @@ let pendingUndoReel = null;
 function showUndo(reel){
   pendingUndoReel = reel;
 
-  if(undoText) undoText.textContent = `Removed ${reel}`;
+  if(undoText) undoText.textContent = `Removed: ${reel}`;
   if(undoBar) undoBar.hidden = false;
 
   if(undoTimer) clearTimeout(undoTimer);
