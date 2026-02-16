@@ -146,12 +146,6 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   color:#fff;
   box-shadow: 0 7px 21px rgba(0,0,0,0.28);
 }
-.secondary:disabled{
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.45);
-  border: 1px solid rgba(255,255,255,0.18);
-  cursor: not-allowed;
-}
 
 .ghost{
   background: rgba(255,255,255,0.10);
