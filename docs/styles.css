@@ -156,15 +156,16 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   border: 1px solid rgba(255,255,255,0.20);
 }
 .ghost.danger{
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.92);
-  border: 1px solid rgba(255,255,255,0.28);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  background: rgba(220,38,38,0.12);
+  color: #fecaca;  /* soft red text */
+  border: 1px solid rgba(220,38,38,0.45);
+  box-shadow: 0 6px 18px rgba(220,38,38,0.15);
 }
 
 .clearBtn{
   display: inline-flex;
   align-items: center;
+  justify-content: center;   /* ← this centers horizontally */
   gap: 8px;
 }
 
