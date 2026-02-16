@@ -389,6 +389,11 @@ const deviceId = preferred?.deviceId;
     startScan.textContent = 'Scan';
   }
 
+  if(manualReelInput){
+  manualReelInput.value = '';
+  updateManualAddState();
+}
+  
   renderSession();
   setIdleBanner();
 }
