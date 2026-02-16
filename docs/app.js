@@ -108,7 +108,6 @@
 
     const hasAny = sessionReels.length > 0;
     exportPickupCsv.disabled = !(hasAny && mode === 'pickup');
-    copyAllReels.disabled = !hasAny;
     clearSession.disabled = !hasAny;
 
     reelCount.textContent = `(${sessionReels.length})`;
