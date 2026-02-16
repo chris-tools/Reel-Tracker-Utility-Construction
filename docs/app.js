@@ -306,7 +306,8 @@ const deviceId = preferred?.deviceId;
 
     if(sessionSet.has(v)){
       setBanner('bad', 'Duplicate (already in session)');
-      beep(700, 180, 0.9);
+      beep(2000, 120, 0.9);
+
       return;
     }
 
