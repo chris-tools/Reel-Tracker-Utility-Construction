@@ -199,18 +199,30 @@ lastSeenValue = v;
 lastSeenAt = nowMs;
 
 
-      if(!sessionSet.has(v)){
-        sessionSet.add(v);
-        sessionReels.push(v);
-        renderSession();
+     if(sessionSet.has(v)){
+  setBanner('bad', 'Duplicate (already in session)');
+  beep(550, 220, 1.0);
+  armed = false;
+  stopCamera();
+  startScan.disabled = false;
+  startScan.textContent = 'Scan Next';
+  return;
+}
 
-        showLastScan(v);
-        setBanner('ok', 'Added to session');
-        beep(2000, 120, 0.9);
-        armed = false;
-        stopCamera();
-        startScan.disabled = false;
-        startScan.textContent = 'Scan Next';
+        // Success (new reel)
+    sessionSet.add(v);
+    sessionReels.push(v);
+    renderSession();
+
+    showLastScan(v);
+     setBanner('ok', 'Added to session');
+     beep(2000, 120, 0.9);
+
+    armed = false;
+    stopCamera();
+    startScan.disabled = false;
+    startScan.textContent = 'Scan Next';
+
 
      } else {
         setBanner('bad', 'Duplicate (already in session)');
