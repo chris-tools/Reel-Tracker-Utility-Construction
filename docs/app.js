@@ -184,7 +184,7 @@ const deviceId = preferred?.deviceId;
 
 
       // Use the library helper to attach camera to the <video>
-    await scanner.decodeFromVideoDevice(deviceId, video, (result, err, controls) => {
+   await scanner.decodeFromVideoDevice(deviceId, video, (result, err) => {
   // result shows up repeatedly while it remains in view; we accept “last seen”
   if(result && armed){
     const raw = (typeof result.getText === 'function') ? result.getText() : (result.text || '');
