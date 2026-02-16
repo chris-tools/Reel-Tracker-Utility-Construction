@@ -455,7 +455,20 @@ function handleClearSessionClick(){
   setBanner('ok', 'Added to session');
   beep(2000, 120, 0.9);
 
-  manualReelInput.value = '';
+    manualReelInput.value = '';
+    updateManualAddState();
+}
+
+function updateManualAddState(){
+  if(!manualReelInput || !manualAddBtn) return;
+
+  const v = normalize(manualReelInput.value);
+
+  const isValid =
+    looksLikeReelName(v) &&
+    !sessionSet.has(v);
+
+  manualAddBtn.disabled = !isValid;
 }
   
   function removeReelAt(index){
@@ -619,6 +632,10 @@ function handleClearSessionClick(){
   clearSession?.addEventListener('click', ()=>handleClearSessionClick());
   manualAddBtn?.addEventListener('click', ()=>handleManualAdd());
 
+  manualReelInput?.addEventListener('input', ()=>{
+  updateManualAddState();
+});
+
   manualReelInput?.addEventListener('keydown', (e)=>{
   if(e.key === 'Enter'){
     e.preventDefault();
@@ -674,5 +691,6 @@ function handleClearSessionClick(){
   updatePickupGo();
   updateReturn();
   renderSession();
+  updateManualAddState();
 
 })();
