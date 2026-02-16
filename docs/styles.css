@@ -160,6 +160,18 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   color:#7f1d1d;
   border: 1px solid rgba(220,38,38,0.35);
 }
+
+.clearBtn{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clearBtn span{
+  position: relative;
+  top: 1px; /* optical alignment tweak */
+}
+
 .bigAction{ width: 100%; }
 
 .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top: 10px; }
