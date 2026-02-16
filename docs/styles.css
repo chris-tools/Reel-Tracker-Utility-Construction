@@ -259,6 +259,9 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   position: relative;
   width: 100%;
 }
+.lastScannedField{
+  margin-top: 10px;
+}
 
 .lastScannedClear{
   position: absolute;
