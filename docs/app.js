@@ -360,12 +360,29 @@ const deviceId = preferred?.deviceId;
   }
 
   function clearSessionNow(){
-    sessionReels = [];
-    sessionSet = new Set();
-    renderSession();
-    resetLastScan();
-    setIdleBanner();
+
+  // Stop camera if running
+  stopCamera();
+
+  // Clear reels
+  sessionReels = [];
+  sessionSet = new Set();
+
+  // Clear undo state
+  if(undoTimer) clearTimeout(undoTimer);
+  undoTimer = null;
+  pendingUndoReel = null;
+  if(undoBar) undoBar.hidden = true;
+
+  // Reset scan button state
+  if(startScan){
+    startScan.disabled = false;
+    startScan.textContent = 'Scan';
   }
+
+  renderSession();
+  setIdleBanner();
+}
   
   function removeReelAt(index){
   if(index < 0 || index >= sessionReels.length) return;
