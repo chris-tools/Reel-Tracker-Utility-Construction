@@ -30,6 +30,8 @@
   const clearSession = $('clearSession');
   const exportPickupCsv = $('exportPickupCsv');
   const copyAllReels = $('copyAllReels');
+  const manualReelInput = $('manualReelInput');
+  const manualAddBtn = $('manualAddBtn');
 
   const video = $('video');
   const banner = $('banner');
@@ -423,6 +425,38 @@ function handleClearSessionClick(){
   resetClearSessionConfirm();
   clearSessionNow();
 }
+
+  function handleManualAdd(){
+  if(!manualReelInput) return;
+
+  const raw = manualReelInput.value;
+  const v = normalize(raw);
+
+  if(!v){
+    setBanner('bad', 'Enter a reel name');
+    return;
+  }
+
+  if(!looksLikeReelName(v)){
+    setBanner('bad', 'Invalid reel name');
+    return;
+  }
+
+  if(sessionSet.has(v)){
+    setBanner('bad', 'Duplicate (already in session)');
+    beep(550, 220, 1.0);
+    return;
+  }
+
+  sessionSet.add(v);
+  sessionReels.push(v);
+  renderSession();
+
+  setBanner('ok', 'Added to session');
+  beep(2000, 120, 0.9);
+
+  manualReelInput.value = '';
+}
   
   function removeReelAt(index){
   if(index < 0 || index >= sessionReels.length) return;
@@ -583,6 +617,15 @@ function handleClearSessionClick(){
 
   dismissLastScanned?.addEventListener('click', ()=>resetLastScan());
   clearSession?.addEventListener('click', ()=>handleClearSessionClick());
+  manualAddBtn?.addEventListener('click', ()=>handleManualAdd());
+
+  manualReelInput?.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){
+    e.preventDefault();
+    handleManualAdd();
+  }
+});
+
   copyAllReels?.addEventListener('click', ()=>copyAll());
   exportPickupCsv?.addEventListener('click', ()=>exportPickup());
 
