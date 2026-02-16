@@ -102,7 +102,7 @@
   }
 
   function updateScanUI(){
-    dismissLastScanned.disabled = !lastScan;
+   if (dismissLastScanned) dismissLastScanned.disabled = !lastScan;
 
     const hasAny = sessionReels.length > 0;
     exportPickupCsv.disabled = !(hasAny && mode === 'pickup');
