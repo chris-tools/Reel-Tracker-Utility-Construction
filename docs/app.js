@@ -57,7 +57,9 @@
   let sessionReels = []; // keep order
   let sessionSet = new Set();
   let armed = false; // one scan per tap
-
+  
+  let clearConfirmArmed = false;
+  let clearConfirmTimer = null;
 
   let lastSeenValue = '';
   let lastSeenAt = 0;
