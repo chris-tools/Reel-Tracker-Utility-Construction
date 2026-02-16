@@ -40,6 +40,11 @@
   const reelList = $('reelList');
   const reelCount = $('reelCount');
 
+  // Undo UI (above Session list)
+   const undoBar = $('undoBar');
+   const undoText = $('undoText');
+   const undoBtn  = $('undoBtn');
+
   // State
   let mode = null; // 'pickup' | 'return'
   let scanner = null;
@@ -57,6 +62,28 @@
   let lastSeenValue = '';
   let lastSeenAt = 0;
 
+  // Undo state (one-level undo)
+let undoTimer = null;
+let pendingUndoReel = null;
+
+function showUndo(reel){
+  pendingUndoReel = reel;
+
+  if(undoText) undoText.textContent = `Removed ${reel}`;
+  if(undoBar) undoBar.hidden = false;
+
+  if(undoTimer) clearTimeout(undoTimer);
+  undoTimer = setTimeout(() => {
+    hideUndo();
+  }, 4000);
+}
+
+function hideUndo(){
+  if(undoTimer) clearTimeout(undoTimer);
+  undoTimer = null;
+  pendingUndoReel = null;
+  if(undoBar) undoBar.hidden = true;
+}
 
   // --- Small helpers ---
   function setBanner(kind, text){
@@ -347,9 +374,9 @@ const deviceId = preferred?.deviceId;
   sessionSet.delete(removed);
 
   renderSession();
-  setBanner('idle', 'Removed: ' + removed);
+  showUndo(removed);           // show Undo bar above the list
+  setBanner('idle', 'Removed'); // keep the main banner calm/neutral
 }
-
 
   function copyAll(){
     const text = sessionReels.join('\n');
@@ -496,6 +523,21 @@ const deviceId = preferred?.deviceId;
   clearSession?.addEventListener('click', ()=>clearSessionNow());
   copyAllReels?.addEventListener('click', ()=>copyAll());
   exportPickupCsv?.addEventListener('click', ()=>exportPickup());
+
+  undoBtn?.addEventListener('click', () => {
+  if(!pendingUndoReel) return;
+
+  const reel = pendingUndoReel;
+  hideUndo();
+
+  // Add back to bottom (your preference)
+  if(!sessionSet.has(reel)){
+    sessionSet.add(reel);
+    sessionReels.push(reel);
+    renderSession();
+    setBanner('ok', 'Restored');
+  }
+});
 
   // PWA install hint
   let deferredPrompt = null;
