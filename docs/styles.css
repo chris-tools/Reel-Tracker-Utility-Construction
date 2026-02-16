@@ -282,19 +282,19 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
 }
 
 .list{
-  border: 1px solid rgba(0,0,0,0.10);
+  min-height: 44px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.18);
   border-radius: 12px;
-  padding: 10px 10px;
-  background: rgba(0,0,0,0.02);
-  max-height: 240px;
-  overflow:auto;
+  padding: 8px 10px;
 }
+
 .list .item{
   display:flex;
   justify-content: space-between;
   gap: 10px;
   padding: 8px 8px;
-  border-bottom: 1px dashed rgba(0,0,0,0.12);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
 }
 .list .item:last-child{ border-bottom:none; }
 
