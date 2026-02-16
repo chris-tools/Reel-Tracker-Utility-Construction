@@ -310,7 +310,7 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
 .list .item:last-child{ border-bottom:none; }
 
 .list .item span{
-  font-size: 1.25rem;
+  font-size: 1.6rem;
   font-weight: 400;
   letter-spacing: 0.2px;
 }
