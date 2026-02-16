@@ -241,14 +241,11 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   width: 100%;
   display: block;
 }
-.lastScannedField{ position: relative; width: 100%; }
-.lastScannedCheck{
-  font-weight: 900;
-  font-size: 18px;
-  line-height: 1;
-  color: #16a34a;
-  margin-right: 8px;
+.lastScannedField{
+  position: relative;
+  width: 100%;
 }
+
 .lastScannedClear{
   position: absolute;
   right: 10px;
@@ -256,15 +253,15 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   transform: translateY(-50%);
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: 999px;
   border: 1px solid #e5e7eb;
   background: #ffffff;
   font-size: 16px;
   line-height: 1;
   color: #6b7280;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .list{
