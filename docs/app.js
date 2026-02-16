@@ -364,7 +364,9 @@ const deviceId = preferred?.deviceId;
   function clearSessionNow(){
 
   // Stop camera if running
-  stopCamera();
+    stopCamera();
+    resetClearSessionConfirm();
+
 
   // Clear reels
   sessionReels = [];
@@ -384,6 +386,39 @@ const deviceId = preferred?.deviceId;
 
   renderSession();
   setIdleBanner();
+}
+
+  function resetClearSessionConfirm(){
+  clearConfirmArmed = false;
+  if(clearConfirmTimer) clearTimeout(clearConfirmTimer);
+  clearConfirmTimer = null;
+
+  if(clearSession) clearSession.textContent = 'Clear Session';
+}
+
+function handleClearSessionClick(){
+  const hasAny = sessionReels.length > 0;
+  if(!hasAny) return;
+
+  // First tap = arm
+  if(!clearConfirmArmed){
+    clearConfirmArmed = true;
+
+    if(clearSession) clearSession.textContent = 'Tap again to CLEAR';
+    setBanner('bad', 'Tap Clear Session again to confirm');
+
+    if(clearConfirmTimer) clearTimeout(clearConfirmTimer);
+    clearConfirmTimer = setTimeout(() => {
+      resetClearSessionConfirm();
+      setIdleBanner();
+    }, 2500);
+
+    return;
+  }
+
+  // Second tap = confirm
+  resetClearSessionConfirm();
+  clearSessionNow();
 }
   
   function removeReelAt(index){
@@ -539,7 +574,7 @@ const deviceId = preferred?.deviceId;
   flashBtn?.addEventListener('click', ()=>toggleTorch());
 
   dismissLastScanned?.addEventListener('click', ()=>resetLastScan());
-  clearSession?.addEventListener('click', ()=>clearSessionNow());
+  clearSession?.addEventListener('click', ()=>handleClearSessionClick());
   copyAllReels?.addEventListener('click', ()=>copyAll());
   exportPickupCsv?.addEventListener('click', ()=>exportPickup());
 
