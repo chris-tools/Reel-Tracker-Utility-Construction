@@ -272,7 +272,26 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   font-size: 0.95rem;
 }
 
-.undoBar[hidden]{ display:none; }
+.undoBar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin: 10px 0 12px 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+
+  background: rgba(31,111,235,0.18); /* subtle blue tint */
+  border: 1px solid rgba(31,111,235,0.45);
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.25),
+    0 0 0 1px rgba(31,111,235,0.15) inset;
+
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+}
 
 .undoBtn{
   background: rgba(255,255,255,0.14);
