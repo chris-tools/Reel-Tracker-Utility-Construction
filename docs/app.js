@@ -234,6 +234,7 @@ lastSeenAt = nowMs;
        }
     }
   }
+}
 });
 
       // Grab underlying stream for torch support
