@@ -222,7 +222,10 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   border: 1px solid rgba(0,0,0,0.12);
 }
 .banner[hidden]{ display:block; visibility:hidden; }
-.banner.idle{ background: rgba(31,111,235,0.08); color:#0b2a6f; }
+.banner.idle{ 
+  background: rgba(31,111,235,0.08); 
+  color: #ffffff; 
+}
 .banner.ok{ background: rgba(22,163,74,0.10); color:#14532d; }
 .banner.bad{ background: rgba(220,38,38,0.10); color:#7f1d1d; }
 
