@@ -183,59 +183,53 @@ if (devices && devices.length) {
 const deviceId = preferred?.deviceId;
 
 
-      // Use the library helper to attach camera to the <video>
-   await scanner.decodeFromVideoDevice(deviceId, video, (result, err) => {
-  // result shows up repeatedly while it remains in view; we accept “last seen”
-  if(result && armed){
-    const raw = (typeof result.getText === 'function') ? result.getText() : (result.text || '');
-    const val = normalize(raw);
+          // Use the library helper to attach camera to the <video>
+      await scanner.decodeFromVideoDevice(deviceId, video, (result, err) => {
+        // result shows up repeatedly while it remains in view; we accept “last seen”
+        if (!result || !armed) return;
 
-    if(looksLikeReelName(val)){
-      const v = val;
-      // Debounce: ignore the same code if we just saw it a moment ago
-const nowMs = Date.now();
-if (v === lastSeenValue && (nowMs - lastSeenAt) < 1200) return;
-lastSeenValue = v;
-lastSeenAt = nowMs;
+        const raw =
+          (typeof result.getText === 'function')
+            ? result.getText()
+            : (result.text || '');
 
+        const val = normalize(raw);
 
-     if(sessionSet.has(v)){
-  setBanner('bad', 'Duplicate (already in session)');
-  beep(550, 220, 1.0);
-  armed = false;
-  stopCamera();
-  startScan.disabled = false;
-  startScan.textContent = 'Scan Next';
-  return;
-}
+        // If it doesn't look like a reel name, ignore it (no beep / no stop)
+        if (!looksLikeReelName(val)) return;
+
+        const v = val;
+
+        // Debounce: ignore the same code if we just saw it a moment ago
+        const nowMs = Date.now();
+        if (v === lastSeenValue && (nowMs - lastSeenAt) < 1200) return;
+        lastSeenValue = v;
+        lastSeenAt = nowMs;
+
+        if (sessionSet.has(v)) {
+          setBanner('bad', 'Duplicate (already in session)');
+          beep(550, 220, 1.0);
+          armed = false;
+          stopCamera();
+          startScan.disabled = false;
+          startScan.textContent = 'Scan Next';
+          return;
+        }
 
         // Success (new reel)
-    sessionSet.add(v);
-    sessionReels.push(v);
-    renderSession();
+        sessionSet.add(v);
+        sessionReels.push(v);
+        renderSession();
 
-    showLastScan(v);
-     setBanner('ok', 'Added to session');
-     beep(2000, 120, 0.9);
+        showLastScan(v);
+        setBanner('ok', 'Added to session');
+        beep(2000, 120, 0.9);
 
-    armed = false;
-    stopCamera();
-    startScan.disabled = false;
-    startScan.textContent = 'Scan Next';
-
-
-     } else {
-        setBanner('bad', 'Duplicate (already in session)');
-        beep(550, 220, 1.0);
         armed = false;
         stopCamera();
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
-       }
-    }
-  }
-}
-});
+      });
 
       // Grab underlying stream for torch support
       cameraStream = video.srcObject;
