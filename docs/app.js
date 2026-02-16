@@ -1,5 +1,3 @@
-// rtu_003 deploy test
-
 (function(){
   const $ = (id)=>document.getElementById(id);
 
@@ -113,11 +111,11 @@
     reelCount.textContent = `(${sessionReels.length})`;
   }
 
-  function showLastScan(text){
-    lastScannedValue.textContent = text || 'Nothing scanned yet';
-    lastScannedValue.style.color = text ? '#111827' : '#6b7280';
+ function showLastScan(text){
+  if(!lastScannedValue) return; // Last Scanned card removed from HTML
+  lastScannedValue.textContent = text || 'Nothing scanned yet';
+  lastScannedValue.style.color = text ? '#111827' : '#6b7280';
 }
-
 
   function resetLastScan(){
     lastScan = '';
