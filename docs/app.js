@@ -285,16 +285,32 @@ const deviceId = preferred?.deviceId;
   }
 
   // --- Session list ---
-  function renderSession(){
-    reelList.innerHTML = '';
-    for(const r of sessionReels){
-      const div = document.createElement('div');
-      div.className = 'item';
-      div.textContent = r;
-      reelList.appendChild(div);
-    }
-    updateScanUI();
-  }
+ function renderSession(){
+  reelList.innerHTML = '';
+
+  sessionReels.forEach((r, index) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = r;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.textContent = '✕';
+    removeBtn.className = 'reelRemoveBtn';
+
+    removeBtn.addEventListener('click', () => {
+      removeReelAt(index);
+    });
+
+    div.appendChild(nameSpan);
+    div.appendChild(removeBtn);
+    reelList.appendChild(div);
+  });
+
+  updateScanUI();
+}
 
   function addLastScanToSession(){
     if(!lastScan) return;
@@ -323,6 +339,17 @@ const deviceId = preferred?.deviceId;
     resetLastScan();
     setIdleBanner();
   }
+  
+  function removeReelAt(index){
+  if(index < 0 || index >= sessionReels.length) return;
+
+  const removed = sessionReels.splice(index, 1)[0];
+  sessionSet.delete(removed);
+
+  renderSession();
+  setBanner('idle', 'Removed: ' + removed);
+}
+
 
   function copyAll(){
     const text = sessionReels.join('\n');
