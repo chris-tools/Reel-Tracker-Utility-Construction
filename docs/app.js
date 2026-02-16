@@ -63,6 +63,8 @@
 
   let lastSeenValue = '';
   let lastSeenAt = 0;
+  let cameraWarmupUntil = 0;
+
 
   // Undo state (one-level undo)
 let undoTimer = null;
@@ -215,6 +217,7 @@ const deviceId = preferred?.deviceId;
       await scanner.decodeFromVideoDevice(deviceId, video, (result, err) => {
         // result shows up repeatedly while it remains in view; we accept “last seen”
         if (!result || !armed) return;
+        if (Date.now() < cameraWarmupUntil) return;
 
         const raw =
           (typeof result.getText === 'function')
@@ -559,13 +562,18 @@ function handleClearSessionClick(){
     exportReturn();
   });
 
-  startScan?.addEventListener('click', async ()=>{
-    startScan.disabled = true;
-    startScan.textContent = 'Scanning…';
-    armed = true;
-    await startCamera();
-});
+ startScan?.addEventListener('click', async ()=>{
+  startScan.disabled = true;
+  startScan.textContent = 'Scanning…';
 
+  // Prevent “instant dup” on startup (stale frame / buffered decode)
+  lastSeenValue = '';
+  lastSeenAt = 0;
+  cameraWarmupUntil = Date.now() + 400;
+
+  armed = true;
+  await startCamera();
+});
 
   stopScan?.addEventListener('click', async ()=>{
     stopCamera();
