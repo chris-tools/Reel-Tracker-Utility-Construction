@@ -430,3 +430,65 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   border: 2px solid #000;
   color: #000;
 }
+/* Manual Add row */
+.manualAddRow{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-top:12px;
+}
+
+#manualReelInput{
+  flex:1;
+  height:44px;
+  padding:0 14px;
+
+  /* Prevent iOS zoom */
+  font-size:16px;
+
+  color: rgba(255,255,255,0.92);
+  background: rgba(0,0,0,0.18);
+
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 12px;
+
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+#manualReelInput::placeholder{
+  color: rgba(255,255,255,0.55);
+}
+
+#manualReelInput:focus{
+  border-color: rgba(255,255,255,0.30);
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+#manualAddBtn{
+  height:44px;
+  padding:0 16px;
+
+  font-size:16px;
+  font-weight:700;
+
+  color:white;
+  background: rgba(30, 120, 255, 0.55);
+
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+
+  box-shadow: 0 10px 24px rgba(0,0,0,0.26);
+}
+
+#manualAddBtn:active{
+  transform: translateY(1px);
+}
+
+#manualAddBtn:disabled{
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform:none;
+}
