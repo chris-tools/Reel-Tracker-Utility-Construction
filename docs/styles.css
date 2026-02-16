@@ -94,18 +94,12 @@ html,body{
 }
 
 .card{
-  border-radius:16px;
-  padding:18px;
-  margin:12px 0;
-
-  border:1px solid rgba(255,255,255,0.14);
-
-  /* True “glass” */
-  background: rgba(255,255,255,0.07);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-
-  box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+  background: linear-gradient(to bottom, #103a3f 0%, #0b2a6f 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 14px 12px 14px;
+  margin: 12px 0;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.32);
 }
 
 .card{
