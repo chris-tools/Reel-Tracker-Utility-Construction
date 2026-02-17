@@ -659,10 +659,39 @@ function updateManualAddState(){
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "RTU Export");
 
-  const filename = `RTU_${mmddyyyy(now)}_PickupDeliver.xlsx`;
-  XLSX.writeFile(wb, filename);
+const filename = `${mmddyyyy(now)}_PickupDeliver_${build.value.trim()}.xlsx`;
 
-  setBanner("ok", "Export created");
+// Build the file in memory (no auto-download yet)
+const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+const blob = new Blob([wbout], {
+  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+});
+
+const file = new File([blob], filename, { type: blob.type });
+
+// iOS Share Sheet (best experience)
+if (navigator.canShare && navigator.canShare({ files: [file] })) {
+  navigator.share({
+    files: [file],
+    title: filename
+  }).then(() => {
+    setBanner("ok", "Export shared");
+  }).catch(() => {
+    // If they cancel Share, do nothing scary—just keep it friendly
+    setBanner("info", "Share canceled");
+  });
+} else {
+  // Fallback: download link (works everywhere)
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+
+  setBanner("ok", "Export downloaded");
 }
 
   function exportReturn(){
