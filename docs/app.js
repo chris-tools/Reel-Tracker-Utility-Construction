@@ -17,11 +17,18 @@
   const pickupGoScan = $('pickupGoScan');
 
   // Return fields
-  const returnReelName = $('returnReelName');
-  const insideFt = $('insideFt');
-  const outsideFt = $('outsideFt');
-  const totalFt = $('totalFt');
-  const returnExport = $('returnExport');
+  // Return fields
+const returnName = $('returnName');
+const returnCompany = $('returnCompany');
+const returnReelName = $('returnReelName');
+const fiberCount = $('fiberCount');
+const returnLocation = $('returnLocation');
+
+const insideFt = $('insideFt');
+const outsideFt = $('outsideFt');
+const totalFt = $('totalFt');
+const returnExport = $('returnExport');
+
 
   // Scan UI
   const startScan = $('startScan');
@@ -123,16 +130,30 @@ function hideUndo(){
   }
 
   function updateReturn(){
-    const i = Number(insideFt?.value || 0);
-    const o = Number(outsideFt?.value || 0);
-    const total = (Number.isFinite(i) ? i : 0) + (Number.isFinite(o) ? o : 0);
-    if(totalFt) totalFt.value = total ? String(total) : '';
-    const ok =
-      returnReelName?.value.trim() &&
-      (insideFt?.value.trim() !== '') &&
-      (outsideFt?.value.trim() !== '');
-    returnExport.disabled = !ok;
+  const insideStr = insideFt?.value?.trim() ?? '';
+  const outsideStr = outsideFt?.value?.trim() ?? '';
+
+  // Only show Total once both fields have something (0 is allowed)
+  if (insideStr !== '' && outsideStr !== '') {
+    const i = Number(insideStr);
+    const o = Number(outsideStr);
+    const total = Math.abs((Number.isFinite(o) ? o : 0) - (Number.isFinite(i) ? i : 0));
+    if (totalFt) totalFt.value = String(total);
+  } else {
+    if (totalFt) totalFt.value = '';
   }
+
+  const ok =
+    (returnName?.value.trim() || '') &&
+    (returnCompany?.value.trim() || '') &&
+    (returnReelName?.value.trim() || '') &&
+    (fiberCount?.value.trim() !== '') &&
+    (returnLocation?.value.trim() || '') &&
+    (insideStr !== '') &&
+    (outsideStr !== '');
+
+  if (returnExport) returnExport.disabled = !ok;
+}
 
   function updateScanUI(){
    if (dismissLastScanned) dismissLastScanned.disabled = !lastScan;
@@ -667,22 +688,30 @@ function updateManualAddState(){
   }
 }
 
-  function exportReturn(){
-    const now = new Date();
-    const i = insideFt.value.trim();
-    const o = outsideFt.value.trim();
-    const t = totalFt.value.trim();
+ function exportReturn(){
+  const now = new Date();
 
-    const rows = [
-      ['Mode','Reel Name','Inside Footage','Outside Footage','Total Footage'],
-      ['Return', returnReelName.value.trim(), i, o, t],
-    ];
+  const name = (returnName?.value || '').trim();
+  const comp = (returnCompany?.value || '').trim();
+  const reel = (returnReelName?.value || '').trim();
+  const fiber = (fiberCount?.value || '').trim();
+  const loc = (returnLocation?.value || '').trim();
 
-    const csv = rows.map(r=>r.map(csvEscape).join(',')).join('\n');
-    const filename = `RTU_${mmddyyyy(now)}_Return.csv`;
-    downloadText(filename, csv);
-    setBanner('ok', 'Export created');
-  }
+  const i = (insideFt?.value || '').trim();
+  const o = (outsideFt?.value || '').trim();
+  const t = (totalFt?.value || '').trim();
+
+  const rows = [
+    ['Name','Company/Garage','Reel Name','Fiber Count','Location','Inside Footage','Outside Footage','Total Footage'],
+    [name, comp, reel, fiber, loc, i, o, t],
+  ];
+
+  const csv = rows.map(r=>r.map(csvEscape).join(',')).join('\n');
+  const filename = `RTU_${mmddyyyy(now)}_Return.csv`;
+
+  downloadText(filename, csv);
+  setBanner('ok', 'Export created');
+}
 
   // --- Mode switching ---
   function showMode(next){
@@ -727,9 +756,38 @@ function updateManualAddState(){
     goScan();
   });
 
-  returnReelName?.addEventListener('input', updateReturn);
-  insideFt?.addEventListener('input', updateReturn);
-  outsideFt?.addEventListener('input', updateReturn);
+ // Return listeners
+returnName?.addEventListener('input', updateReturn);
+returnCompany?.addEventListener('input', updateReturn);
+returnReelName?.addEventListener('input', updateReturn);
+fiberCount?.addEventListener('input', updateReturn);
+returnLocation?.addEventListener('input', updateReturn);
+insideFt?.addEventListener('input', updateReturn);
+outsideFt?.addEventListener('input', updateReturn);
+
+// Auto-next (Enter / Next key moves to the next field)
+function wireAutoNext(fields){
+  fields.forEach((el, idx) => {
+    if(!el) return;
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const next = fields[idx + 1];
+        if (next && typeof next.focus === 'function') next.focus();
+      }
+    });
+  });
+}
+
+wireAutoNext([
+  returnName,
+  returnCompany,
+  returnReelName,
+  fiberCount,
+  returnLocation,
+  insideFt,
+  outsideFt
+]);
 
   returnExport?.addEventListener('click', ()=>{
     if(returnExport.disabled) return;
