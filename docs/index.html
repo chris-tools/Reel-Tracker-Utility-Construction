@@ -64,35 +64,48 @@
     </section>
 
     <!-- ===== RETURN ===== -->
-    <section id="returnSection" class="card" hidden>
-      <h2>Return details</h2>
+  <div class="grid2">
+  <div class="field">
+    <label for="returnName">Name</label>
+    <input id="returnName" type="text" placeholder="Required" autocomplete="name" />
+  </div>
 
-      <div class="grid2">
-        <div class="field full">
-        <label for="returnReelName">Reel Name</label>
-        <input id="returnReelName" type="text" placeholder="Required" />
-        </div>
+  <div class="field">
+    <label for="returnCompany">Company / Garage</label>
+    <input id="returnCompany" type="text" placeholder="Required" autocomplete="organization" />
+  </div>
 
-        <div class="field">
-         <label for="insideFt">Inside Footage</label>
-         <input id="insideFt" type="number" inputmode="numeric" placeholder="Required" />
-        </div>
+  <div class="field full">
+    <label for="returnReelName">Reel Name</label>
+    <input id="returnReelName" type="text" placeholder="Required" />
+  </div>
 
-        <div class="field">
-         <label for="outsideFt">Outside Footage</label>
-         <input id="outsideFt" type="number" inputmode="numeric" placeholder="Required" />
-        </div>
+  <div class="field">
+    <label for="fiberCount">Fiber Count</label>
+    <input id="fiberCount" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
+  </div>
 
-        <div class="field full">
-          <label for="totalFt">Total Footage (auto)</label>
-          <input id="totalFt" type="number" inputmode="numeric" readonly />
-        </div>
-      </div>
+  <div class="field">
+    <label for="returnLocation">Location</label>
+    <input id="returnLocation" type="text" placeholder="Required" />
+  </div>
 
-      <div class="row">
-        <button id="returnExport" class="primary bigAction" disabled>Export Return CSV</button>
-      </div>
-    </section>
+  <div class="field">
+    <label for="insideFt">Inside Footage</label>
+    <input id="insideFt" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
+  </div>
+
+  <div class="field">
+    <label for="outsideFt">Outside Footage</label>
+    <input id="outsideFt" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
+  </div>
+
+  <div class="field full">
+    <label for="totalFt">Total Footage (auto)</label>
+    <input id="totalFt" type="number" inputmode="numeric" readonly />
+  </div>
+</div>
+
 
     <!-- ===== SCAN ===== -->
     <section id="scanSection" class="card" hidden>
