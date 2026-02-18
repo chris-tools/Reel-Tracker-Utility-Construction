@@ -530,10 +530,9 @@ function updateManualAddState(){
     return `${mm}-${dd}-${yy}`;
   }
 
-  function exportPickup() {
+ function exportPickup() {
   const now = new Date();
 
-  // ===== Header row (A-U) =====
   const headers = [
     "Mode","Name","Storage State","Storage Yard","Date Received",
     "Reel ID #","Size","Footage","BABA?","Manufacturer",
@@ -542,47 +541,36 @@ function updateManualAddState(){
     "Notes","Notes 2","Helper"
   ];
 
-  // ===== Data rows (Row 2+) =====
-  // Only fill the columns we agreed on. Everything else stays blank.
   const data = [headers];
 
   for (const reel of sessionReels) {
     data.push([
-      "Pick Up / Deliver",          // A Mode
-      techName.value.trim(),        // B Name
-      "",                           // C Storage State
-      "",                           // D Storage Yard
-      "",                           // E Date Received
-      reel,                         // F Reel ID #
-      "",                           // G Size
-      "",                           // H Footage
-      "",                           // I BABA?
-      "",                           // J Manufacturer
-      "Y",                          // K Assigned Y/N (center)
-      new Date(now),                // L Date Assigned (LEFT)
-      "",                           // M State Assigned
-      "",                           // N Assignment (Build goes here per your template map)
-      "",                           // O Contractor (Company/Garage goes here per your template map)
-      "",                           // P Field Bin Y/N
-      "Y",                          // Q Picked Up Y/N (center)
-      new Date(now),                // R Date Picked Up (LEFT)
-      "",                           // S Notes
-      "",                           // T Notes 2
-      ""                            // U Helper
+      "Pick Up / Deliver",          // A
+      techName.value.trim(),        // B
+      "",                           // C
+      "",                           // D
+      "",                           // E
+      reel,                         // F
+      "",                           // G
+      "",                           // H
+      "",                           // I
+      "",                           // J
+      "Y",                          // K (center)
+      new Date(now),                // L (left date)
+      "",                           // M
+      build.value.trim(),           // N (Build)
+      company.value.trim(),         // O (Company/Garage)
+      "",                           // P
+      "Y",                          // Q (center)
+      new Date(now),                // R (left date)
+      "",                           // S
+      "",                           // T
+      ""                            // U
     ]);
   }
 
-  // Put Build in column N and Company/Garage in column O
-  // (Keeping your exact mapping from earlier.)
-  for (let i = 1; i < data.length; i++) {
-    data[i][13] = build.value.trim();    // N (0-based index 13)
-    data[i][14] = company.value.trim();  // O (0-based index 14)
-  }
-
-  // ===== Build worksheet =====
   const ws = XLSX.utils.aoa_to_sheet(data);
 
-  // ===== Styling helpers =====
   const thin = { style: "thin", color: { rgb: "000000" } };
 
   const headerStyle = {
@@ -596,102 +584,87 @@ function updateManualAddState(){
     border: { top: thin, bottom: thin, left: thin, right: thin }
   };
 
-  const centerStyle = (base = {}) => ({
-    ...base,
+  const centerStyle = (base) => ({
+    ...(base || {}),
     alignment: { horizontal: "center", vertical: "center" }
   });
 
-  const leftDateStyle = (base = {}) => ({
-    ...base,
+  const leftDateStyle = (base) => ({
+    ...(base || {}),
     alignment: { horizontal: "left", vertical: "center" },
     numFmt: "m/d/yyyy"
   });
 
-  // Used range
   const range = XLSX.utils.decode_range(ws["!ref"]);
 
-  // Header row style (Row 1)
+  // Header row (row 1)
   for (let c = range.s.c; c <= range.e.c; c++) {
     const addr = XLSX.utils.encode_cell({ r: 0, c });
-    if (!ws[addr]) continue;
-    ws[addr].s = headerStyle;
+    if (ws[addr]) ws[addr].s = headerStyle;
   }
 
-  // Borders + special alignment for data rows
+  // Data rows: borders + alignment
   for (let r = 1; r <= range.e.r; r++) {
     for (let c = range.s.c; c <= range.e.c; c++) {
       const addr = XLSX.utils.encode_cell({ r, c });
       if (!ws[addr]) continue;
 
-      // Start with thin border on everything
       ws[addr].s = { ...(ws[addr].s || {}), ...borderStyle };
 
-      // K (Assigned Y/N) and Q (Picked Up Y/N) centered
-      // K = column 10, Q = column 16 (0-based)
-      if (c === 10 || c === 16) {
-        ws[addr].s = centerStyle(ws[addr].s);
-      }
+      // K & Q centered (K=10, Q=16)
+      if (c === 10 || c === 16) ws[addr].s = centerStyle(ws[addr].s);
 
-      // L (Date Assigned) and R (Date Picked Up) LEFT aligned
-      // L = column 11, R = column 17 (0-based)
+      // L & R left-aligned dates (L=11, R=17)
       if (c === 11 || c === 17) {
         ws[addr].s = leftDateStyle(ws[addr].s);
-        // Ensure Excel sees it as a date if it’s a Date object
         if (ws[addr].v instanceof Date) ws[addr].t = "d";
       }
     }
   }
 
-  // ===== Auto column widths (A-U) =====
+  // Auto-width columns
   const colWidths = new Array(headers.length).fill(10);
   for (let c = 0; c < headers.length; c++) {
     let maxLen = 0;
     for (let r = 0; r < data.length; r++) {
       const v = data[r][c];
-      const s = v instanceof Date ? `${v.getMonth()+1}/${v.getDate()}/${v.getFullYear()}` : (v ?? "").toString();
+      const s = v instanceof Date
+        ? `${v.getMonth()+1}/${v.getDate()}/${v.getFullYear()}`
+        : (v ?? "").toString();
       maxLen = Math.max(maxLen, s.length);
     }
     colWidths[c] = Math.min(Math.max(10, maxLen + 2), 45);
   }
   ws["!cols"] = colWidths.map(wch => ({ wch }));
 
-  // ===== Workbook + download =====
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "RTU Export");
 
-const filename = `${mmddyyyy(now)}_PickupDeliver_${build.value.trim()}.xlsx`;
+  const filename = `${mmddyyyy(now)}_PickupDeliver_${build.value.trim()}.xlsx`;
 
-// Build the file in memory (no auto-download yet)
-const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-const blob = new Blob([wbout], {
-  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-});
-
-const file = new File([blob], filename, { type: blob.type });
-
-// iOS Share Sheet (best experience)
-if (navigator.canShare && navigator.canShare({ files: [file] })) {
-  navigator.share({
-    files: [file],
-    title: filename
-  }).then(() => {
-    setBanner("ok", "Export shared");
-  }).catch(() => {
-    // If they cancel Share, do nothing scary—just keep it friendly
-    setBanner("info", "Share canceled");
+  // Create file in-memory
+  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+  const blob = new Blob([wbout], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   });
-} else {
-  // Fallback: download link (works everywhere)
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+  const file = new File([blob], filename, { type: blob.type });
 
-  setBanner("ok", "Export downloaded");
+  // Share Sheet if supported, otherwise download fallback
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    navigator.share({ files: [file], title: filename })
+      .then(() => setBanner("ok", "Export created"))
+      .catch(() => setBanner("info", "Share canceled"));
+  } else {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    setBanner("ok", "Export created");
+  }
 }
 
   function exportReturn(){
