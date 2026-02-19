@@ -109,9 +109,16 @@
     </div>
   </div>
 
-  <div class="row">
-    <button id="returnExport" class="primary bigAction" disabled>Export Return CSV</button>
+  <div class="row" style="gap:12px; display:flex; flex-wrap:wrap;">
+    <button id="returnAdd" class="secondary bigAction" disabled>Add</button>
+    <button id="returnExport" class="primary bigAction" disabled>Done (Export)</button>
   </div>
+
+  <div class="card" style="margin-top:14px;">
+    <h3>Return Session Summary <span id="returnSessionCount">(0)</span></h3>
+    <div id="returnSessionList" class="list"></div>
+  </div>
+
 </section>
 
     <!-- ===== SCAN ===== -->
