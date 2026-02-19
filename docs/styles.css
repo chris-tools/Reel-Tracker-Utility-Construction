@@ -494,10 +494,11 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
 }
 
 /* Auto-calculated Total Footage display */
-.autoTotal{
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.18);
-  color: #ffffff;
+.field input.autoTotal{
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+
+  color: #ffffff !important;
 
   font-weight: 800;
   font-size: 18px;
