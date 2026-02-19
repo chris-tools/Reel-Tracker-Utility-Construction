@@ -850,6 +850,8 @@ wireAutoNext([
   if (insideFt) insideFt.value = '';
   if (outsideFt) outsideFt.value = '';
   if (totalFt) totalFt.value = '';
+  if (fiberCount) fiberCount.value = '';
+
 
   updateReturn();
   setBanner('ok', 'Added to return session');
