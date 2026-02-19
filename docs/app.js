@@ -165,18 +165,6 @@ function updateReturn(){
   if (returnExport) returnExport.disabled = !(returnSession.length > 0);
 }
 
-  const ok =
-    (returnName?.value.trim() || '') &&
-    (returnCompany?.value.trim() || '') &&
-    (returnReelName?.value.trim() || '') &&
-    (fiberCount?.value.trim() !== '') &&
-    (returnLocation?.value.trim() || '') &&
-    (insideStr !== '') &&
-    (outsideStr !== '');
-
-  if (returnExport) returnExport.disabled = !ok;
-}
-
   function updateScanUI(){
    if (dismissLastScanned) dismissLastScanned.disabled = !lastScan;
 
