@@ -495,19 +495,20 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
 
 /* Auto-calculated Total Footage display */
 .field input.autoTotal{
-  background: rgba(255,255,255,0.08) !important;
-  border: 1px solid rgba(255,255,255,0.18) !important;
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
 
   color: #ffffff !important;
 
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: 0.5px;
+  font-weight: 900;
+  font-size: 20px;
 
   text-align: center;
 
-    box-shadow:
-    inset 0 2px 4px rgba(0,0,0,0.55);
+  height: 44px;              /* slightly shorter than buttons */
+  border-radius: 10px;       /* tighter radius than buttons */
+
+  box-shadow: none;          /* completely flat */
 
   cursor: default;
 }
