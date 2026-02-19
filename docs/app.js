@@ -879,9 +879,20 @@ returnExport?.addEventListener('click', ()=>{
   await startCamera();
 });
 
-  stopScan?.addEventListener('click', async ()=>{
-    stopCamera();
-  });
+ stopScan?.addEventListener('click', async ()=>{
+  // User hit Finished while scanning (or after). Cleanly reset UI state.
+  armed = false;
+  await stopCamera();
+
+  if(startScan){
+    startScan.disabled = false;
+
+    // If we were mid-scan, reset the label so the user can start again
+    if (startScan.textContent === 'Scanning…') {
+      startScan.textContent = (sessionReels.length > 0) ? 'Scan Next' : 'Scan';
+    }
+  }
+});
 
   flashBtn?.addEventListener('click', ()=>toggleTorch());
 
