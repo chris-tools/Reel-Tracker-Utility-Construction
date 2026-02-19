@@ -492,3 +492,11 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   cursor: not-allowed;
   transform:none;
 }
+/* Auto-calculated Total Footage field */
+.autoTotal{
+  background: #e5e7eb;
+  border: 1px solid #cbd5e1;
+  color: #1f2937;
+  font-weight: 700;
+  cursor: not-allowed;
+}
