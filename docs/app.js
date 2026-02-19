@@ -28,6 +28,10 @@ const insideFt = $('insideFt');
 const outsideFt = $('outsideFt');
 const totalFt = $('totalFt');
 const returnExport = $('returnExport');
+const returnAdd = $('returnAdd');
+const returnSessionList = $('returnSessionList');
+const returnSessionCount = $('returnSessionCount');
+
 
 
   // Scan UI
@@ -74,6 +78,8 @@ const returnExport = $('returnExport');
   let lastSeenAt = 0;
   let cameraWarmupUntil = 0;
 
+  // Return session state (multi-reel)
+let returnSession = []; // array of entries for this trip/session
 
   // Undo state (one-level undo)
 let undoTimer = null;
@@ -129,7 +135,7 @@ function hideUndo(){
     pickupGoScan.disabled = !ok;
   }
 
-  function updateReturn(){
+function updateReturn(){
   const insideStr = insideFt?.value?.trim() ?? '';
   const outsideStr = outsideFt?.value?.trim() ?? '';
 
@@ -142,6 +148,22 @@ function hideUndo(){
   } else {
     if (totalFt) totalFt.value = '';
   }
+
+  const ok =
+    (returnName?.value.trim() || '') &&
+    (returnCompany?.value.trim() || '') &&
+    (returnReelName?.value.trim() || '') &&
+    (fiberCount?.value.trim() !== '') &&
+    (returnLocation?.value.trim() || '') &&
+    (insideStr !== '') &&
+    (outsideStr !== '');
+
+  // Add is enabled when the current entry is complete
+  if (returnAdd) returnAdd.disabled = !ok;
+
+  // Done (Export) is enabled when there's at least 1 entry in the session
+  if (returnExport) returnExport.disabled = !(returnSession.length > 0);
+}
 
   const ok =
     (returnName?.value.trim() || '') &&
@@ -338,6 +360,38 @@ const deviceId = preferred?.deviceId;
       // ignore
     }
   }
+
+  function renderReturnSession(){
+  if(!returnSessionList || !returnSessionCount) return;
+
+  returnSessionList.innerHTML = '';
+
+  returnSession.forEach((entry, index) => {
+    const div = document.createElement('div');
+    div.className = 'item';
+
+    const left = document.createElement('span');
+    left.textContent = `${entry.reel} — ${entry.total} ft`;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.textContent = '✕';
+    removeBtn.className = 'reelRemoveBtn';
+
+    removeBtn.addEventListener('click', () => {
+      returnSession.splice(index, 1);
+      renderReturnSession();
+      updateReturn(); // refresh button enabled states
+      setBanner('idle', 'Removed from return session');
+    });
+
+    div.appendChild(left);
+    div.appendChild(removeBtn);
+    returnSessionList.appendChild(div);
+  });
+
+  returnSessionCount.textContent = `(${returnSession.length})`;
+}
 
   // --- Session list ---
  function renderSession(){
@@ -688,22 +742,14 @@ function updateManualAddState(){
   }
 }
 
- function exportReturn(){
+function exportReturn(){
   const now = new Date();
-
-  const name = (returnName?.value || '').trim();
-  const comp = (returnCompany?.value || '').trim();
-  const reel = (returnReelName?.value || '').trim();
-  const fiber = (fiberCount?.value || '').trim();
-  const loc = (returnLocation?.value || '').trim();
-
-  const i = (insideFt?.value || '').trim();
-  const o = (outsideFt?.value || '').trim();
-  const t = (totalFt?.value || '').trim();
 
   const rows = [
     ['Name','Company/Garage','Reel Name','Fiber Count','Location','Inside Footage','Outside Footage','Total Footage'],
-    [name, comp, reel, fiber, loc, i, o, t],
+    ...returnSession.map(e => [
+      e.name, e.company, e.reel, e.fiber, e.location, e.inside, e.outside, e.total
+    ])
   ];
 
   const csv = rows.map(r=>r.map(csvEscape).join(',')).join('\n');
@@ -711,6 +757,11 @@ function updateManualAddState(){
 
   downloadText(filename, csv);
   setBanner('ok', 'Export created');
+
+  // Clear session after Done (Export)
+  returnSession = [];
+  renderReturnSession();
+  updateReturn();
 }
 
   // --- Mode switching ---
@@ -789,10 +840,41 @@ wireAutoNext([
   outsideFt
 ]);
 
-  returnExport?.addEventListener('click', ()=>{
-    if(returnExport.disabled) return;
-    exportReturn();
-  });
+ returnAdd?.addEventListener('click', ()=>{
+  if(returnAdd.disabled) return;
+
+  const entry = {
+    name: (returnName?.value || '').trim(),
+    company: (returnCompany?.value || '').trim(),
+    reel: (returnReelName?.value || '').trim(),
+    fiber: (fiberCount?.value || '').trim(),
+    location: (returnLocation?.value || '').trim(),
+    inside: (insideFt?.value || '').trim(),
+    outside: (outsideFt?.value || '').trim(),
+    total: (totalFt?.value || '').trim()
+  };
+
+  returnSession.push(entry);
+  renderReturnSession();
+
+  // Clear only the per-reel fields for the next entry
+  if (returnReelName) returnReelName.value = '';
+  if (insideFt) insideFt.value = '';
+  if (outsideFt) outsideFt.value = '';
+  if (totalFt) totalFt.value = '';
+
+  updateReturn();
+  setBanner('ok', 'Added to return session');
+
+  // Put cursor where Puff needs it next
+  returnReelName?.focus();
+});
+
+returnExport?.addEventListener('click', ()=>{
+  if(returnExport.disabled) return;
+  exportReturn();
+});
+
 
  startScan?.addEventListener('click', async ()=>{
   startScan.disabled = true;
@@ -877,5 +959,6 @@ wireAutoNext([
   updateReturn();
   renderSession();
   updateManualAddState();
+  renderReturnSession();
 
 })();
