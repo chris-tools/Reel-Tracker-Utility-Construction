@@ -492,7 +492,7 @@ button:disabled{ opacity: 0.45; cursor: not-allowed; }
   cursor: not-allowed;
   transform:none;
 }
-/* Auto-calculated Total Footage field */
+
 /* Auto-calculated Total Footage display */
 .autoTotal{
   background: rgba(255,255,255,0.08);
