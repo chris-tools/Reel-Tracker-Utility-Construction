@@ -31,7 +31,7 @@ const returnExport = $('returnExport');
 const returnAdd = $('returnAdd');
 const returnSessionList = $('returnSessionList');
 const returnSessionCount = $('returnSessionCount');
-
+const returnEntryWrap = $('returnEntryWrap');
 
 
   // Scan UI
@@ -149,17 +149,23 @@ function updateReturn(){
     if (totalFt) totalFt.value = '';
   }
 
-  const ok =
-    (returnName?.value.trim() || '') &&
-    (returnCompany?.value.trim() || '') &&
-    (returnReelName?.value.trim() || '') &&
-    (fiberCount?.value.trim() !== '') &&
-    (returnLocation?.value.trim() || '') &&
-    (insideStr !== '') &&
-    (outsideStr !== '');
+  const sessionOk =
+  (returnName?.value.trim() || '') &&
+  (returnCompany?.value.trim() || '') &&
+  (returnLocation?.value.trim() || '');
+
+// Progressive reveal
+if (returnEntryWrap) returnEntryWrap.hidden = !sessionOk;
+
+const entryOk =
+  sessionOk &&
+  (returnReelName?.value.trim() || '') &&
+  (fiberCount?.value.trim() !== '') &&
+  (insideStr !== '') &&
+  (outsideStr !== '');
 
   // Add is enabled when the current entry is complete
-  if (returnAdd) returnAdd.disabled = !ok;
+  if (returnAdd) returnAdd.disabled = !entryOk;
 
   // Done (Export) is enabled when there's at least 1 entry in the session
   if (returnExport) returnExport.disabled = !(returnSession.length > 0);
