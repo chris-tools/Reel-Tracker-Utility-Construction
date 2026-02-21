@@ -314,8 +314,10 @@ button:disabled{
   font-size: 1rem;
   font-weight: 500;
 }
-.hidden-author-mark {
-  display: none;
+.hidden-author-mark{
+  font-size: 11px;
+  opacity: 0;
+  user-select: text;
 }
 
 .undoBar[hidden]{
