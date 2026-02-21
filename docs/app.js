@@ -863,6 +863,7 @@ function exportReturn(){
       returnSection.hidden = false;
       setBanner('idle', 'Return selected');
     }
+    showHowtoForMode(next);
   }
 
   function goScan(){
