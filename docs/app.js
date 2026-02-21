@@ -4,8 +4,7 @@
   // Mode buttons
   const modePickupBtn = $('modePickupBtn');
   const modeReturnBtn = $('modeReturnBtn');
-  const pickupGoBtn = $('pickupGoBtn');
-
+  
   // Sections
   const pickupSection = $('pickupSection');
   const returnSection = $('returnSection');
@@ -128,14 +127,14 @@ function hideUndo(){
     return true;
   }
 
- function updatePickupGo(){
+function updatePickupGo(){
   const ok =
     techName?.value.trim() &&
     company?.value.trim() &&
     build?.value.trim();
 
-    pickupGoBtn.disabled = !ok;
-    pickupGoBtn.hidden = !ok;
+  pickupGoScan.disabled = !ok;
+  pickupGoScan.hidden = !ok;
 }
 
 function updateReturn(){
