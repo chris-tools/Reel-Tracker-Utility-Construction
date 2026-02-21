@@ -541,6 +541,7 @@ button:disabled{
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  color: #fff;
 }
 
 .howtoHeader:focus {
