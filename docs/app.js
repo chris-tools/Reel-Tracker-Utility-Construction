@@ -1046,6 +1046,26 @@ returnExport?.addEventListener('click', ()=>{
     if(document.hidden) stopCamera();
   });
 
+  // ===== HOW-TO ACCORDION =====
+const howtoPickupToggle = document.getElementById("howtoPickupToggle");
+const howtoPickupBody   = document.getElementById("howtoPickupBody");
+
+const howtoReturnsToggle = document.getElementById("howtoReturnsToggle");
+const howtoReturnsBody   = document.getElementById("howtoReturnsBody");
+
+function setupHowto(toggle, body) {
+  if (!toggle || !body) return;
+
+  toggle.addEventListener("click", () => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!isOpen));
+    body.hidden = isOpen;
+  });
+}
+
+setupHowto(howtoPickupToggle, howtoPickupBody);
+setupHowto(howtoReturnsToggle, howtoReturnsBody);
+
   // Boot
   setIdleBanner();
   updatePickupGo();
