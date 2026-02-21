@@ -127,13 +127,17 @@ function hideUndo(){
     return true;
   }
 
-  function updatePickupGo(){
-    const ok =
-      techName?.value.trim() &&
-      company?.value.trim() &&
-      build?.value.trim();
-    pickupGoScan.disabled = !ok;
-  }
+ function updatePickupGo(){
+  const ok =
+    techName?.value.trim() &&
+    company?.value.trim() &&
+    build?.value.trim();
+
+  pickupGoScan.disabled = !ok;
+
+  // Hide button until fields are filled
+  pickupGoScan.hidden = !ok;
+}
 
 function updateReturn(){
   const insideStr = insideFt?.value?.trim() ?? '';
