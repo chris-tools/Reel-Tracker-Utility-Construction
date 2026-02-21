@@ -1066,6 +1066,33 @@ function setupHowto(toggle, body) {
 setupHowto(howtoPickupToggle, howtoPickupBody);
 setupHowto(howtoReturnsToggle, howtoReturnsBody);
 
+  // ===== HOW-TO VISIBILITY (MODE-AWARE) =====
+const howtoPickupCard  = document.getElementById("howtoPickup");
+const howtoReturnsCard = document.getElementById("howtoReturns");
+
+function collapseHowtos() {
+  // Collapse Pick Up / Deliver
+  if (howtoPickupToggle && howtoPickupBody) {
+    howtoPickupToggle.setAttribute("aria-expanded", "false");
+    howtoPickupBody.hidden = true;
+  }
+
+  // Collapse Returns
+  if (howtoReturnsToggle && howtoReturnsBody) {
+    howtoReturnsToggle.setAttribute("aria-expanded", "false");
+    howtoReturnsBody.hidden = true;
+  }
+}
+
+function showHowtoForMode(modeName) {
+  // modeName should be: 'pickup' | 'return' | null
+  if (howtoPickupCard)  howtoPickupCard.hidden  = (modeName !== "pickup");
+  if (howtoReturnsCard) howtoReturnsCard.hidden = (modeName !== "return");
+
+  // Always collapse when switching modes (your requirement)
+  collapseHowtos();
+}
+
   // Boot
   setIdleBanner();
   updatePickupGo();
