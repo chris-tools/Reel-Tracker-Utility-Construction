@@ -4,6 +4,7 @@
   // Mode buttons
   const modePickupBtn = $('modePickupBtn');
   const modeReturnBtn = $('modeReturnBtn');
+  const pickupGoBtn = $('pickupGoBtn');
 
   // Sections
   const pickupSection = $('pickupSection');
@@ -133,10 +134,8 @@ function hideUndo(){
     company?.value.trim() &&
     build?.value.trim();
 
-  pickupGoScan.disabled = !ok;
-
-  // Hide button until fields are filled
-  pickupGoScan.hidden = !ok;
+    pickupGoBtn.disabled = !ok;
+    pickupGoBtn.hidden = !ok;
 }
 
 function updateReturn(){
