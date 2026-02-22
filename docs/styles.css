@@ -34,11 +34,10 @@ html,body{
   justify-content:flex-start;
   gap:10px;
   text-align:center;
-  
-    overflow:hidden;
-
+  overflow:hidden;
   position: relative;
 }
+
 .topbar .titles{
   position:absolute;
   left:50%;
@@ -68,6 +67,7 @@ html,body{
   font-size:1.6rem;
   line-height:1.15;
   text-align:center;
+  position: relative;
 }
 #brandLogoRight{
   width:44px;
@@ -610,11 +610,15 @@ button:disabled{
   margin: 0;
 }
 .author-mark{
-  font-size: 10px;
-  line-height: 1;
-  margin-top: 4px;
-  font-weight: 600;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
 
-  /* Match the dark banner color so it blends in */
-  color: #0b2a6f;
+  font-size: 10px;
+  font-weight: 600;
+  margin-top: 2px;
+
+  color: #0b2a6f; /* banner color */
+  white-space: nowrap;
 }
