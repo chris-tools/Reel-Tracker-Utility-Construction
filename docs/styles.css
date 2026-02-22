@@ -609,3 +609,12 @@ button:disabled{
   padding-left: 18px;
   margin: 0;
 }
+.author-mark{
+  font-size: 10px;
+  line-height: 1;
+  margin-top: 4px;
+  font-weight: 600;
+
+  /* Match the dark banner color so it blends in */
+  color: #0b2a6f;
+}
