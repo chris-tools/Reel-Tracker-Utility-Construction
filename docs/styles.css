@@ -622,3 +622,11 @@ button:disabled{
   color: #0b2a6f; /* banner color */
   white-space: nowrap;
 }
+/* App Footer (RTU + TAU unified style) */
+.app-footer {
+  font-size: 12px;          /* slightly smaller, professional */
+  color: #6b7280;           /* medium grey */
+  text-align: center;
+  margin-top: 18px;
+  opacity: 0.9;
+}
