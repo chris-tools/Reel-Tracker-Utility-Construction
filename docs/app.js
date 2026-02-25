@@ -615,29 +615,29 @@ function updateManualAddState(){
   const data = [headers];
 
   for (const reel of sessionReels) {
-    data.push([
-      "Pick Up / Deliver",          // A
-      techName.value.trim(),        // B
-      "",                           // C
-      "",                           // D
-      "",                           // E
-      reel,                         // F
-      "",                           // G
-      "",                           // H
-      "",                           // I
-      "",                           // J
-      "Y",                          // K (center)
-      new Date(now),                // L (left date)
-      "",                           // M
-      build.value.trim(),           // N (Build)
-      company.value.trim(),         // O (Company/Garage)
-      "",                           // P
-      "Y",                          // Q (center)
-      new Date(now),                // R (left date)
-      "",                           // S
-      "",                           // T
-      ""                            // U
-    ]);
+   data.push([
+  "Pick Up / Deliver",               // A
+  techName.value.trim(),             // B
+  null,                              // C
+  null,                              // D
+  null,                              // E
+  reel,                              // F
+  null,                              // G
+  null,                              // H
+  null,                              // I
+  null,                              // J
+  "Y",                               // K
+  new Date(now),                     // L
+  null,                              // M
+  build.value.trim(),                // N
+  company.value.trim(),              // O
+  null,                              // P
+  "Y",                               // Q
+  new Date(now),                     // R
+  null,                              // S
+  null,                              // T
+  null                               // U
+]);
   }
 
   const ws = XLSX.utils.aoa_to_sheet(data);
