@@ -290,7 +290,7 @@ const deviceId = preferred?.deviceId;
 
         // Success (new reel)
         sessionSet.add(v);
-        sessionReels.push(v);
+        sessionReels.unshift(v);
         renderSession();
 
         showLastScan(v);
@@ -430,7 +430,7 @@ const deviceId = preferred?.deviceId;
     }
 
     sessionSet.add(v);
-    sessionReels.push(v);
+    sessionReels.unshift(v);
     renderSession();
 
     setBanner('ok', 'Added to session');
@@ -525,7 +525,7 @@ function handleClearSessionClick(){
   }
 
   sessionSet.add(v);
-  sessionReels.push(v);
+  sessionReels.unshift(v);
   renderSession();
 
   setBanner('ok', 'Added to session');
@@ -1018,7 +1018,7 @@ returnExport?.addEventListener('click', ()=>{
   // Add back to bottom (your preference)
   if(!sessionSet.has(reel)){
     sessionSet.add(reel);
-    sessionReels.push(reel);
+    sessionReels.unshift(reel);
     renderSession();
     setBanner('ok', 'Restored');
   }
