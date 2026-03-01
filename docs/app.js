@@ -48,6 +48,7 @@ const returnEntryWrap = $('returnEntryWrap');
   const banner = $('banner');
 
   const lastScannedValue = $('lastScannedValue');
+  const lastScannedCheck = $('lastScannedCheck');
   const dismissLastScanned = $('dismissLastScanned');
   
   const reelList = $('reelList');
@@ -183,15 +184,22 @@ const entryOk =
     reelCount.textContent = `(${sessionReels.length})`;
   }
 
- function showLastScan(text){
-  if(!lastScannedValue) return; // Last Scanned card removed from HTML
-  lastScannedValue.textContent = text || 'Nothing scanned yet';
-  lastScannedValue.style.color = text ? '#111827' : '#6b7280';
-}
+   function showLastScan(text){
+    // Update internal state so the UI can enable/disable things correctly
+    lastScan = (text || '').trim();
 
-  function resetLastScan(){
-    lastScan = '';
-    showLastScan('', false);
+    if(!lastScannedValue) return; // panel missing from HTML
+    lastScannedValue.textContent = lastScan || 'Nothing scanned yet';
+    lastScannedValue.style.color = lastScan ? '#111827' : '#6b7280';
+
+    if(dismissLastScanned) dismissLastScanned.disabled = !lastScan;
+
+    // Show green check only when we have a real last scan
+    if(lastScannedCheck) lastScannedCheck.hidden = !lastScan;
+  }
+
+    function resetLastScan(){
+    showLastScan('');
     updateScanUI();
   }
 
