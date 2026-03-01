@@ -336,12 +336,49 @@ button:disabled{
   transform: translateY(1px);
 }
 
+/* ===== TAU-style Last Scanned panel ===== */
+.lastScanned{
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin: 10px 0 12px;
+}
+
+.lastScannedHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin: 0 0 6px;
+}
+
+.lastScannedTitle{
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.lastScannedField{
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lastScannedCheck{
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1;
+  color: #16a34a !important; /* force green */
+  flex: 0 0 auto;
+}
 
 .lastScannedValue{
   font-size: 14px;
   line-height: 1.2;
   color: #6b7280;
-  padding: 12px 46px 12px 14px;
+  padding: 12px 46px 12px 14px; /* right padding for X */
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
@@ -349,27 +386,24 @@ button:disabled{
   width: 100%;
   display: block;
 }
-.lastScannedField{
-  position: relative;
-  width: 100%;
-}
-.lastScannedField{
-  margin-top: 10px;
-}
 
 .lastScannedClear{
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
+
   width: 28px;
   height: 28px;
-  border-radius: 999px;
+  border-radius: 8px;
   border: 1px solid #e5e7eb;
   background: #ffffff;
+
   font-size: 16px;
   line-height: 1;
+
   color: #6b7280;
+
   display: flex;
   align-items: center;
   justify-content: center;
