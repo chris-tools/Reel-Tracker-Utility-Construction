@@ -306,7 +306,6 @@ const deviceId = preferred?.deviceId;
         beep(2000, 120, 0.9);
 
         armed = false;
-        stopCamera();
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
       });
