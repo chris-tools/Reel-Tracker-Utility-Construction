@@ -292,7 +292,6 @@ const deviceId = preferred?.deviceId;
         if (sessionSet.has(v)) {
           setBanner('bad', 'Duplicate (already in session)');
           beep(550, 220, 1.0);
-          stopCamera();
           startScan.disabled = false;
           startScan.textContent = 'Scan Next';
           return;
