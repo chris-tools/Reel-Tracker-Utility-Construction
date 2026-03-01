@@ -282,14 +282,16 @@ const deviceId = preferred?.deviceId;
 
         // Debounce: ignore the same code if we just saw it a moment ago
         const nowMs = Date.now();
-        if (v === lastSeenValue && (nowMs - lastSeenAt) < 1200) return;
+        if (v === lastSeenValue && (nowMs - lastSeenAt) < 1800) return;
         lastSeenValue = v;
         lastSeenAt = nowMs;
+        // Samsung-proofing: disarm immediately once we accept this frame,
+        // so we can't double-add from rapid callback repeats.
+        armed = false;
 
         if (sessionSet.has(v)) {
           setBanner('bad', 'Duplicate (already in session)');
           beep(550, 220, 1.0);
-          armed = false;
           stopCamera();
           startScan.disabled = false;
           startScan.textContent = 'Scan Next';
@@ -305,7 +307,6 @@ const deviceId = preferred?.deviceId;
         setBanner('ok', 'Added to session');
         beep(2000, 120, 0.9);
 
-        armed = false;
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
       });
