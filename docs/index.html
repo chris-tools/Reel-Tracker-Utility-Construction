@@ -159,6 +159,31 @@
         <video id="video" muted playsinline></video>
         <div class="scanGuide" aria-hidden="true"></div>
       </div>
+
+            <!-- Last Scanned (TAU-style) -->
+      <div id="lastScannedPanel" class="card lastScanned">
+        <div class="lastScannedHeader">
+          <div class="lastScannedTitle">Last Scanned</div>
+        </div>
+
+        <div class="lastScannedField">
+          <span id="lastScannedCheck" class="lastScannedCheck" hidden>✓</span>
+
+          <div id="lastScannedValue" class="lastScannedValue">
+            Nothing scanned yet
+          </div>
+
+          <button
+            id="dismissLastScanned"
+            type="button"
+            class="lastScannedClear"
+            aria-label="Dismiss last scanned"
+            disabled
+          >
+            ✕
+          </button>
+        </div>
+      </div>
       
       <div class="row scanControls">
        <button id="startScan" class="primary bigAction">Scan</button>
