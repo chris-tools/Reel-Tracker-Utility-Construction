@@ -294,6 +294,7 @@ const deviceId = preferred?.deviceId;
           beep(550, 220, 1.0);
           startScan.disabled = false;
           startScan.textContent = 'Scan Next';
+          startScan.classList.add('midSession');
           return;
         }
 
@@ -308,6 +309,7 @@ const deviceId = preferred?.deviceId;
 
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
+        startScan.classList.add('midSession');
       });
 
       // Grab underlying stream for torch support
@@ -465,6 +467,7 @@ const deviceId = preferred?.deviceId;
   if(startScan){
     startScan.disabled = false;
     startScan.textContent = 'Scan';
+    startScan.classList.remove('midSession');
   }
 
   if(manualReelInput){
@@ -993,6 +996,9 @@ returnExport?.addEventListener('click', ()=>{
     if (startScan.textContent === 'Scanning…') {
       startScan.textContent = (sessionReels.length > 0) ? 'Scan Next' : 'Scan';
     }
+    if (sessionReels.length === 0) {
+  startScan.classList.remove('midSession');
+}
   }
 });
 
