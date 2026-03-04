@@ -955,7 +955,7 @@ incomingGoScan?.addEventListener('click', ()=>{
   }
 
   if(incomingGoScan) incomingGoScan.hidden = true;  // <-- add this line
-
+  showIncomingSummary();
   scanSection.hidden = false;
   goScan();
 });
