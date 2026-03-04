@@ -229,9 +229,15 @@
     
     <!-- ===== SCAN ===== -->
     <section id="scanSection" class="card" hidden>
-      <h2>3) Scan reel label</h2>
+  <h2>3) Scan reel label</h2>
 
-      <div id="banner" class="banner" hidden></div>
+  <!-- Incoming summary (only shown for Incoming mode) -->
+  <div id="incomingSummaryCard" class="card" hidden style="margin-top:10px;">
+    <h3 style="margin-top:0;">Incoming intake summary</h3>
+    <div id="incomingSummaryText" style="line-height:1.5;"></div>
+  </div>
+
+  <div id="banner" class="banner" hidden></div>
 
       <div class="videoWrap">
         <video id="video" muted playsinline></video>
