@@ -33,8 +33,7 @@ const incomingExport = $('incomingExport');
   const build = $('build');
   const pickupGoScan = $('pickupGoScan');
 
-  // Return fields
-  // Return fields
+   // Return fields
 const returnName = $('returnName');
 const returnCompany = $('returnCompany');
 const returnReelName = $('returnReelName');
@@ -64,6 +63,7 @@ const returnEntryWrap = $('returnEntryWrap');
   const incomingSummaryText = $('incomingSummaryText');
 
   const video = $('video');
+  const incomingScannerMount = $('incomingScannerMount');
   const banner = $('banner');
 
   const lastScannedValue = $('lastScannedValue');
@@ -949,7 +949,12 @@ function exportReturn(){
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
  incomingGoScan?.addEventListener('click', ()=>{
-  // Incoming stays visible (Notes + Done stay on screen)
+
+  // Move scanner under the Start Scanning button
+  if(incomingScannerMount){
+    incomingScannerMount.appendChild(scanSection);
+  }
+
   scanSection.hidden = false;
   goScan();
 });
