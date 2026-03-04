@@ -12,6 +12,21 @@
   const scanSection = $('scanSection');
   const incomingSection = $('incomingSection');
 
+  // Incoming / New fields
+const incomingState = $('incomingState');
+const incomingYard = $('incomingYard');
+const incomingBaba = $('incomingBaba');
+
+const incomingGoScan = $('incomingGoScan');
+const incomingManualReelInput = $('incomingManualReelInput');
+const incomingManualAddBtn = $('incomingManualAddBtn');
+
+const incomingReelList = $('incomingReelList');
+const incomingReelCount = $('incomingReelCount');
+
+const incomingNotes = $('incomingNotes');
+const incomingExport = $('incomingExport');
+
   // Pickup fields
   const techName = $('techName');
   const company = $('company');
@@ -71,6 +86,7 @@ const returnEntryWrap = $('returnEntryWrap');
 
   let lastScan = '';
   let sessionReels = []; // keep order
+  let incomingReels = [];
   let sessionSet = new Set();
   let armed = false; // one scan per tap
   
@@ -894,6 +910,7 @@ function exportReturn(){
   modePickupBtn?.addEventListener('click', ()=>showMode('pickup'));
   modeReturnBtn?.addEventListener('click', ()=>showMode('return'));
   modeIncomingBtn?.addEventListener('click', ()=>showMode('incoming'));
+  incomingManualAddBtn?.addEventListener('click', handleIncomingManualAdd);
 
   techName?.addEventListener('input', updatePickupGo);
   company?.addEventListener('input', updatePickupGo);
@@ -1111,6 +1128,24 @@ function showHowtoForMode(modeName) {
 
   // Always collapse when switching modes (your requirement)
   collapseHowtos();
+}
+
+  function handleIncomingManualAdd(){
+
+  const reel = incomingManualReelInput.value.trim();
+  if(!reel) return;
+
+  incomingReels.push(reel);
+
+  const row = document.createElement('div');
+  row.textContent = reel;
+  incomingReelList.appendChild(row);
+
+  incomingReelCount.textContent = `(${incomingReels.length})`;
+
+  incomingManualReelInput.value = '';
+
+  incomingExport.disabled = incomingReels.length === 0;
 }
 
   // Boot
