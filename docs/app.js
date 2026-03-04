@@ -60,6 +60,8 @@ const returnEntryWrap = $('returnEntryWrap');
   const copyAllReels = $('copyAllReels');
   const manualReelInput = $('manualReelInput');
   const manualAddBtn = $('manualAddBtn');
+  const incomingSummaryCard = $('incomingSummaryCard');
+  const incomingSummaryText = $('incomingSummaryText');
 
   const video = $('video');
   const banner = $('banner');
@@ -137,6 +139,27 @@ function hideUndo(){
   function normalize(s){
     return String(s || '').trim().toUpperCase();
   }
+
+  function showIncomingSummary(){
+  if(!incomingSummaryCard || !incomingSummaryText) return;
+
+  const st = (incomingState?.value || '').trim();
+  const yd = (incomingYard?.value || '').trim();
+  const bb = (incomingBaba?.value || '').trim();
+
+  incomingSummaryText.innerHTML = `
+    <div><b>Storage State:</b> ${st || '—'}</div>
+    <div><b>Storage Yard:</b> ${yd || '—'}</div>
+    <div><b>BABA?:</b> ${bb || '—'}</div>
+  `;
+
+  incomingSummaryCard.hidden = false;
+}
+
+function hideIncomingSummary(){
+  if(incomingSummaryCard) incomingSummaryCard.hidden = true;
+  if(incomingSummaryText) incomingSummaryText.textContent = '';
+}
 
   // Reel name: allow letters+numbers, hyphen, slash. 7-20 chars.
   function looksLikeReelName(s){
@@ -887,6 +910,7 @@ function exportReturn(){
   // --- Mode switching ---
   function showMode(next){
     mode = next;
+    hideIncomingSummary();
 
     // reset UI
     pickupSection.hidden = mode !== 'pickup';
@@ -925,6 +949,7 @@ function exportReturn(){
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
   incomingGoScan?.addEventListener('click', ()=>{
+  showIncomingSummary();
   incomingSection.hidden = true;
   scanSection.hidden = false;
   goScan();
@@ -1031,6 +1056,7 @@ returnExport?.addEventListener('click', ()=>{
   if(mode === 'incoming'){
   scanSection.hidden = true;
   incomingSection.hidden = false;
+  hideIncomingSummary();
 }
 
   if(startScan){
