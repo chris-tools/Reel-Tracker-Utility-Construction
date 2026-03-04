@@ -948,9 +948,8 @@ function exportReturn(){
   incomingState?.addEventListener('input', updateIncomingAddState);
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
-  incomingGoScan?.addEventListener('click', ()=>{
-  showIncomingSummary();
-  incomingSection.hidden = true;
+ incomingGoScan?.addEventListener('click', ()=>{
+  // Incoming stays visible (Notes + Done stay on screen)
   scanSection.hidden = false;
   goScan();
 });
