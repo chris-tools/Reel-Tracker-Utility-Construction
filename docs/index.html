@@ -37,6 +37,7 @@
   <div class="modeRow">
     <button id="modePickupBtn" class="primary">Pick Up / Deliver</button>
     <button id="modeReturnBtn" class="secondary">Return</button>
+    <button id="modeIncomingBtn" class="secondary">Incoming / New (MCS use only)</button>
   </div>
 </section>
 
@@ -146,6 +147,83 @@
       </div>
     </div>
 
+  </div>
+</section>
+
+    <!-- ===== INCOMING / NEW (MCS USE ONLY) ===== -->
+<section id="incomingSection" class="card" hidden>
+  <h2>Incoming / New (MCS use only)</h2>
+
+  <!-- Section 1 -->
+  <div class="card" style="margin-top:10px;">
+    <h3 style="margin-top:0;">Intake information</h3>
+
+    <div class="grid2">
+      <div class="field">
+        <label for="incomingState">Storage State</label>
+        <select id="incomingState">
+          <option value="">Required</option>
+          <option value="ME">ME</option>
+          <option value="NH">NH</option>
+          <option value="VT">VT</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="incomingYard">Storage Yard</label>
+        <input id="incomingYard" type="text" placeholder="Required" autocomplete="off" />
+      </div>
+
+      <div class="field full">
+        <label for="incomingBaba">BABA?</label>
+        <select id="incomingBaba">
+          <option value="">Required</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="card" style="margin-top:14px;">
+    <h3 style="margin-top:0;">Add reels</h3>
+
+    <div class="row">
+      <button id="incomingGoScan" class="primary bigAction" hidden>
+        Start Scanning Reels
+      </button>
+    </div>
+
+    <div class="manualAddRow">
+      <input
+        id="incomingManualReelInput"
+        type="text"
+        placeholder="Enter Reel Name (manual)"
+        autocomplete="off"
+      />
+      <button id="incomingManualAddBtn" type="button">Add</button>
+    </div>
+
+    <div class="card" style="margin-top:10px;">
+      <h3>Incoming Session Reels <span id="incomingReelCount">(0)</span></h3>
+      <div id="incomingReelList" class="list"></div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="card" style="margin-top:14px;">
+    <h3 style="margin-top:0;">Notes (optional)</h3>
+    <div class="field full">
+      <label for="incomingNotes">Notes</label>
+      <textarea id="incomingNotes" rows="3" placeholder="Delivery #, PO #, etc..."></textarea>
+    </div>
+
+    <div class="row" style="margin-top:14px;">
+      <button id="incomingExport" class="primary bigAction" disabled>
+        Done (Export)
+      </button>
+    </div>
   </div>
 </section>
     
