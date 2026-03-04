@@ -914,6 +914,7 @@ function exportReturn(){
   incomingState?.addEventListener('input', updateIncomingAddState);
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
+  incomingGoScan?.addEventListener('click', ()=>goScan());
 
   techName?.addEventListener('input', updatePickupGo);
   company?.addEventListener('input', updatePickupGo);
@@ -1141,6 +1142,9 @@ function showHowtoForMode(modeName) {
     incomingBaba.value.trim() !== '';
 
   incomingManualAddBtn.disabled = !ready;
+
+    incomingGoScan.disabled = !ready;
+    incomingGoScan.hidden = !ready;
 }
   
   function handleIncomingManualAdd(){
