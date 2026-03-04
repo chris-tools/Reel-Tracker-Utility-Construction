@@ -1186,8 +1186,6 @@ function showHowtoForMode(modeName) {
     incomingYard.value.trim() !== '' &&
     incomingBaba.value.trim() !== '';
 
-  incomingManualAddBtn.disabled = !ready;
-
     incomingGoScan.disabled = !ready;
     incomingGoScan.hidden = !ready;
 }
