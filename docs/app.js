@@ -911,6 +911,9 @@ function exportReturn(){
   modeReturnBtn?.addEventListener('click', ()=>showMode('return'));
   modeIncomingBtn?.addEventListener('click', ()=>showMode('incoming'));
   incomingManualAddBtn?.addEventListener('click', handleIncomingManualAdd);
+  incomingState?.addEventListener('input', updateIncomingAddState);
+  incomingYard?.addEventListener('input', updateIncomingAddState);
+  incomingBaba?.addEventListener('input', updateIncomingAddState);
 
   techName?.addEventListener('input', updatePickupGo);
   company?.addEventListener('input', updatePickupGo);
@@ -1130,6 +1133,16 @@ function showHowtoForMode(modeName) {
   collapseHowtos();
 }
 
+  function updateIncomingAddState(){
+
+  const ready =
+    incomingState.value.trim() !== '' &&
+    incomingYard.value.trim() !== '' &&
+    incomingBaba.value.trim() !== '';
+
+  incomingManualAddBtn.disabled = !ready;
+}
+  
   function handleIncomingManualAdd(){
 
   const reel = incomingManualReelInput.value.trim();
@@ -1155,5 +1168,6 @@ function showHowtoForMode(modeName) {
   renderSession();
   updateManualAddState();
   renderReturnSession();
+  updateIncomingAddState();
 
 })();
