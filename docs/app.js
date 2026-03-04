@@ -4,11 +4,13 @@
   // Mode buttons
   const modePickupBtn = $('modePickupBtn');
   const modeReturnBtn = $('modeReturnBtn');
+  const modeIncomingBtn = $('modeIncomingBtn');
   
   // Sections
   const pickupSection = $('pickupSection');
   const returnSection = $('returnSection');
   const scanSection = $('scanSection');
+  const incomingSection = $('incomingSection');
 
   // Pickup fields
   const techName = $('techName');
