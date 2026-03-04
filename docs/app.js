@@ -863,8 +863,9 @@ function exportReturn(){
     mode = next;
 
     // reset UI
-    pickupSection.hidden = true;
-    returnSection.hidden = true;
+    pickupSection.hidden = mode !== 'pickup';
+    returnSection.hidden = mode !== 'return';
+    incomingSection.hidden = mode !== 'incoming';
     scanSection.hidden = true;
 
     stopCamera();
@@ -892,6 +893,7 @@ function exportReturn(){
   // --- Wiring ---
   modePickupBtn?.addEventListener('click', ()=>showMode('pickup'));
   modeReturnBtn?.addEventListener('click', ()=>showMode('return'));
+  modeIncomingBtn?.addEventListener('click', ()=>showMode('incoming'));
 
   techName?.addEventListener('input', updatePickupGo);
   company?.addEventListener('input', updatePickupGo);
