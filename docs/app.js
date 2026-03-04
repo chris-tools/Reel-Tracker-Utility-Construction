@@ -914,7 +914,11 @@ function exportReturn(){
   incomingState?.addEventListener('input', updateIncomingAddState);
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
-  incomingGoScan?.addEventListener('click', ()=>goScan());
+  incomingGoScan?.addEventListener('click', ()=>{
+  incomingSection.hidden = true;
+  scanSection.hidden = false;
+  goScan();
+});
 
   techName?.addEventListener('input', updatePickupGo);
   company?.addEventListener('input', updatePickupGo);
