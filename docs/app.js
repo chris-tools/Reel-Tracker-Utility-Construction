@@ -16,6 +16,7 @@
 const incomingState = $('incomingState');
 const incomingYard = $('incomingYard');
 const incomingBaba = $('incomingBaba');
+const incomingIntakeCard = $('incomingIntakeCard');
 
 const incomingGoScan = $('incomingGoScan');
 const incomingManualReelInput = $('incomingManualReelInput');
