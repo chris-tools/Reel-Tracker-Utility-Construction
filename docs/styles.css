@@ -600,3 +600,22 @@ button:disabled{
   box-shadow: 0 6px 18px rgba(29, 78, 216, 0.35);
   transform: scale(1.04);
 }
+/* Mode button layout */
+.modeStack{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.modeRow{
+  display:flex;
+  gap:12px;
+}
+
+.modeRow button{
+  flex:1;
+}
+
+.modeSingleRow button{
+  width:100%;
+}
