@@ -616,6 +616,10 @@ button:disabled{
   flex:1;
 }
 
+.modeSingleRow{
+  margin-top:4px;
+}
+
 .modeSingleRow button{
   width:100%;
 }
