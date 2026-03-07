@@ -94,7 +94,7 @@ html,body{
 }
 
 .card{
-  background:#1f4f46;
+  background: linear-gradient(135deg, #1f4f46 0%, #163b34 100%);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 14px 14px 12px 14px;
