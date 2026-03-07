@@ -123,6 +123,7 @@ h3{ margin: 0 0 10px 0; font-size: 1.0rem; }
 }
 /* Mode buttons – recessed pill style */
 .modeRow button{
+.modeSingleRow button{
   flex:1 1 0;
   padding:14px 16px;
   border-radius:18px;
