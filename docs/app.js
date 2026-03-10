@@ -949,12 +949,8 @@ function exportReturn(){
   incomingState?.addEventListener('input', updateIncomingAddState);
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
-incomingGoScan?.addEventListener('click', ()=>{
-  // Move scanner under the Start Scanning button
-  if(incomingScannerMount){
-    incomingScannerMount.appendChild(scanSection);
-  }
-
+  incomingGoScan?.addEventListener('click', ()=>{
+ 
   if(incomingGoScan) incomingGoScan.hidden = true;  // <-- add this line
  
   showIncomingSummary();
