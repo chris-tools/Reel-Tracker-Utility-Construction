@@ -340,25 +340,14 @@ const deviceId = preferred?.deviceId;
           return;
         }
 
-       // Success (new reel)
-if(mode === 'incoming'){
-  if(!incomingReels.includes(v)){
-  incomingReels.unshift(v);
-}
-  const row = document.createElement('div');
-  row.textContent = v;
-  incomingReelList.appendChild(row);
+        // Success (new reel)
+        sessionSet.add(v);
+        sessionReels.unshift(v);
+        renderSession();
 
-  incomingReelCount.textContent = `(${incomingReels.length})`;
-}else{
-  sessionSet.add(v);
-  sessionReels.unshift(v);
-  renderSession();
-}
-
-showLastScan(v);
-setBanner('ok', 'Added to session');
-beep(2000, 120, 0.9);
+        showLastScan(v);
+        setBanner('ok', 'Added to session');
+        beep(2000, 120, 0.9);
 
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
@@ -928,11 +917,6 @@ function exportReturn(){
     pickupSection.hidden = mode !== 'pickup';
     returnSection.hidden = mode !== 'return';
     incomingSection.hidden = mode !== 'incoming';
-    const pickupListCard = reelList?.closest('.card');
-if(pickupListCard){
-  pickupListCard.style.display = (mode === 'incoming') ? 'none' : '';
-}
-    
     scanSection.hidden = true;
 
     stopCamera();
@@ -965,8 +949,12 @@ if(pickupListCard){
   incomingState?.addEventListener('input', updateIncomingAddState);
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
-  incomingGoScan?.addEventListener('click', ()=>{
- 
+incomingGoScan?.addEventListener('click', ()=>{
+  // Move scanner under the Start Scanning button
+  if(incomingScannerMount){
+    incomingScannerMount.appendChild(scanSection);
+  }
+
   if(incomingGoScan) incomingGoScan.hidden = true;  // <-- add this line
  
   showIncomingSummary();

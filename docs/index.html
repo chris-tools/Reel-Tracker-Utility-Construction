@@ -66,7 +66,6 @@
          <input id="build" type="text" placeholder="Required" />
         </div>
       </div>
-      
       <div class="row">
   <button id="pickupGoScan" class="primary bigAction" hidden>
     Start Scanning Reels
@@ -200,13 +199,41 @@
         Start Scanning Reels
       </button>
     </div>
-
-</div>
     
-<!-- ===== SCAN ===== -->
+    <div id="incomingScannerMount"></div>
+
+   <div class="card" style="margin-top:10px;">
+      <h3>Incoming Session Reels <span id="incomingReelCount">(0)</span></h3>
+      <div id="incomingReelList" class="list"></div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="card" style="margin-top:14px;">
+    <h3 style="margin-top:0;">Notes (optional)</h3>
+    <div class="field full">
+      <label for="incomingNotes">Notes</label>
+      <textarea id="incomingNotes" rows="3" placeholder="Delivery #, PO #, etc..."></textarea>
+    </div>
+
+    <div class="row" style="margin-top:14px;">
+      <button id="incomingExport" class="primary bigAction" disabled>
+        Done (Export)
+      </button>
+    </div>
+  </div>
+</section>
+    
+    <!-- ===== SCAN ===== -->
     <section id="scanSection" class="card" hidden>
   
-   <div id="banner" class="banner" hidden></div>
+  <!-- Incoming summary (only shown for Incoming mode) -->
+  <div id="incomingSummaryCard" class="card" hidden style="margin-top:10px;">
+    <h3 style="margin-top:0;">Incoming intake summary</h3>
+    <div id="incomingSummaryText" style="line-height:1.5;"></div>
+  </div>
+
+  <div id="banner" class="banner" hidden></div>
 
       <div class="videoWrap">
         <video id="video" muted playsinline></video>
@@ -229,31 +256,28 @@
   <button id="manualAddBtn" type="button">Add</button>
 </div>
 
+        <div class="card">
+        <h3>Session Reels <span id="reelCount">(0)</span></h3>
+          
+        <div id="undoBar" class="undoBar" hidden>
+          <span id="undoText" class="undoText">Removed.</span>
+          <button id="undoBtn" type="button" class="undoBtn">Undo</button>
+      </div>
+
+        <div id="reelList" class="list"></div>
+
+        <div class="row exportRow">
+          <button id="exportPickupCsv" class="primary" disabled>Export Pick Up / Deliver CSV</button>
+          <button id="clearSession" class="ghost danger clearBtn" disabled>
+         🗑 <span>Clear Session</span>
+    </button>
+
+          
+        </div>
+      </div>
+
     </section>
     
-      <div class="card" style="margin-top:10px;">
-      <h3>Incoming Session Reels <span id="incomingReelCount">(0)</span></h3>
-      <div id="incomingReelList" class="list"></div>
-    </div>
-
-  
-  <!-- Section 3 -->
-  <div class="card" style="margin-top:14px;">
-    <h3 style="margin-top:0;">Notes (optional)</h3>
-    <div class="field full">
-      <label for="incomingNotes">Notes</label>
-      <textarea id="incomingNotes" rows="3" placeholder="Delivery #, PO #, etc..."></textarea>
-    </div>
-
-    <div class="row" style="margin-top:14px;">
-      <button id="incomingExport" class="primary bigAction" disabled>
-        Done (Export)
-      </button>
-    </div>
-  </div>
-</section>
-    
-       
     <!-- ===== HOW-TO (BOTTOM) ===== -->
 <section id="howtoPickup" class="card howtoCard" hidden>
   <button id="howtoPickupToggle" class="howtoHeader" type="button" aria-expanded="false">
