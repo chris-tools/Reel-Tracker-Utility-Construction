@@ -928,6 +928,11 @@ function exportReturn(){
     pickupSection.hidden = mode !== 'pickup';
     returnSection.hidden = mode !== 'return';
     incomingSection.hidden = mode !== 'incoming';
+    const pickupListCard = reelList?.closest('.card');
+if(pickupListCard){
+  pickupListCard.style.display = (mode === 'incoming') ? 'none' : '';
+}
+    
     scanSection.hidden = true;
 
     stopCamera();
