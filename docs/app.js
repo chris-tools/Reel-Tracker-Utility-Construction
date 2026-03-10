@@ -689,13 +689,13 @@ function updateManualAddState(){
   null,                              // I
   null,                              // J
   "Y",                               // K
-  new Date(now),                     // L
+  mmddyyyy(now),                     // L
   null,                              // M
   build.value.trim(),                // N
   company.value.trim(),              // O
   null,                              // P
   "Y",                               // Q
-  new Date(now),                     // R
+  mmddyyyy(now),                     // R
   null,                              // S
   null,                              // T
   null                               // U
