@@ -340,14 +340,25 @@ const deviceId = preferred?.deviceId;
           return;
         }
 
-        // Success (new reel)
-        sessionSet.add(v);
-        sessionReels.unshift(v);
-        renderSession();
+       // Success (new reel)
+if(mode === 'incoming'){
+  if(!incomingReels.includes(v)){
+  incomingReels.unshift(v);
+}
+  const row = document.createElement('div');
+  row.textContent = v;
+  incomingReelList.appendChild(row);
 
-        showLastScan(v);
-        setBanner('ok', 'Added to session');
-        beep(2000, 120, 0.9);
+  incomingReelCount.textContent = `(${incomingReels.length})`;
+}else{
+  sessionSet.add(v);
+  sessionReels.unshift(v);
+  renderSession();
+}
+
+showLastScan(v);
+setBanner('ok', 'Added to session');
+beep(2000, 120, 0.9);
 
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
