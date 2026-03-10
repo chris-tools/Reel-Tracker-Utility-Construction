@@ -221,7 +221,8 @@ button:disabled{
   .grid2 .full{ grid-column: 1 / -1; }
 }
 .field label{ display:block; font-weight: 800; margin: 0 0 6px 0; }
-.field input{
+.field input,
+.field select{
   width: 100%;
   padding: 10px 12px;
   border-radius: 12px;
