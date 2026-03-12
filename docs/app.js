@@ -1012,6 +1012,13 @@ wireAutoNext([
   outsideFt
 ]);
 
+  outsideFt?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    returnAdd?.click();
+  }
+});
+
  returnAdd?.addEventListener('click', ()=>{
   if(returnAdd.disabled) return;
 
