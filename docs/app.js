@@ -1041,7 +1041,7 @@ wireAutoNext([
   setBanner('ok', 'Added to return session');
 
   // Put cursor where Puff needs it next
-  returnReelName?.focus();
+  fiberCount?.focus();
 });
 
 returnExport?.addEventListener('click', ()=>{
