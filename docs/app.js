@@ -6,7 +6,7 @@
   const modeReturnBtn = $('modeReturnBtn');
   const modeIncomingBtn = $('modeIncomingBtn');
   
-  // Sections
+  // Section
   const pickupSection = $('pickupSection');
   const returnSection = $('returnSection');
   const scanSection = $('scanSection');
