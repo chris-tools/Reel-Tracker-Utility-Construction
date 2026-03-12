@@ -1026,7 +1026,7 @@ wireAutoNext([
     total: (totalFt?.value || '').trim()
   };
 
-  returnSession.push(entry);
+  returnSession.unshift(entry);
   renderReturnSession();
 
   // Clear only the per-reel fields for the next entry
