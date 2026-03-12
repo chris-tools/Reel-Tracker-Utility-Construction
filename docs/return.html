@@ -95,30 +95,47 @@
       <h3 style="margin-top:0;">Return entry</h3>
 
       <div class="grid2">
-        <div class="field full">
-          <label for="returnReelName">Reel Name</label>
-          <input id="returnReelName" type="text" placeholder="Required" />
-        </div>
+        <!-- Reel Entry -->
 
-        <div class="field">
-          <label for="fiberCount">Fiber Count</label>
-          <input id="fiberCount" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
-        </div>
+<div class="card" style="margin-top:14px;">
+  <h3 style="margin-top:0;">Return entry</h3>
 
-        <div class="field">
-          <label for="insideFt">Inside Footage (Enter 0 if empty)</label>
-          <input id="insideFt" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
-        </div>
+  <div class="grid2">
 
-        <div class="field">
-          <label for="outsideFt">Outside Footage (Enter 0 if empty)</label>
-          <input id="outsideFt" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
-        </div>
+```
+<div class="field">
+  <label for="fiberCount">Fiber Count</label>
+  <input id="fiberCount" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
+</div>
 
-        <div class="field full">
-          <label for="totalFt">Total Footage</label>
-          <input id="totalFt" class="autoTotal" type="number" readonly />
-        </div>
+<div class="field full">
+  <label for="returnReelName">Reel Name</label>
+  <input id="returnReelName" type="text" placeholder="Required" />
+</div>
+
+<div class="field">
+  <label for="insideFt">Inside Footage (Enter 0 if empty)</label>
+  <input id="insideFt" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
+</div>
+
+<div class="field">
+  <label for="outsideFt">Outside Footage (Enter 0 if empty)</label>
+  <input id="outsideFt" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
+</div>
+
+<div class="field full">
+  <label for="totalFt">Total Footage</label>
+  <input id="totalFt" class="autoTotal" type="number" readonly />
+</div>
+```
+
+  </div>
+
+  <div class="row">
+    <button id="returnAdd" class="secondary bigAction" disabled>Add</button>
+  </div>
+</div>
+
       </div>
 
       <div class="row">
