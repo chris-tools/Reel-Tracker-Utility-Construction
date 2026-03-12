@@ -976,7 +976,13 @@ incomingGoScan?.addEventListener('click', ()=>{
  // Return listeners
 returnName?.addEventListener('input', updateReturn);
 returnCompany?.addEventListener('input', updateReturn);
+
+returnReelName?.addEventListener('input', () => {
+  returnReelName.value = returnReelName.value.toUpperCase();
+});
+
 returnReelName?.addEventListener('input', updateReturn);
+
 fiberCount?.addEventListener('input', updateReturn);
 returnLocation?.addEventListener('input', updateReturn);
 insideFt?.addEventListener('input', updateReturn);
