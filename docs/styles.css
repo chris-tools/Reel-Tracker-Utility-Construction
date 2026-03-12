@@ -629,13 +629,21 @@ button:disabled{
 /* Back navigation */
 .backBtn{
   display:inline-block;
-  margin:12px 0 6px 0;
-  color:rgba(255,255,255,0.85);
+  margin-left:12px;
+  margin-top:8px;
+
+  padding:6px 12px;
+
+  background:#1f2e44;
+  color:white;
   text-decoration:none;
-  font-weight:600;
+
+  border-radius:8px;
   font-size:14px;
+
+  transition:background .2s ease;
 }
 
 .backBtn:hover{
-  color:white;
+  background:#2c3f5c;
 }
