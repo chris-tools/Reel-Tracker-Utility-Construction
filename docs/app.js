@@ -418,7 +418,7 @@ const deviceId = preferred?.deviceId;
     div.className = 'item';
 
     const left = document.createElement('span');
-    left.textContent = `${entry.reel} — ${entry.total} ft`;
+    left.textContent = `${entry.fiber}ct — ${entry.reel} — ${entry.total} ft`;
 
     const removeBtn = document.createElement('button');
     removeBtn.type = 'button';
