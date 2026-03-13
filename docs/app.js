@@ -80,7 +80,7 @@ const returnEntryWrap = $('returnEntryWrap');
    const undoBtn  = $('undoBtn');
 
   // State
-  let mode = null; // 'pickup' | 'return'
+  let mode = 'pickup'; // default for pickup.html
   let scanner = null;
   let cameraStream = null;
   let streamTrack = null;
@@ -1231,6 +1231,7 @@ function showHowtoForMode(modeName) {
 }
 
   // Boot
+  showMode('pickup');
   setIdleBanner();
   updatePickupGo();
   updateReturn();
