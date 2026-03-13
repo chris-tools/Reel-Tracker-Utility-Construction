@@ -932,14 +932,14 @@ function exportReturn(){
     showHowtoForMode(next);
   }
 
-  function goScan(){
-    scanSection.hidden = false;
-    pickupSection.hidden = true;
-    returnSection.hidden = true;
+  function goScan(keepPickupDetails = false){
+  scanSection.hidden = false;
+  pickupSection.hidden = !keepPickupDetails;
+  returnSection.hidden = true;
 
-    setIdleBanner();
-    renderSession();
-  }
+  setIdleBanner();
+  renderSession();
+}
 
   // --- Wiring ---
   modePickupBtn?.addEventListener('click', ()=>showMode('pickup'));
@@ -969,9 +969,9 @@ incomingGoScan?.addEventListener('click', ()=>{
   build?.addEventListener('input', updatePickupGo);
 
   pickupGoScan?.addEventListener('click', ()=>{
-    if(pickupGoScan.disabled) return;
-    goScan();
-  });
+  if(pickupGoScan.disabled) return;
+  goScan(true);
+});
 
  // Return listeners
 returnName?.addEventListener('input', updateReturn);
