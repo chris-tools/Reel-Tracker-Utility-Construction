@@ -1231,7 +1231,6 @@ function showHowtoForMode(modeName) {
 }
 
   // Boot
-  showMode('pickup');
   setIdleBanner();
   updatePickupGo();
   updateReturn();
