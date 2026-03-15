@@ -37,6 +37,8 @@ const incomingExport = $('incomingExport');
    // Return fields
 const returnName = $('returnName');
 const returnCompany = $('returnCompany');
+const returnSummaryCard = $('returnSummaryCard');
+const returnSummaryText = $('returnSummaryText');
 const returnReelName = $('returnReelName');
 const scanReturnReel = $('scanReturnReel');
 const fiberCount = $('fiberCount');
@@ -202,6 +204,28 @@ function updateReturn(){
   (returnName?.value.trim() || '') &&
   (returnCompany?.value.trim() || '') &&
   (returnLocation?.value.trim() || '');
+
+  if (sessionOk) {
+
+  if (returnSummaryText) {
+    returnSummaryText.innerHTML = `
+      <div><span class="sessionLabel">Name:</span> <span class="sessionValue">${returnName.value}</span></div>
+      <div><span class="sessionLabel">Company / Garage:</span> <span class="sessionValue">${returnCompany.value}</span></div>
+      <div><span class="sessionLabel">Location:</span> <span class="sessionValue">${returnLocation.value}</span></div>
+    `;
+  }
+
+  if (returnSummaryCard) {
+    returnSummaryCard.hidden = false;
+  }
+
+} else {
+
+  if (returnSummaryCard) {
+    returnSummaryCard.hidden = true;
+  }
+
+}
 
 // Progressive reveal
 if (returnEntryWrap) returnEntryWrap.hidden = !sessionOk;
