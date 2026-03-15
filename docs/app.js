@@ -206,6 +206,10 @@ function updateReturn(){
   (returnCompany?.value.trim() || '') &&
   (returnLocation?.value.trim() || '');
 
+  if (returnNext) {
+  returnNext.hidden = !sessionOk;
+}
+
   if (sessionOk) {
 
   if (returnSummaryText) {
@@ -1042,6 +1046,14 @@ incomingGoScan?.addEventListener('click', ()=>{
  // Return listeners
 returnName?.addEventListener('input', updateReturn);
 returnCompany?.addEventListener('input', updateReturn);
+  returnNext?.addEventListener('click', () => {
+
+  const sessionCard = returnNext.closest('.card');
+  if (sessionCard) sessionCard.hidden = true;
+
+  if (returnSummaryCard) returnSummaryCard.hidden = false;
+
+});
   scanReturnReel?.addEventListener('click', async () => {
 
     const returnScannerMount = $('returnScannerMount');
