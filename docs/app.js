@@ -1019,6 +1019,11 @@ returnName?.addEventListener('input', updateReturn);
 returnCompany?.addEventListener('input', updateReturn);
   scanReturnReel?.addEventListener('click', async () => {
 
+    const returnScannerMount = $('returnScannerMount');
+if (returnScannerMount) {
+  returnScannerMount.appendChild(scanSection);
+}
+
     scanningReturnReel = true;
 
   // Show scanner area
