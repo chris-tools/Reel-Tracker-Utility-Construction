@@ -233,7 +233,6 @@ function updateReturn(){
 }
 
 // Progressive reveal
-if (returnEntryWrap) returnEntryWrap.hidden = true;
 
 const entryOk =
   sessionOk &&
