@@ -942,11 +942,11 @@ function exportReturn(){
   if(mode === 'pickup'){
     
     // Build Pickup Session Summary
-    pickupSummaryText.innerHTML = `
-      <b>Name:</b> ${techName.value}<br>
-      <b>Company / Garage:</b> ${company.value}<br>
-      <b>Build / Assignment:</b> ${build.value}
-    `;
+   pickupSummaryText.innerHTML = `
+<div><span class="sessionLabel">Name:</span> <span class="sessionValue">${techName.value}</span></div>
+<div><span class="sessionLabel">Company / Garage:</span> <span class="sessionValue">${company.value}</span></div>
+<div><span class="sessionLabel">Build / Assignment:</span> <span class="sessionValue">${build.value}</span></div>
+`;
 
     pickupSummaryCard.hidden = false;
 
