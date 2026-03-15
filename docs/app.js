@@ -221,7 +221,7 @@ function updateReturn(){
   }
 
   if (returnSummaryCard) {
-    returnSummaryCard.hidden = false;
+    
   }
 
 } else {
@@ -233,7 +233,7 @@ function updateReturn(){
 }
 
 // Progressive reveal
-if (returnEntryWrap) returnEntryWrap.hidden = !sessionOk;
+if (returnEntryWrap) returnEntryWrap.hidden = true;
 
 const entryOk =
   sessionOk &&
@@ -1046,12 +1046,15 @@ incomingGoScan?.addEventListener('click', ()=>{
  // Return listeners
 returnName?.addEventListener('input', updateReturn);
 returnCompany?.addEventListener('input', updateReturn);
-  returnNext?.addEventListener('click', () => {
+  
+ returnNext?.addEventListener('click', () => {
 
   const sessionCard = returnNext.closest('.card');
   if (sessionCard) sessionCard.hidden = true;
 
   if (returnSummaryCard) returnSummaryCard.hidden = false;
+
+  if (returnEntryWrap) returnEntryWrap.hidden = false;
 
 });
   scanReturnReel?.addEventListener('click', async () => {
