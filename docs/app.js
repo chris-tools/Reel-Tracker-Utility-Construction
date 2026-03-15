@@ -997,6 +997,22 @@ incomingGoScan?.addEventListener('click', ()=>{
  // Return listeners
 returnName?.addEventListener('input', updateReturn);
 returnCompany?.addEventListener('input', updateReturn);
+  scanReturnReel?.addEventListener('click', async () => {
+
+  // Show scanner area
+  scanSection.hidden = false;
+
+  // Prepare scanner
+  lastSeenValue = '';
+  lastSeenAt = 0;
+  cameraWarmupUntil = Date.now() + 400;
+
+  armed = true;
+
+  await startCamera();
+
+  setBanner('idle', 'Scan reel label');
+});
 
 returnReelName?.addEventListener('input', () => {
   returnReelName.value = returnReelName.value.toUpperCase();
