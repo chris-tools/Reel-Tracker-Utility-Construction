@@ -43,6 +43,7 @@ const returnReelName = $('returnReelName');
 const scanReturnReel = $('scanReturnReel');
 const fiberCount = $('fiberCount');
 const returnLocation = $('returnLocation');
+const returnNext = $('returnNext');
 
 const insideFt = $('insideFt');
 const outsideFt = $('outsideFt');
