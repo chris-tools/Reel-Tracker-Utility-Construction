@@ -344,6 +344,25 @@ const deviceId = preferred?.deviceId;
           return;
         }
 
+        // If scanning for Return reel name, fill the field instead
+if (scanningReturnReel) {
+
+  if (returnReelName) {
+    returnReelName.value = v;
+  }
+
+  scanningReturnReel = false;
+
+  stopCamera();
+  scanSection.hidden = true;
+
+  setBanner('ok', 'Reel scanned');
+
+  updateReturn();
+
+  return;
+}
+
         // Success (new reel)
         sessionSet.add(v);
         sessionReels.unshift(v);
