@@ -38,6 +38,7 @@ const incomingExport = $('incomingExport');
 const returnName = $('returnName');
 const returnCompany = $('returnCompany');
 const returnReelName = $('returnReelName');
+const scanReturnReel = $('scanReturnReel');
 const fiberCount = $('fiberCount');
 const returnLocation = $('returnLocation');
 
