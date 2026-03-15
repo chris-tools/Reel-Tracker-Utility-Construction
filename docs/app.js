@@ -102,6 +102,7 @@ const returnEntryWrap = $('returnEntryWrap');
   let lastSeenValue = '';
   let lastSeenAt = 0;
   let cameraWarmupUntil = 0;
+  let scanningReturnReel = false;
 
   // Return session state (multi-reel)
 let returnSession = []; // array of entries for this trip/session
@@ -998,6 +999,8 @@ incomingGoScan?.addEventListener('click', ()=>{
 returnName?.addEventListener('input', updateReturn);
 returnCompany?.addEventListener('input', updateReturn);
   scanReturnReel?.addEventListener('click', async () => {
+
+    scanningReturnReel = true;
 
   // Show scanner area
   scanSection.hidden = false;
