@@ -62,6 +62,8 @@ const returnEntryWrap = $('returnEntryWrap');
   const manualAddBtn = $('manualAddBtn');
   const incomingSummaryCard = $('incomingSummaryCard');
   const incomingSummaryText = $('incomingSummaryText');
+  const pickupSummaryCard = $('pickupSummaryCard');
+  const pickupSummaryText = $('pickupSummaryText');
 
   const video = $('video');
   const incomingScannerMount = $('incomingScannerMount');
@@ -933,9 +935,27 @@ function exportReturn(){
   }
 
   function goScan(keepPickupDetails = false){
+
   scanSection.hidden = false;
-  pickupSection.hidden = !keepPickupDetails;
   returnSection.hidden = true;
+
+  if(mode === 'pickup'){
+    
+    // Build Pickup Session Summary
+    pickupSummaryText.innerHTML = `
+      <b>Name:</b> ${techName.value}<br>
+      <b>Company / Garage:</b> ${company.value}<br>
+      <b>Build / Assignment:</b> ${build.value}
+    `;
+
+    pickupSummaryCard.hidden = false;
+
+    // Hide editable pickup card
+    pickupSection.hidden = true;
+
+  } else {
+    pickupSection.hidden = !keepPickupDetails;
+  }
 
   setIdleBanner();
   renderSession();
