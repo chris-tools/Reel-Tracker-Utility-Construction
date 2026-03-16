@@ -40,7 +40,6 @@ const returnCompany = $('returnCompany');
 const returnSummaryCard = $('returnSummaryCard');
 const returnSummaryText = $('returnSummaryText');
 const returnReelName = $('returnReelName');
-const scanReturnReel = $('scanReturnReel');
 const fiberCount = $('fiberCount');
 const returnLocation = $('returnLocation');
 const returnNext = $('returnNext');
@@ -1056,30 +1055,7 @@ returnCompany?.addEventListener('input', updateReturn);
   if (returnEntryWrap) returnEntryWrap.hidden = false;
 
 });
-  scanReturnReel?.addEventListener('click', async () => {
-
-    const returnScannerMount = $('returnScannerMount');
-if (returnScannerMount) {
-  returnScannerMount.appendChild(scanSection);
-}
-
-    scanningReturnReel = true;
-
-  // Show scanner area
-  scanSection.hidden = false;
-
-  // Prepare scanner
-  lastSeenValue = '';
-  lastSeenAt = 0;
-  cameraWarmupUntil = Date.now() + 400;
-
-  armed = true;
-
-  await startCamera();
-
-  setBanner('idle', 'Scan reel label');
-});
-
+ 
 returnReelName?.addEventListener('input', () => {
   returnReelName.value = returnReelName.value.toUpperCase();
 });
