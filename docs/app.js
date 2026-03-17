@@ -1317,8 +1317,5 @@ function showHowtoForMode(modeName) {
   updateManualAddState();
   renderReturnSession();
   updateIncomingAddState();
-  if (window.location.pathname.includes('incoming.html')) {
-  showMode('incoming');
-}
-
+ 
 })();
