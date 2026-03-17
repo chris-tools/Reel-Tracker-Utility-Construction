@@ -1288,7 +1288,7 @@ function showHowtoForMode(modeName) {
     incomingBaba.value.trim() !== '';
 
     incomingGoScan.disabled = !ready;
-    incomingGoScan.hidden = !ready;
+    incomingGoScan.hidden = false;
 }
   
   function handleIncomingManualAdd(){
