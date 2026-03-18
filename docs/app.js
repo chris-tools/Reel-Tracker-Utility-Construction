@@ -1133,22 +1133,6 @@ incomingGoScan?.addEventListener('click', ()=>{
   goScan(true);
 });
 
- incomingGoScan?.addEventListener('click', ()=>{
-  // Move scanner under the Start Scanning button
-  if(incomingScannerMount){
-    incomingScannerMount.appendChild(scanSection);
-  }
-
-  if(incomingGoScan) incomingGoScan.hidden = true;
-
-  showIncomingSummary();
-  if(incomingIntakeCard) incomingIntakeCard.hidden = true;
-
-  scanSection.hidden = false;
-
-  goScan(true);
-});
-
  // Return listeners
 returnName?.addEventListener('input', updateReturn);
 returnCompany?.addEventListener('input', updateReturn);
