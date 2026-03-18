@@ -1110,6 +1110,19 @@ incomingGoScan?.addEventListener('click', ()=>{
   goScan(true);
 });
 
+  incomingGoScan?.addEventListener('click', () => {
+  scanSection.hidden = false;
+
+  // Show incoming summary if you want
+  incomingSummaryCard.hidden = false;
+
+  // Reset scan UI state
+  startScan.disabled = false;
+  stopScan.disabled = true;
+
+  startScan.textContent = 'Scan';
+});
+
  // Return listeners
 returnName?.addEventListener('input', updateReturn);
 returnCompany?.addEventListener('input', updateReturn);
