@@ -1121,7 +1121,7 @@ incomingGoScan?.addEventListener('click', ()=>{
   incomingIntakeCard.hidden = true;
     
   scanSection.hidden = false;
-  goScan();
+  
 });
 
   techName?.addEventListener('input', updatePickupGo);
