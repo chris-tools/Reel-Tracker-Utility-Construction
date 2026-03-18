@@ -392,9 +392,31 @@ if (scanningReturnReel) {
 }
 
         // Success (new reel)
-        sessionSet.add(v);
-        sessionReels.unshift(v);
-        renderSession();
+if (mode === 'incoming') {
+
+  incomingReels.unshift(v);
+
+  if (incomingReelList) {
+    const row = document.createElement('div');
+    row.textContent = v;
+    incomingReelList.appendChild(row);
+  }
+
+  if (incomingReelCount) {
+    incomingReelCount.textContent = `(${incomingReels.length})`;
+  }
+
+  if (incomingExport) {
+    incomingExport.disabled = incomingReels.length === 0;
+  }
+  renderSession();
+} else {
+
+  sessionSet.add(v);
+  sessionReels.unshift(v);
+  renderSession();
+
+}
 
         showLastScan(v);
         setBanner('ok', 'Added to session');
