@@ -1133,17 +1133,20 @@ incomingGoScan?.addEventListener('click', ()=>{
   goScan(true);
 });
 
-  incomingGoScan?.addEventListener('click', () => {
+ incomingGoScan?.addEventListener('click', ()=>{
+  // Move scanner under the Start Scanning button
+  if(incomingScannerMount){
+    incomingScannerMount.appendChild(scanSection);
+  }
+
+  if(incomingGoScan) incomingGoScan.hidden = true;
+
+  showIncomingSummary();
+  if(incomingIntakeCard) incomingIntakeCard.hidden = true;
+
   scanSection.hidden = false;
 
-  // Show incoming summary if you want
-  incomingSummaryCard.hidden = false;
-
-  // Reset scan UI state
-  startScan.disabled = false;
-  stopScan.disabled = true;
-
-  startScan.textContent = 'Scan';
+  goScan(true);
 });
 
  // Return listeners
