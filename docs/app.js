@@ -392,7 +392,7 @@ if (scanningReturnReel) {
 }
 
         // Success (new reel)
-if (mode === 'incoming') {
+if (incomingReelList) {
 
   incomingReels.unshift(v);
 
