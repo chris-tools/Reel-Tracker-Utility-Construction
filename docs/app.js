@@ -60,6 +60,7 @@ const returnEntryWrap = $('returnEntryWrap');
   const flashBtn = $('flashBtn');
   const clearSession = $('clearSession');
   const exportPickupCsv = $('exportPickupCsv');
+  const incomingExport = document.getElementById('incomingExport');
   const copyAllReels = $('copyAllReels');
   const manualReelInput = $('manualReelInput');
   const manualAddBtn = $('manualAddBtn');
