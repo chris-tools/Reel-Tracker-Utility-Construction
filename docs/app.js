@@ -850,6 +850,75 @@ function updateManualAddState(){
   }
 }
 
+function exportIncoming() {
+  const now = new Date();
+
+  const headers = [
+    "Mode","Name","Storage State","Storage Yard","Date Received",
+    "Reel ID #","Size","Footage","BABA?","Manufacturer",
+    "Assigned Y/N","Date Assigned","State Assigned","Assignment",
+    "Contractor","Field Bin Y/N","Picked Up Y/N","Date Picked Up",
+    "Notes","Notes 2","Helper"
+  ];
+
+  const data = [headers];
+
+  for (const reel of incomingReels) {
+    data.push([
+      "Incoming",
+      null,
+      incomingState.value,
+      incomingYard.value.trim(),
+      mmddyyyy(now),
+      reel,
+      null,
+      null,
+      incomingBaba.value,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]);
+  }
+
+  const ws = XLSX.utils.aoa_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "RTU Incoming");
+
+  const filename = `RTU_${mmddyyyy(now)}_Incoming.xlsx`;
+
+  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+  const blob = new Blob([wbout], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  });
+
+  const file = new File([blob], filename, { type: blob.type });
+
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    navigator.share({ files: [file], title: filename })
+      .then(() => setBanner("ok", "Export created"))
+      .catch(() => setBanner("info", "Share canceled"));
+  } else {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    setBanner("ok", "Export created");
+  }
+}
+
 function exportReturn(){
   const now = new Date();
 
