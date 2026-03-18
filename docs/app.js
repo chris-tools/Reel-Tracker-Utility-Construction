@@ -1192,6 +1192,11 @@ returnExport?.addEventListener('click', ()=>{
 
   copyAllReels?.addEventListener('click', ()=>copyAll());
   exportPickupCsv?.addEventListener('click', ()=>exportPickup());
+  
+  incomingExport?.addEventListener('click', ()=>{
+  if(incomingExport.disabled) return;
+  exportIncoming();
+});
 
   undoBtn?.addEventListener('click', () => {
   if(!pendingUndoReel) return;
