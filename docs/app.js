@@ -26,7 +26,6 @@ const incomingReelList = $('incomingReelList');
 const incomingReelCount = $('incomingReelCount');
 
 const incomingNotes = $('incomingNotes');
-const incomingExport = $('incomingExport');
 
   // Pickup fields
   const techName = $('techName');
