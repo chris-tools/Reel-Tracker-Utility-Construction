@@ -368,6 +368,7 @@ const deviceId = preferred?.deviceId;
           startScan.disabled = false;
           startScan.textContent = 'Scan Next';
           startScan.classList.add('midSession');
+          armed = true;
           return;
         }
 
@@ -390,25 +391,20 @@ if (scanningReturnReel) {
   return;
 }
 
-        // Success (new reel)
-if (incomingReelList) {
+  if (mode === 'incoming') {
 
   incomingReels.unshift(v);
 
-  if (incomingReelList) {
-    const row = document.createElement('div');
-    row.textContent = v;
-    incomingReelList.appendChild(row);
-  }
+  const row = document.createElement('div');
+  row.textContent = v;
+  incomingReelList.appendChild(row);
 
-  if (incomingReelCount) {
-    incomingReelCount.textContent = `(${incomingReels.length})`;
-  }
+  incomingReelCount.textContent = `(${incomingReels.length})`;
 
   if (incomingExport) {
     incomingExport.disabled = incomingReels.length === 0;
   }
-  renderSession();
+
 } else {
 
   sessionSet.add(v);
@@ -424,6 +420,7 @@ if (incomingReelList) {
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
         startScan.classList.add('midSession');
+        armed = true;
       });
 
       // Grab underlying stream for torch support
