@@ -391,7 +391,7 @@ if (scanningReturnReel) {
   return;
 }
 
-  if (mode === 'incoming') {
+ if (mode === 'incoming') {
 
   incomingReels.unshift(v);
 
@@ -404,6 +404,16 @@ if (scanningReturnReel) {
   if (incomingExport) {
     incomingExport.disabled = incomingReels.length === 0;
   }
+
+  // ✅ Add missing behavior (this is what pickup already does)
+  showLastScan(v);
+  setBanner('ok', 'Added to session');
+  beep(2000, 120, 0.9);
+
+  startScan.disabled = false;
+  startScan.textContent = 'Scan Next';
+  startScan.classList.add('midSession');
+  armed = true;
 
 } else {
 
