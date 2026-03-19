@@ -563,33 +563,31 @@ function renderSession(){
     resetLastScan();
   }
 
-  function clearSessionNow(){
+  function renderSession(){
+  reelList.innerHTML = '';
 
-  // Stop camera if running
-    stopCamera();
-    resetClearSessionConfirm();
+  sessionReels.forEach((r, index) => {
+    const div = document.createElement('div');
+    div.className = 'item';
 
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = r;
 
-  // Clear reels
-  sessionReels = [];
-  sessionSet = new Set();
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.textContent = '✕';
+    removeBtn.className = 'reelRemoveBtn';
 
-  // Clear undo state
-  if(undoTimer) clearTimeout(undoTimer);
-  undoTimer = null;
-  pendingUndoReel = null;
-  if(undoBar) undoBar.hidden = true;
+    removeBtn.addEventListener('click', () => {
+      removeReelAt(index);
+    });
 
-  // Reset scan button state
-  if(startScan){
-    startScan.disabled = false;
-    startScan.textContent = 'Scan';
-    startScan.classList.remove('midSession');
-  }
+    div.appendChild(nameSpan);
+    div.appendChild(removeBtn);
+    reelList.appendChild(div);
+  });
 
-  if(manualReelInput){
-  manualReelInput.value = '';
-  updateManualAddState();
+  updateScanUI();
 }
   
   renderSession();
@@ -1110,9 +1108,9 @@ function exportReturn(){
   incomingState?.addEventListener('input', updateIncomingAddState);
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
-  incomingGoScan?.addEventListener('click', ()=>{
+ incomingGoScan?.addEventListener('click', ()=>{
 
-  mode = 'incoming';
+  // DO NOT set mode here (this was breaking scan flow)
 
   if(incomingScannerMount){
     incomingScannerMount.appendChild(scanSection);
