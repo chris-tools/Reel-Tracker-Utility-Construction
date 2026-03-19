@@ -517,12 +517,9 @@ if (mode === 'incoming') {
 
   // --- Session list ---
 function renderSession(){
-
   reelList.innerHTML = '';
 
-  const list = (mode === 'incoming') ? incomingReels : sessionReels;
-
-  list.forEach((r, index) => {
+  sessionReels.forEach((r, index) => {
     const div = document.createElement('div');
     div.className = 'item';
 
@@ -535,22 +532,13 @@ function renderSession(){
     removeBtn.className = 'reelRemoveBtn';
 
     removeBtn.addEventListener('click', () => {
-      if(mode === 'incoming'){
-        incomingReels.splice(index, 1);
-      } else {
-        removeReelAt(index);
-        return;
-      }
-      renderSession();
+      removeReelAt(index);
     });
 
     div.appendChild(nameSpan);
     div.appendChild(removeBtn);
     reelList.appendChild(div);
   });
-
-  const count = (mode === 'incoming') ? incomingReels.length : sessionReels.length;
-  reelCount.textContent = `(${count})`;
 
   updateScanUI();
 }
