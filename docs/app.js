@@ -1117,19 +1117,21 @@ function exportReturn(){
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
   incomingGoScan?.addEventListener('click', ()=>{
-  
+
+  mode = 'incoming';
+
   if(incomingScannerMount){
     incomingScannerMount.appendChild(scanSection);
   }
 
   if(incomingGoScan) incomingGoScan.hidden = true;
- 
+
   showIncomingSummary();
   incomingIntakeCard.hidden = true;
-    
-  goScan();
-});
 
+  goScan(true);
+});
+  
   techName?.addEventListener('input', updatePickupGo);
   company?.addEventListener('input', updatePickupGo);
   build?.addEventListener('input', updatePickupGo);
