@@ -516,10 +516,13 @@ if (mode === 'incoming') {
 }
 
   // --- Session list ---
- function renderSession(){
+function renderSession(){
+
   reelList.innerHTML = '';
 
-  sessionReels.forEach((r, index) => {
+  const list = (mode === 'incoming') ? incomingReels : sessionReels;
+
+  list.forEach((r, index) => {
     const div = document.createElement('div');
     div.className = 'item';
 
@@ -532,13 +535,22 @@ if (mode === 'incoming') {
     removeBtn.className = 'reelRemoveBtn';
 
     removeBtn.addEventListener('click', () => {
-      removeReelAt(index);
+      if(mode === 'incoming'){
+        incomingReels.splice(index, 1);
+      } else {
+        removeReelAt(index);
+        return;
+      }
+      renderSession();
     });
 
     div.appendChild(nameSpan);
     div.appendChild(removeBtn);
     reelList.appendChild(div);
   });
+
+  const count = (mode === 'incoming') ? incomingReels.length : sessionReels.length;
+  reelCount.textContent = `(${count})`;
 
   updateScanUI();
 }
