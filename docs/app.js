@@ -391,21 +391,17 @@ if (scanningReturnReel) {
   return;
 }
 
- if (mode === 'incoming') {
+if (mode === 'incoming') {
 
   incomingReels.unshift(v);
 
-  const row = document.createElement('div');
-  row.textContent = v;
-  incomingReelList.appendChild(row);
-
-  incomingReelCount.textContent = `(${incomingReels.length})`;
+  // ✅ USE SHARED SESSION RENDERER
+  renderSession();
 
   if (incomingExport) {
     incomingExport.disabled = incomingReels.length === 0;
   }
 
-  // ✅ Add missing behavior (this is what pickup already does)
   showLastScan(v);
   setBanner('ok', 'Added to session');
   beep(2000, 120, 0.9);
@@ -655,15 +651,13 @@ function handleClearSessionClick(){
     return;
   }
 
-  if(mode === 'incoming'){
+ if(mode === 'incoming'){
   incomingReels.unshift(v);
 
-  const row = document.createElement('div');
-  row.textContent = v;
-  incomingReelList.appendChild(row);
-
-  incomingReelCount.textContent = `(${incomingReels.length})`;
+  // ✅ USE SAME RENDER SYSTEM
+  renderSession();
 }else{
+    
   sessionSet.add(v);
   sessionReels.unshift(v);
   renderSession();
@@ -1401,18 +1395,14 @@ function showHowtoForMode(modeName) {
   const reel = incomingManualReelInput.value.trim();
   if(!reel) return;
 
-  incomingReels.push(reel);
+incomingReels.push(reel);
 
-  const row = document.createElement('div');
-  row.textContent = reel;
-  incomingReelList.appendChild(row);
+// ✅ Use shared renderer
+renderSession();
 
-  incomingReelCount.textContent = `(${incomingReels.length})`;
+incomingManualReelInput.value = '';
 
-  incomingManualReelInput.value = '';
-
-  incomingExport.disabled = incomingReels.length === 0;
-}
+incomingExport.disabled = incomingReels.length === 0;
 
   // Boot
   setIdleBanner();
