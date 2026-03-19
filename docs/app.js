@@ -391,25 +391,19 @@ if (scanningReturnReel) {
   return;
 }
 
-if (mode === 'incoming') {
+  if (mode === 'incoming') {
 
   incomingReels.unshift(v);
 
-  // ✅ USE SHARED SESSION RENDERER
-  renderSession();
+  const row = document.createElement('div');
+  row.textContent = v;
+  incomingReelList.appendChild(row);
+
+  incomingReelCount.textContent = `(${incomingReels.length})`;
 
   if (incomingExport) {
     incomingExport.disabled = incomingReels.length === 0;
   }
-
-  showLastScan(v);
-  setBanner('ok', 'Added to session');
-  beep(2000, 120, 0.9);
-
-  startScan.disabled = false;
-  startScan.textContent = 'Scan Next';
-  startScan.classList.add('midSession');
-  armed = true;
 
 } else {
 
@@ -516,7 +510,7 @@ if (mode === 'incoming') {
 }
 
   // --- Session list ---
-function renderSession(){
+ function renderSession(){
   reelList.innerHTML = '';
 
   sessionReels.forEach((r, index) => {
@@ -563,31 +557,33 @@ function renderSession(){
     resetLastScan();
   }
 
-  function renderSession(){
-  reelList.innerHTML = '';
+  function clearSessionNow(){
 
-  sessionReels.forEach((r, index) => {
-    const div = document.createElement('div');
-    div.className = 'item';
+  // Stop camera if running
+    stopCamera();
+    resetClearSessionConfirm();
 
-    const nameSpan = document.createElement('span');
-    nameSpan.textContent = r;
 
-    const removeBtn = document.createElement('button');
-    removeBtn.type = 'button';
-    removeBtn.textContent = '✕';
-    removeBtn.className = 'reelRemoveBtn';
+  // Clear reels
+  sessionReels = [];
+  sessionSet = new Set();
 
-    removeBtn.addEventListener('click', () => {
-      removeReelAt(index);
-    });
+  // Clear undo state
+  if(undoTimer) clearTimeout(undoTimer);
+  undoTimer = null;
+  pendingUndoReel = null;
+  if(undoBar) undoBar.hidden = true;
 
-    div.appendChild(nameSpan);
-    div.appendChild(removeBtn);
-    reelList.appendChild(div);
-  });
+  // Reset scan button state
+  if(startScan){
+    startScan.disabled = false;
+    startScan.textContent = 'Scan';
+    startScan.classList.remove('midSession');
+  }
 
-  updateScanUI();
+  if(manualReelInput){
+  manualReelInput.value = '';
+  updateManualAddState();
 }
   
   renderSession();
@@ -649,13 +645,15 @@ function handleClearSessionClick(){
     return;
   }
 
- if(mode === 'incoming'){
+  if(mode === 'incoming'){
   incomingReels.unshift(v);
 
-  // ✅ USE SAME RENDER SYSTEM
-  renderSession();
+  const row = document.createElement('div');
+  row.textContent = v;
+  incomingReelList.appendChild(row);
+
+  incomingReelCount.textContent = `(${incomingReels.length})`;
 }else{
-    
   sessionSet.add(v);
   sessionReels.unshift(v);
   renderSession();
@@ -1108,22 +1106,20 @@ function exportReturn(){
   incomingState?.addEventListener('input', updateIncomingAddState);
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
- incomingGoScan?.addEventListener('click', ()=>{
-
-  // DO NOT set mode here (this was breaking scan flow)
-
+  incomingGoScan?.addEventListener('click', ()=>{
+  
   if(incomingScannerMount){
     incomingScannerMount.appendChild(scanSection);
   }
 
   if(incomingGoScan) incomingGoScan.hidden = true;
-
+ 
   showIncomingSummary();
   incomingIntakeCard.hidden = true;
-
-  goScan(true);
+    
+  goScan();
 });
-  
+
   techName?.addEventListener('input', updatePickupGo);
   company?.addEventListener('input', updatePickupGo);
   build?.addEventListener('input', updatePickupGo);
@@ -1393,14 +1389,18 @@ function showHowtoForMode(modeName) {
   const reel = incomingManualReelInput.value.trim();
   if(!reel) return;
 
-incomingReels.push(reel);
+  incomingReels.push(reel);
 
-// ✅ Use shared renderer
-renderSession();
+  const row = document.createElement('div');
+  row.textContent = reel;
+  incomingReelList.appendChild(row);
 
-incomingManualReelInput.value = '';
+  incomingReelCount.textContent = `(${incomingReels.length})`;
 
-incomingExport.disabled = incomingReels.length === 0;
+  incomingManualReelInput.value = '';
+
+  incomingExport.disabled = incomingReels.length === 0;
+}
 
   // Boot
   setIdleBanner();
