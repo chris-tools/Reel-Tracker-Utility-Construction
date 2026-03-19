@@ -1074,15 +1074,14 @@ function exportReturn(){
     showHowtoForMode(next);
   }
 
-  function goScan(keepPickupDetails = false){
+ function goScan(keepPickupDetails = false){
 
-  goScan();
-  returnSection.hidden = true;
+  scanSection.hidden = false;
 
   if(mode === 'pickup'){
     
     // Build Pickup Session Summary
-   pickupSummaryText.innerHTML = `
+    pickupSummaryText.innerHTML = `
 <div><span class="sessionLabel">Name:</span> <span class="sessionValue">${techName.value}</span></div>
 <div><span class="sessionLabel">Company / Garage:</span> <span class="sessionValue">${company.value}</span></div>
 <div><span class="sessionLabel">Build / Assignment:</span> <span class="sessionValue">${build.value}</span></div>
@@ -1096,6 +1095,8 @@ function exportReturn(){
   } else {
     pickupSection.hidden = !keepPickupDetails;
   }
+
+  returnSection.hidden = true;
 
   setIdleBanner();
   renderSession();
