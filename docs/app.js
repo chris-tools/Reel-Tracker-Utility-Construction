@@ -57,6 +57,9 @@ const returnEntryWrap = $('returnEntryWrap');
   const startScan = $('startScan');
   const stopScan = $('stopScan');
   const flashBtn = $('flashBtn');
+  const clearSession = window.currentMode === 'incoming'
+  ? $('incomingClearSession')
+  : $('clearSession');
   const exportPickupCsv = $('exportPickupCsv');
   const incomingExport = document.getElementById('incomingExport');
   const copyAllReels = $('copyAllReels');
@@ -249,15 +252,9 @@ const entryOk =
   function updateScanUI(){
    if (dismissLastScanned) dismissLastScanned.disabled = !lastScan;
 
-    const hasAny = mode === 'incoming'
-  ? incomingReels.length > 0
-  : sessionReels.length > 0;
+    const hasAny = sessionReels.length > 0;
     exportPickupCsv.disabled = !(hasAny && mode === 'pickup');
-    const clearBtn = mode === 'incoming'
-  ? $('incomingClearSession')
-  : $('clearSession');
-
-if (clearBtn) clearBtn.disabled = !hasAny;
+    clearSession.disabled = !hasAny;
 
     reelCount.textContent = `(${sessionReels.length})`;
   }
@@ -412,11 +409,8 @@ if (scanningReturnReel) {
 
   if (incomingExport) {
     incomingExport.disabled = incomingReels.length === 0;
-    updateScanUI();
   }
-    
-updateScanUI();
-    
+
 } else {
 
   sessionSet.add(v);
@@ -576,18 +570,9 @@ updateScanUI();
     resetClearSessionConfirm();
 
 
- // Clear reels
-if(mode === 'incoming'){
-  incomingReels = [];
-
-  if(incomingReelList) incomingReelList.innerHTML = '';
-  if(incomingReelCount) incomingReelCount.textContent = '(0)';
-  if(incomingExport) incomingExport.disabled = true;
-
-} else {
+  // Clear reels
   sessionReels = [];
   sessionSet = new Set();
-}
 
   // Clear undo state
   if(undoTimer) clearTimeout(undoTimer);
@@ -620,9 +605,7 @@ if(mode === 'incoming'){
 }
 
 function handleClearSessionClick(){
-  const hasAny = mode === 'incoming'
-  ? incomingReels.length > 0
-  : sessionReels.length > 0;
+  const hasAny = sessionReels.length > 0;
   if(!hasAny) return;
 
   // First tap = arm
@@ -1312,8 +1295,7 @@ if(mode === 'incoming'){
   flashBtn?.addEventListener('click', ()=>toggleTorch());
 
   dismissLastScanned?.addEventListener('click', ()=>resetLastScan());
-  $('incomingClearSession')?.addEventListener('click', handleClearSessionClick);
-  $('clearSession')?.addEventListener('click', handleClearSessionClick);
+  clearSession?.addEventListener('click', ()=>handleClearSessionClick());
   manualAddBtn?.addEventListener('click', ()=>handleManualAdd());
 
   manualReelInput?.addEventListener('input', ()=>{
@@ -1449,7 +1431,6 @@ function showHowtoForMode(modeName) {
   incomingManualReelInput.value = '';
 
   incomingExport.disabled = incomingReels.length === 0;
-    updateScanUI();
 }
 
   // Boot
