@@ -647,7 +647,18 @@ function handleClearSessionClick(){
     return;
   }
 
-  if(mode === 'incoming'){
+ if (mode === 'incoming') {
+
+  if (incomingReels.includes(v)) {
+    setBanner('bad', 'Duplicate (already in session)');
+    beep(550, 220, 1.0);
+    startScan.disabled = false;
+    startScan.textContent = 'Scan Next';
+    startScan.classList.add('midSession');
+    armed = true;
+    return;
+  }
+
   incomingReels.unshift(v);
 
   const row = document.createElement('div');
@@ -655,7 +666,12 @@ function handleClearSessionClick(){
   incomingReelList.appendChild(row);
 
   incomingReelCount.textContent = `(${incomingReels.length})`;
-}else{
+
+  if (incomingExport) {
+    incomingExport.disabled = incomingReels.length === 0;
+  }
+
+} else {
   sessionSet.add(v);
   sessionReels.unshift(v);
   renderSession();
@@ -1244,11 +1260,17 @@ returnExport?.addEventListener('click', ()=>{
   armed = false;
   await stopCamera();
    
- if(mode === 'incoming'){
+if(mode === 'incoming'){
   scanSection.hidden = true;
 
-  if(incomingIntakeCard) incomingIntakeCard.hidden = false;
-  if(incomingGoScan) incomingGoScan.hidden = false;
+  // Keep intake hidden (we’re in session now)
+  if(incomingIntakeCard) incomingIntakeCard.hidden = true;
+
+  // Keep scan button hidden (already used)
+  if(incomingGoScan) incomingGoScan.hidden = true;
+
+  // ✅ IMPORTANT: show scan section again (but without camera)
+  scanSection.hidden = false;
 
   hideIncomingSummary();
 }
