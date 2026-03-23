@@ -411,8 +411,11 @@ if (scanningReturnReel) {
 
   if (incomingExport) {
     incomingExport.disabled = incomingReels.length === 0;
+    updateScanUI();
   }
-
+    
+updateScanUI();
+    
 } else {
 
   sessionSet.add(v);
@@ -1444,6 +1447,7 @@ function showHowtoForMode(modeName) {
   incomingManualReelInput.value = '';
 
   incomingExport.disabled = incomingReels.length === 0;
+    updateScanUI();
 }
 
   // Boot
