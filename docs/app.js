@@ -252,9 +252,7 @@ const entryOk =
   function updateScanUI(){
    if (dismissLastScanned) dismissLastScanned.disabled = !lastScan;
 
-   const hasAny = mode === 'incoming'
-  ? incomingReels.length > 0
-  : sessionReels.length > 0;
+    const hasAny = sessionReels.length > 0;
     exportPickupCsv.disabled = !(hasAny && mode === 'pickup');
     clearSession.disabled = !hasAny;
 
@@ -366,19 +364,15 @@ const deviceId = preferred?.deviceId;
         // so we can't double-add from rapid callback repeats.
         armed = false;
 
-       const isDuplicate = mode === 'incoming'
-  ? incomingReels.includes(v)
-  : sessionSet.has(v);
-
-if (isDuplicate) {
-  setBanner('bad', 'Duplicate (already in session)');
-  beep(550, 220, 1.0);
-  startScan.disabled = false;
-  startScan.textContent = 'Scan Next';
-  startScan.classList.add('midSession');
-  armed = true;
-  return;
-}
+        if (sessionSet.has(v)) {
+          setBanner('bad', 'Duplicate (already in session)');
+          beep(550, 220, 1.0);
+          startScan.disabled = false;
+          startScan.textContent = 'Scan Next';
+          startScan.classList.add('midSession');
+          armed = true;
+          return;
+        }
 
         // If scanning for Return reel name, fill the field instead
 if (scanningReturnReel) {
@@ -653,18 +647,7 @@ function handleClearSessionClick(){
     return;
   }
 
- if (mode === 'incoming') {
-
-  if (incomingReels.includes(v)) {
-    setBanner('bad', 'Duplicate (already in session)');
-    beep(550, 220, 1.0);
-    startScan.disabled = false;
-    startScan.textContent = 'Scan Next';
-    startScan.classList.add('midSession');
-    armed = true;
-    return;
-  }
-
+  if(mode === 'incoming'){
   incomingReels.unshift(v);
 
   const row = document.createElement('div');
@@ -672,12 +655,7 @@ function handleClearSessionClick(){
   incomingReelList.appendChild(row);
 
   incomingReelCount.textContent = `(${incomingReels.length})`;
-
-  if (incomingExport) {
-    incomingExport.disabled = incomingReels.length === 0;
-  }
-
-} else {
+}else{
   sessionSet.add(v);
   sessionReels.unshift(v);
   renderSession();
@@ -1266,17 +1244,11 @@ returnExport?.addEventListener('click', ()=>{
   armed = false;
   await stopCamera();
    
-if(mode === 'incoming'){
+ if(mode === 'incoming'){
   scanSection.hidden = true;
 
-  // Keep intake hidden (we’re in session now)
-  if(incomingIntakeCard) incomingIntakeCard.hidden = true;
-
-  // Keep scan button hidden (already used)
-  if(incomingGoScan) incomingGoScan.hidden = true;
-
-  // ✅ IMPORTANT: show scan section again (but without camera)
-  scanSection.hidden = false;
+  if(incomingIntakeCard) incomingIntakeCard.hidden = false;
+  if(incomingGoScan) incomingGoScan.hidden = false;
 
   hideIncomingSummary();
 }
