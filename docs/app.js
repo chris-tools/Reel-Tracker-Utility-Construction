@@ -364,15 +364,19 @@ const deviceId = preferred?.deviceId;
         // so we can't double-add from rapid callback repeats.
         armed = false;
 
-        if (sessionSet.has(v)) {
-          setBanner('bad', 'Duplicate (already in session)');
-          beep(550, 220, 1.0);
-          startScan.disabled = false;
-          startScan.textContent = 'Scan Next';
-          startScan.classList.add('midSession');
-          armed = true;
-          return;
-        }
+       const isDuplicate = mode === 'incoming'
+  ? incomingReels.includes(v)
+  : sessionSet.has(v);
+
+if (isDuplicate) {
+  setBanner('bad', 'Duplicate (already in session)');
+  beep(550, 220, 1.0);
+  startScan.disabled = false;
+  startScan.textContent = 'Scan Next';
+  startScan.classList.add('midSession');
+  armed = true;
+  return;
+}
 
         // If scanning for Return reel name, fill the field instead
 if (scanningReturnReel) {
