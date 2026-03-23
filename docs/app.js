@@ -570,9 +570,18 @@ if (scanningReturnReel) {
     resetClearSessionConfirm();
 
 
-  // Clear reels
+ // Clear reels
+if(mode === 'incoming'){
+  incomingReels = [];
+
+  if(incomingReelList) incomingReelList.innerHTML = '';
+  if(incomingReelCount) incomingReelCount.textContent = '(0)';
+  if(incomingExport) incomingExport.disabled = true;
+
+} else {
   sessionReels = [];
   sessionSet = new Set();
+}
 
   // Clear undo state
   if(undoTimer) clearTimeout(undoTimer);
@@ -605,7 +614,9 @@ if (scanningReturnReel) {
 }
 
 function handleClearSessionClick(){
-  const hasAny = sessionReels.length > 0;
+  const hasAny = mode === 'incoming'
+  ? incomingReels.length > 0
+  : sessionReels.length > 0;
   if(!hasAny) return;
 
   // First tap = arm
