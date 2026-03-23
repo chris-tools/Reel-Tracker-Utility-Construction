@@ -1244,9 +1244,12 @@ returnExport?.addEventListener('click', ()=>{
   armed = false;
   await stopCamera();
    
-  if(mode === 'incoming'){
+ if(mode === 'incoming'){
   scanSection.hidden = true;
-  incomingSection.hidden = false;
+
+  if(incomingIntakeCard) incomingIntakeCard.hidden = false;
+  if(incomingGoScan) incomingGoScan.hidden = false;
+
   hideIncomingSummary();
 }
 
