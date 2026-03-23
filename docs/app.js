@@ -252,7 +252,9 @@ const entryOk =
   function updateScanUI(){
    if (dismissLastScanned) dismissLastScanned.disabled = !lastScan;
 
-    const hasAny = sessionReels.length > 0;
+    const hasAny = mode === 'incoming'
+  ? incomingReels.length > 0
+  : sessionReels.length > 0;
     exportPickupCsv.disabled = !(hasAny && mode === 'pickup');
     clearSession.disabled = !hasAny;
 
