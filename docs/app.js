@@ -57,7 +57,9 @@ const returnEntryWrap = $('returnEntryWrap');
   const startScan = $('startScan');
   const stopScan = $('stopScan');
   const flashBtn = $('flashBtn');
-  const clearSession = $('clearSession');
+  const clearSession = window.currentMode === 'incoming'
+  ? $('incomingClearSession')
+  : $('clearSession');
   const exportPickupCsv = $('exportPickupCsv');
   const incomingExport = document.getElementById('incomingExport');
   const copyAllReels = $('copyAllReels');
@@ -85,7 +87,7 @@ const returnEntryWrap = $('returnEntryWrap');
    const undoBtn  = $('undoBtn');
 
   // State
-  let mode = 'pickup'; // default for pickup.html
+  let mode = window.currentMode || 'pickup';
   let scanner = null;
   let cameraStream = null;
   let streamTrack = null;
