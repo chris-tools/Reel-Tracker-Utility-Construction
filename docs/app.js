@@ -57,9 +57,6 @@ const returnEntryWrap = $('returnEntryWrap');
   const startScan = $('startScan');
   const stopScan = $('stopScan');
   const flashBtn = $('flashBtn');
-  const clearSession = window.currentMode === 'incoming'
-  ? $('incomingClearSession')
-  : $('clearSession');
   const exportPickupCsv = $('exportPickupCsv');
   const incomingExport = document.getElementById('incomingExport');
   const copyAllReels = $('copyAllReels');
@@ -256,7 +253,11 @@ const entryOk =
   ? incomingReels.length > 0
   : sessionReels.length > 0;
     exportPickupCsv.disabled = !(hasAny && mode === 'pickup');
-    clearSession.disabled = !hasAny;
+    const clearBtn = mode === 'incoming'
+  ? $('incomingClearSession')
+  : $('clearSession');
+
+if (clearBtn) clearBtn.disabled = !hasAny;
 
     reelCount.textContent = `(${sessionReels.length})`;
   }
@@ -1311,7 +1312,8 @@ if(mode === 'incoming'){
   flashBtn?.addEventListener('click', ()=>toggleTorch());
 
   dismissLastScanned?.addEventListener('click', ()=>resetLastScan());
-  clearSession?.addEventListener('click', ()=>handleClearSessionClick());
+  $('incomingClearSession')?.addEventListener('click', handleClearSessionClick);
+  $('clearSession')?.addEventListener('click', handleClearSessionClick);
   manualAddBtn?.addEventListener('click', ()=>handleManualAdd());
 
   manualReelInput?.addEventListener('input', ()=>{
