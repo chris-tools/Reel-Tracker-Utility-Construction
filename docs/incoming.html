@@ -119,7 +119,7 @@
     Export Incoming
   </button>
 
-    <button id="clearSession" class="ghost danger clearBtn" disabled>
+    <button id="incomingClearSession" class="ghost danger clearBtn" disabled>
       🗑 <span>Clear Session</span>
     </button>
   </div>
@@ -208,6 +208,9 @@
   <!-- Libs -->
   <script src="zxing-browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style/dist/xlsx.min.js"></script>
+        <script>
+  window.currentMode = "incoming";
+</script>
   <script src="app.js?v=rtu_003"></script>
 
   
