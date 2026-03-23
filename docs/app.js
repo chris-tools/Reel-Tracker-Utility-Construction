@@ -1460,6 +1460,5 @@ function showHowtoForMode(modeName) {
   updateManualAddState();
   renderReturnSession();
   updateIncomingAddState();
-  updateScanUI();
  
 })();
