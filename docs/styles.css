@@ -701,16 +701,24 @@ button:disabled{
   display:inline-block;
   margin-left:12px;
   margin-top:8px;
-
   padding:6px 12px;
 
-  background:#1f2e44;
+  background: linear-gradient(
+  135deg,
+  #103a3f 0%,
+  #0b2a6f 100%
+);
+  background: linear-gradient(
+  135deg,
+  #103a3f 0%,
+  #0b2a6f 100%
+);
+
+box-shadow: var(--bevel-inset), var(--bevel-soft);
   color:white;
   text-decoration:none;
-
   border-radius:8px;
   font-size:14px;
-
   transition:background .2s ease;
 }
 
