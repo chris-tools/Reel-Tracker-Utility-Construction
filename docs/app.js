@@ -1229,6 +1229,7 @@ returnExport?.addEventListener('click', ()=>{
  startScan?.addEventListener('click', async ()=>{
   startScan.disabled = true;
   startScan.textContent = 'Scanning…';
+  startScan.classList.add('midSession');
 
   // Prevent “instant dup” on startup (stale frame / buffered decode)
   lastSeenValue = '';
