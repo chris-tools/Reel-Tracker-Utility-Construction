@@ -170,7 +170,11 @@ h3{ margin: 0 0 10px 0; font-size: 1.0rem; }
   min-height:52px;
   text-align:center;
 
-  background: rgba(255,255,255,0.08);
+  background: linear-gradient(
+  135deg,
+  #103a3f 0%,
+  #0b2a6f 100%
+);
   border: 1px solid rgba(255,255,255,0.18);
   color: rgba(255,255,255,0.9);
 
