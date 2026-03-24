@@ -668,7 +668,11 @@ button:disabled{
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.3px;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(
+  135deg,
+  #facc15,
+  #eab308
+);
   box-shadow: 0 6px 18px rgba(29, 78, 216, 0.35);
   transform: scale(1.04);
 }
