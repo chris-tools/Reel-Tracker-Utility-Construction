@@ -116,10 +116,10 @@ html,body{
 #returnSummaryCard{
 
   background: linear-gradient(
-    135deg,
-    rgba(255,255,255,0.06),
-    rgba(255,255,255,0.02)
-  );
+  135deg,
+  #103a3f 0%,
+  #0b2a6f 100%
+);
 
   border: 1px solid rgba(255,255,255,0.18);
 
