@@ -1,5 +1,3 @@
-alert('incoming.js is running');
-
 // ===== INCOMING MODE (CLEAN BUILD) =====
 
 // --- Elements ---
