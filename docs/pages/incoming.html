@@ -62,25 +62,28 @@
       </div>
     </div>
 
-    <!-- Scan Button -->
-    <div class="row">
-      <button id="incomingGoScan" class="primary bigAction" hidden>
-        Start Scanning Reels
-      </button>
-    </div>
+   <!-- Scan Button -->
+<div class="row">
+  <button id="incomingGoScan" class="primary bigAction" hidden>
+    Start Scanning Reels
+  </button>
+</div>
 
-   <!-- Reel List -->
-    <div style="margin-top:10px;">
-      <h3>Incoming Session Reels <span id="incomingReelCount">(0)</span></h3>
-      <div id="incomingReelList" class="list"></div>
-    </div>
+<!-- HIDDEN UNTIL SCANNING -->
+<div id="incomingSessionWrap" hidden>
 
-    <!-- Export -->
-    <div class="row" style="margin-top:14px;">
-      <button id="incomingExport" class="primary bigAction" disabled>
-        Done (Export)
-      </button>
-    </div>
+  <div style="margin-top:10px;">
+    <h3>Incoming Session Reels <span id="incomingReelCount">(0)</span></h3>
+    <div id="incomingReelList" class="list"></div>
+  </div>
+
+  <div class="row" style="margin-top:14px;">
+    <button id="incomingExport" class="primary bigAction" disabled>
+      Done (Export)
+    </button>
+  </div>
+
+</div>
 
   </section>
 
