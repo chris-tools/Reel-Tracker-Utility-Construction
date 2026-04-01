@@ -63,7 +63,10 @@ function renderIncomingList() {
   incomingReelCount.textContent = `(${incomingReels.length})`;
 
   // Enable export if reels exist
-  incomingExport.disabled = incomingReels.length === 0;
+  const hasReels = incomingReels.length > 0;
+
+incomingExport.disabled = !hasReels;
+incomingExport.hidden = !hasReels;
 }
 
 incomingGoScan.addEventListener('click', () => {
