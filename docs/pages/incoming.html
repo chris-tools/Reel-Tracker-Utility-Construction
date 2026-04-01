@@ -3,357 +3,81 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Reel Tracking Utility</title>
+  <title>Incoming – Reel Tracking Utility</title>
 
-  <meta name="theme-color" content="#0b2a6f">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=rtu_003">
+  <link rel="stylesheet" href="styles.css?v=1">
 </head>
 <body>
 
-  
-  <header class="topbar">
-      <div class="brand">
-      <img id="brandLogo" src="icon-1.png" alt="Reel Tracking Utility icon" />
-      <img id="brandLogoRight" src="icon-2.png">
-      <div class="titles">
-     <div class="appname">
-  Reel Tracking Utility
-  <div class="author-mark">
-    Reel Tracking Utility – Chris Gagnon – 2026
+<header class="topbar">
+  <div class="titles">
+    <div class="appname">Reel Tracking Utility</div>
   </div>
-</div>
-    <button id="installBtn" class="ghost" hidden>Add to Home Screen</button>
-  </header>
+</header>
 
-  <main class="container">
+<main class="container">
 
-  <div class="modeStack">
-  <a href="pickup.html" class="secondary">Pick Up / Deliver</a>
+  <a href="index.html" class="backBtn">← Back</a>
 
-  <a href="return.html" class="secondary">Return</a>
+  <section class="card">
+    <h2>Incoming / New (MCS use only)</h2>
 
-  <button id="modeIncomingBtn" class="secondary" disabled>
-    Incoming (Coming Soon)
-  </button>
-</div>
-</section>
-
-    <!-- ===== PICKUP / DELIVER ===== -->
-    <section id="pickupSection" class="card" hidden>
-      <h2>Pick Up / Deliver details</h2>
+    <!-- Intake -->
+    <div class="card" style="margin-top:10px;">
+      <h3>Intake information</h3>
 
       <div class="grid2">
         <div class="field">
-         <label for="techName">Name</label>
-         <input id="techName" type="text" placeholder="Required" autocomplete="name" />
+          <label>Storage State</label>
+          <select id="incomingState">
+            <option value="">Required</option>
+            <option value="ME">ME</option>
+            <option value="NH">NH</option>
+            <option value="VT">VT</option>
+          </select>
         </div>
 
         <div class="field">
-          <label for="company">Company / Garage</label>
-          <input id="company" type="text" placeholder="Required" autocomplete="organization" />
+          <label>Storage Yard</label>
+          <input id="incomingYard" type="text" placeholder="Required" />
         </div>
 
         <div class="field full">
-         <label for="build">Build / Assignment</label>
-         <input id="build" type="text" placeholder="Required" />
+          <label>BABA?</label>
+          <select id="incomingBaba">
+            <option value="">Required</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
         </div>
-      </div>
-      <div class="row">
-  <button id="pickupGoScan" class="primary bigAction" hidden>
-    Start Scanning Reels
-  </button>
-</div>
-
-    </section>
-
-   <!-- ===== RETURN ===== -->
-<section id="returnSection" class="card" hidden>
-  <h2>Return details</h2>
-
-  <!-- Session Info (always first) -->
-  <div class="card" style="margin-top:10px;">
-    <h3 style="margin-top:0;">Session info</h3>
-
-    <div class="grid2">
-      <div class="field">
-        <label for="returnName">Name</label>
-        <input id="returnName" type="text" placeholder="Required" autocomplete="name" />
-      </div>
-
-      <div class="field">
-        <label for="returnCompany">Company / Garage</label>
-        <input id="returnCompany" type="text" placeholder="Required" autocomplete="organization" />
-      </div>
-
-      <div class="field full">
-        <label for="returnLocation">Location</label>
-        <input id="returnLocation" type="text" placeholder="Required" />
-      </div>
-    </div>
-  </div>
-
-  <!-- Hidden until session info filled -->
-  <div id="returnEntryWrap" hidden>
-
-    <!-- Reel Entry -->
-    <div class="card" style="margin-top:14px;">
-      <h3 style="margin-top:0;">Return entry</h3>
-
-      <div class="grid2">
-        <div class="field full">
-          <label for="returnReelName">Reel Name</label>
-          <input id="returnReelName" type="text" placeholder="Required" />
-        </div>
-
-        <div class="field">
-          <label for="fiberCount">Fiber Count</label>
-          <input id="fiberCount" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
-        </div>
-
-        <div class="field">
-          <label for="insideFt">Inside Footage (Enter 0 if empty)</label>
-          <input id="insideFt" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
-        </div>
-
-        <div class="field">
-          <label for="outsideFt">Outside Footage (Enter 0 if empty)</label>
-          <input id="outsideFt" type="number" inputmode="numeric" min="0" step="1" placeholder="Required" />
-        </div>
-
-        <div class="field full">
-          <label for="totalFt">Total Footage</label>
-          <input id="totalFt" class="autoTotal" type="number" readonly />
-        </div>
-      </div>
-
-      <div class="row">
-        <button id="returnAdd" class="secondary bigAction" disabled>Add</button>
       </div>
     </div>
 
-    <!-- Summary + Done -->
-    <div class="card" style="margin-top:14px;">
-      <h3>Return Summary <span id="returnSessionCount">(0)</span></h3>
-
-      <div id="returnSessionList" class="list"></div>
-
-      <div class="row" style="margin-top:14px;">
-        <button id="returnExport" class="primary bigAction" disabled>
-          Done (Export)
-        </button>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-    <!-- ===== INCOMING / NEW (MCS USE ONLY) ===== -->
-<section id="incomingSection" class="card" hidden>
-  <h2>Incoming / New (MCS use only)</h2>
-
-  <!-- Section 1 -->
-<div id="incomingIntakeCard" class="card" style="margin-top:10px;">
-  <h3 style="margin-top:0;">Intake information</h3>
-
-  <div class="grid2">
-      <div class="field">
-        <label for="incomingState">Storage State</label>
-        <select id="incomingState">
-          <option value="">Required</option>
-          <option value="ME">ME</option>
-          <option value="NH">NH</option>
-          <option value="VT">VT</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="incomingYard">Storage Yard</label>
-        <input id="incomingYard" type="text" placeholder="Required" autocomplete="off" />
-      </div>
-
-      <div class="field full">
-        <label for="incomingBaba">BABA?</label>
-        <select id="incomingBaba">
-          <option value="">Required</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <!-- Section 2 -->
-  <div class="card" style="margin-top:14px;">
-    <h3 style="margin-top:0;">Add reels</h3>
-
+    <!-- Scan Button -->
     <div class="row">
       <button id="incomingGoScan" class="primary bigAction" hidden>
         Start Scanning Reels
       </button>
     </div>
-    
-    <div id="incomingScannerMount"></div>
 
-   <div class="card" style="margin-top:10px;">
+    <!-- Reel List -->
+    <div class="card" style="margin-top:10px;">
       <h3>Incoming Session Reels <span id="incomingReelCount">(0)</span></h3>
       <div id="incomingReelList" class="list"></div>
     </div>
-  </div>
 
-  <!-- Section 3 -->
-  <div class="card" style="margin-top:14px;">
-    <h3 style="margin-top:0;">Notes (optional)</h3>
-    <div class="field full">
-      <label for="incomingNotes">Notes</label>
-      <textarea id="incomingNotes" rows="3" placeholder="Delivery #, PO #, etc..."></textarea>
-    </div>
-
+    <!-- Export -->
     <div class="row" style="margin-top:14px;">
       <button id="incomingExport" class="primary bigAction" disabled>
         Done (Export)
       </button>
     </div>
-  </div>
-</section>
-    
-    <!-- ===== SCAN ===== -->
-    <section id="scanSection" class="card" hidden>
-  
-  <!-- Incoming summary (only shown for Incoming mode) -->
-  <div id="incomingSummaryCard" class="card" hidden style="margin-top:10px;">
-    <h3 style="margin-top:0;">Incoming intake summary</h3>
-    <div id="incomingSummaryText" style="line-height:1.5;"></div>
-  </div>
 
-  <div id="banner" class="banner" hidden></div>
+  </section>
 
-      <div class="videoWrap">
-        <video id="video" muted playsinline></video>
-        <div class="scanGuide" aria-hidden="true"></div>
-      </div>
+</main>
 
-       <div class="row scanControls">
-       <button id="startScan" class="primary bigAction">Scan</button>
-       <button id="flashBtn" class="ghost lightBtn" disabled>Flashlight</button>
-       <button id="stopScan" class="secondary" disabled>Finished</button>
-    </div>
-
-      <div class="manualAddRow">
-  <input
-    id="manualReelInput"
-    type="text"
-    placeholder="Enter Reel Name (manual)"
-    autocomplete="off"
-  />
-  <button id="manualAddBtn" type="button">Add</button>
-</div>
-
-        <div class="card">
-        <h3>Session Reels <span id="reelCount">(0)</span></h3>
-          
-        <div id="undoBar" class="undoBar" hidden>
-          <span id="undoText" class="undoText">Removed.</span>
-          <button id="undoBtn" type="button" class="undoBtn">Undo</button>
-      </div>
-
-        <div id="reelList" class="list"></div>
-
-        <div class="row exportRow">
-          <button id="exportPickupCsv" class="primary" disabled>Export Pick Up / Deliver CSV</button>
-          <button id="clearSession" class="ghost danger clearBtn" disabled>
-         🗑 <span>Clear Session</span>
-    </button>
-
-          
-        </div>
-      </div>
-
-    </section>
-    
-    <!-- ===== HOW-TO (BOTTOM) ===== -->
-<section id="howtoPickup" class="card howtoCard" hidden>
-  <button id="howtoPickupToggle" class="howtoHeader" type="button" aria-expanded="false">
-    <span class="howtoChevron" aria-hidden="true">▼</span>
-    <span class="howtoTitle">How-To: Pick Up / Deliver</span>
-    <span class="howtoHint">(tap to expand)</span>
-  </button>
-
-  <div id="howtoPickupBody" class="howtoBody" hidden>
-    <h3 class="howtoSubhead">Pick Up / Deliver Instructions</h3>
-
-    <ol class="howtoSteps">
-      <li><b>Tap Pick Up / Deliver.</b></li>
-      <li><b>Enter</b> <b>Name</b>, <b>Company / Garage</b>, and <b>Build</b>.</li>
-      <li>
-        <b>Scan</b> the reel label
-        <span class="howtoNote">(or type the reel name in the manual input field and tap <b>Add</b>).</span>
-      </li>
-      <li><b>Confirm</b> the reel name appears correctly in the session list.</li>
-      <li><b>Repeat</b> for additional reels.</li>
-      <li><b>When finished, export your results.</b></li>
-    </ol>
-
-    <div class="howtoDivider"></div>
-
-    <div class="howtoExportTitle"><b>Exporting the file:</b></div>
-    <ul class="howtoBullets">
-      <li>Tap <b>Done (Export)</b> to generate the file.</li>
-      <li><b>Sharing the file:</b>
-        <ul>
-          <li>If the <b>Share sheet</b> opens, choose Mail, Files, or another option as instructed.</li>
-          <li>If a <b>preview or download screen</b> opens instead, tap <b>More…</b> to share or attach the file.</li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<section id="howtoReturns" class="card howtoCard" hidden>
-  <button id="howtoReturnsToggle" class="howtoHeader" type="button" aria-expanded="false">
-    <span class="howtoChevron" aria-hidden="true">▼</span>
-    <span class="howtoTitle">How-To: Returns</span>
-    <span class="howtoHint">(tap to expand)</span>
-  </button>
-
-  <div id="howtoReturnsBody" class="howtoBody" hidden>
-    <h3 class="howtoSubhead">Return Instructions</h3>
-
-    <ol class="howtoSteps">
-      <li><b>Tap Return.</b></li>
-      <li><b>Enter</b> <b>Name</b>, <b>Company / Garage</b>, and <b>Location</b>.</li>
-      <li><b>Enter</b> <b>Reel Name</b>, <b>Inside Footage</b>, and <b>Outside Footage</b>.</li>
-      <li><b>Tap Add.</b></li>
-      <li><b>Repeat</b> for additional reels.</li>
-      <li><b>Review</b> the Return Summary.</li>
-      <li><b>When finished, export your results.</b></li>
-    </ol>
-
-    <div class="howtoDivider"></div>
-
-    <div class="howtoExportTitle"><b>Exporting the file:</b></div>
-    <ul class="howtoBullets">
-      <li>Tap <b>Done (Export)</b> to generate the file.</li>
-      <li><b>Sharing the file:</b>
-        <ul>
-          <li>If the <b>Share sheet</b> opens, choose Mail, Files, or another option as instructed.</li>
-          <li>If a <b>preview or download screen</b> opens instead, tap <b>More…</b> to share or attach the file.</li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-</section>
-
-    <footer class="foot">
-      <span>v4.2 • RTU • Distribution in Motion</span>
-    </footer>
-
-  </main>
-
-  <!-- Libs -->
-  <script src="zxing-browser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style/dist/xlsx.min.js"></script>
-  <script src="incoming.js?v=1"></script>
+<script src="incoming.js?v=1"></script>
 
 </body>
 </html>
