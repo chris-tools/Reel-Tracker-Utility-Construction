@@ -76,3 +76,5 @@ incomingGoScan.addEventListener('click', () => {
   // Show session section
   document.getElementById('incomingSessionWrap').hidden = false;
 });
+
+validateIncomingIntake();
