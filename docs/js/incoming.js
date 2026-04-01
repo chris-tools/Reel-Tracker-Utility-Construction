@@ -65,3 +65,11 @@ function renderIncomingList() {
   // Enable export if reels exist
   incomingExport.disabled = incomingReels.length === 0;
 }
+
+incomingGoScan.addEventListener('click', () => {
+  // Hide intake section
+  document.getElementById('incomingState').closest('.card').hidden = true;
+
+  // Show session section
+  document.getElementById('incomingSessionWrap').hidden = false;
+});
