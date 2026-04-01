@@ -25,9 +25,9 @@ function validateIncomingIntake() {
 }
 
 // Attach listeners
-incomingState.addEventListener('change', validateIncomingIntake);
+incomingState.addEventListener('input', validateIncomingIntake);
 incomingYard.addEventListener('input', validateIncomingIntake);
-incomingBaba.addEventListener('change', validateIncomingIntake);
+incomingBaba.addEventListener('input', validateIncomingIntake);
 
 // ===== Add Reel =====
 function addIncomingReel(value) {
