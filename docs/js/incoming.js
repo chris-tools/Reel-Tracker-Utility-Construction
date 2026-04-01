@@ -21,6 +21,7 @@ function validateIncomingIntake() {
     incomingBaba.value !== '';
 
   incomingGoScan.hidden = !valid;
+  incomingGoScan.disabled = !valid;
 }
 
 // Attach listeners
