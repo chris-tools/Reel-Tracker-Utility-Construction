@@ -70,8 +70,11 @@ incomingExport.hidden = !hasReels;
 }
 
 incomingGoScan.addEventListener('click', () => {
-  // Hide intake section
-  document.getElementById('incomingState').closest('.card').hidden = true;
+  // Hide intake section ONLY
+  document.querySelector('.grid2').closest('div').hidden = true;
+
+  // Show scanner
+  document.getElementById('incomingScannerWrap').hidden = false;
 
   // Show session section
   document.getElementById('incomingSessionWrap').hidden = false;
