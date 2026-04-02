@@ -70,11 +70,18 @@ incomingExport.hidden = !hasReels;
 }
 
 incomingGoScan.addEventListener('click', () => {
-  // Hide intake cleanly
-  document.getElementById('incomingIntakeWrap').hidden = true;
 
-  // Show scanner
-  document.getElementById('incomingScannerWrap').hidden = false;
+  const scanSection = document.getElementById('scanSection');
+  const mount = document.getElementById('incomingScannerMount');
+
+  // Move scanner into Incoming page
+  if (scanSection && mount) {
+    mount.appendChild(scanSection);
+    scanSection.hidden = false;
+  }
+
+  // Hide intake
+  document.getElementById('incomingIntakeWrap').hidden = true;
 
   // Show session list
   document.getElementById('incomingSessionWrap').hidden = false;
