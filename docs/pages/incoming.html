@@ -28,71 +28,65 @@
 
 <main class="container">
 
- <section class="card">
+<section class="card">
   <h2>Incoming / New (MCS use only)</h2>
 
- <!-- Intake -->
-<div id="incomingIntakeWrap" style="margin-top:10px;">
-      <h3>Intake information</h3>
+  <!-- Intake -->
+  <div id="incomingIntakeCard" class="card" style="margin-top:10px;">
+    <h3 style="margin-top:0;">Intake information</h3>
 
-      <div class="grid2">
-        <div class="field">
-          <label>Storage State</label>
-          <select id="incomingState">
-            <option value="">Required</option>
-            <option value="ME">ME</option>
-            <option value="NH">NH</option>
-            <option value="VT">VT</option>
-          </select>
-        </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Storage State</label>
+        <select id="incomingState">
+          <option value="">Required</option>
+          <option value="ME">ME</option>
+          <option value="NH">NH</option>
+          <option value="VT">VT</option>
+        </select>
+      </div>
 
-        <div class="field">
-          <label>Storage Yard</label>
-          <input id="incomingYard" type="text" placeholder="Required" />
-        </div>
+      <div class="field">
+        <label>Storage Yard</label>
+        <input id="incomingYard" type="text" placeholder="Required" />
+      </div>
 
-        <div class="field full">
-          <label>BABA?</label>
-          <select id="incomingBaba">
-            <option value="">Required</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
+      <div class="field full">
+        <label>BABA?</label>
+        <select id="incomingBaba">
+          <option value="">Required</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
       </div>
     </div>
 
-   <!-- Scan Button -->
-<div class="row">
-  <button id="incomingGoScan" class="primary bigAction" hidden>
-    Start Scanning Reels
-  </button>
-</div>
+    <div class="row">
+      <button id="incomingGoScan" class="primary bigAction" hidden>
+        Start Scanning Reels
+      </button>
+    </div>
+  </div>
 
+  <!-- Scanner mount -->
   <div id="incomingScannerMount"></div>
 
-</div>
-   
-<!-- HIDDEN UNTIL SCANNING -->
-<div id="incomingSessionWrap" hidden>
-
-  <div style="margin-top:10px;">
+  <!-- Session list -->
+  <div class="card" style="margin-top:14px;">
     <h3>Incoming Session Reels <span id="incomingReelCount">(0)</span></h3>
     <div id="incomingReelList" class="list"></div>
+
+    <div class="row" style="margin-top:14px;">
+      <button id="incomingExport" class="primary bigAction" disabled>
+        Done (Export)
+      </button>
+    </div>
   </div>
-
-  <div class="row" style="margin-top:14px;">
-   <button id="incomingExport" class="primary bigAction" disabled hidden>
-    Done (Export)
-    </button>
-  </div>
-
-</div>
-
-  </section>
-
-</main>
+</section>
   
+    </section>
+
+<!-- ===== SCAN ===== -->
     <section id="scanSection" class="card" hidden>
   
   <!-- Incoming summary (only shown for Incoming mode) -->
