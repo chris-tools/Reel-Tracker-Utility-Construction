@@ -92,7 +92,60 @@
   </section>
 
 </main>
+  
+    <section id="scanSection" class="card" hidden>
+  
+  <!-- Incoming summary (only shown for Incoming mode) -->
+  <div id="incomingSummaryCard" class="card" hidden style="margin-top:10px;">
+    <h3 style="margin-top:0;">Incoming intake summary</h3>
+    <div id="incomingSummaryText" style="line-height:1.5;"></div>
+  </div>
 
+  <div id="banner" class="banner" hidden></div>
+
+      <div class="videoWrap">
+        <video id="video" muted playsinline></video>
+        <div class="scanGuide" aria-hidden="true"></div>
+      </div>
+
+       <div class="row scanControls">
+       <button id="startScan" class="primary bigAction">Scan</button>
+       <button id="flashBtn" class="ghost lightBtn" disabled>Flashlight</button>
+       <button id="stopScan" class="secondary" disabled>Finished</button>
+    </div>
+
+      <div class="manualAddRow">
+  <input
+    id="manualReelInput"
+    type="text"
+    placeholder="Enter Reel Name (manual)"
+    autocomplete="off"
+  />
+  <button id="manualAddBtn" type="button">Add</button>
+</div>
+
+        <div class="card">
+        <h3>Session Reels <span id="reelCount">(0)</span></h3>
+          
+        <div id="undoBar" class="undoBar" hidden>
+          <span id="undoText" class="undoText">Removed.</span>
+          <button id="undoBtn" type="button" class="undoBtn">Undo</button>
+      </div>
+
+        <div id="reelList" class="list"></div>
+
+        <div class="row exportRow">
+          <button id="exportPickupCsv" class="primary" disabled>Export Pick Up / Deliver CSV</button>
+          <button id="clearSession" class="ghost danger clearBtn" disabled>
+         🗑 <span>Clear Session</span>
+    </button>
+
+          
+        </div>
+      </div>
+
+    </section>
+  
 <script src="../js/incoming.js?v=3"></script>
 
 </body>
