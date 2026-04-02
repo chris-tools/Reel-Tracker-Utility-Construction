@@ -70,13 +70,13 @@ incomingExport.hidden = !hasReels;
 }
 
 incomingGoScan.addEventListener('click', () => {
-  // Hide intake section ONLY
-  document.querySelector('.grid2').closest('div').hidden = true;
+  // Hide intake cleanly
+  document.getElementById('incomingIntakeWrap').hidden = true;
 
   // Show scanner
   document.getElementById('incomingScannerWrap').hidden = false;
 
-  // Show session section
+  // Show session list
   document.getElementById('incomingSessionWrap').hidden = false;
 });
 
