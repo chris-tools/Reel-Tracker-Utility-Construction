@@ -1381,10 +1381,8 @@ function showHowtoForMode(modeName) {
 
   function updateIncomingAddState(){
 
-  const ready =
-    incomingState.value.trim() !== '' &&
-    incomingYard.value.trim() !== '' &&
-    incomingBaba.value.trim() !== '';
+    const ready =
+    incomingYard.value.trim() !== '';
 
     incomingGoScan.disabled = !ready;
     incomingGoScan.hidden = false;
