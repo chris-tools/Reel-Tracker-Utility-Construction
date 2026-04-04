@@ -87,7 +87,7 @@ const returnEntryWrap = $('returnEntryWrap');
    const undoBtn  = $('undoBtn');
 
   // State
-  let mode = window.currentMode || 'incoming';
+  let mode = 'incoming';
   let scanner = null;
   let cameraStream = null;
   let streamTrack = null;
