@@ -1109,17 +1109,11 @@ function exportReturn(){
   incomingYard?.addEventListener('input', updateIncomingAddState);
   incomingBaba?.addEventListener('input', updateIncomingAddState);
   incomingGoScan?.addEventListener('click', ()=>{
-  
-  if(incomingScannerMount){
-    incomingScannerMount.appendChild(scanSection);
-  }
 
   if(incomingGoScan) incomingGoScan.hidden = true;
- 
-  showIncomingSummary();
-  incomingIntakeCard.hidden = true;
-    
+
   goScan();
+
 });
 
   techName?.addEventListener('input', updatePickupGo);
