@@ -1244,10 +1244,13 @@ returnExport?.addEventListener('click', ()=>{
  if(mode === 'incoming'){
   scanSection.hidden = true;
 
-  if(incomingIntakeCard) incomingIntakeCard.hidden = false;
+  // Show intake section again
+  if(pickupSection) pickupSection.hidden = false;
+
+  // Show Start Scanning button again
   if(incomingGoScan) incomingGoScan.hidden = false;
 
-  hideIncomingSummary();
+  // KEEP summary visible (important)
 }
 
   if(startScan){
