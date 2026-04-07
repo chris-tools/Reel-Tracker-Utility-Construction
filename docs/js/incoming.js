@@ -179,10 +179,12 @@ function hideIncomingSummary(){
   }
 
 function updatePickupGo(){
+  if (!techName || !company || !build || !pickupGoScan) return;
+
   const ok =
-    techName?.value.trim() &&
-    company?.value.trim() &&
-    build?.value.trim();
+    techName.value.trim() &&
+    company.value.trim() &&
+    build.value.trim();
 
   pickupGoScan.disabled = !ok;
   pickupGoScan.hidden = !ok;
