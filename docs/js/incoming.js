@@ -1113,7 +1113,9 @@ function exportReturn(){
   incomingGoScan?.addEventListener('click', ()=>{
 
   if(incomingGoScan) incomingGoScan.hidden = true;
-
+    
+  showIncomingSummary();
+    
   goScan();
 
 });
