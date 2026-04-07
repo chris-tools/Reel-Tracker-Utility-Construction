@@ -156,11 +156,9 @@ function hideUndo(){
   const yd = (incomingYard?.value || '').trim();
   const bb = (incomingBaba?.value || '').trim();
 
-  incomingSummaryText.innerHTML = `
-    <div><b>Storage State:</b> ${st || '—'}</div>
-    <div><b>Storage Yard:</b> ${yd || '—'}</div>
-    <div><b>BABA?:</b> ${bb || '—'}</div>
-  `;
+ incomingSummaryText.innerHTML = `
+  <div><b>Storage Yard:</b> ${yd || '—'}</div>
+`;
 
   incomingSummaryCard.hidden = false;
 }
