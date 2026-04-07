@@ -1236,22 +1236,6 @@ returnExport?.addEventListener('click', ()=>{
   await startCamera();
 });
 
- stopScan?.addEventListener('click', async ()=>{
-  // User hit Finished while scanning (or after). Cleanly reset UI state.
-  armed = false;
-  await stopCamera();
-   
- if(mode === 'incoming'){
-  scanSection.hidden = true;
-
-  // Show intake section again
-  if(pickupSection) pickupSection.hidden = false;
-
-  // Show Start Scanning button again
-  if(incomingGoScan) incomingGoScan.hidden = false;
-
-  // KEEP summary visible (important)
-}
 
   if(startScan){
     startScan.disabled = false;
