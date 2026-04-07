@@ -1260,7 +1260,11 @@ returnExport?.addEventListener('click', ()=>{
     if (startScan.textContent === 'Scanning…') {
       startScan.textContent = (sessionReels.length > 0) ? 'Scan Next' : 'Scan';
     }
-    if (sessionReels.length === 0) {
+   const hasReels = (mode === 'incoming')
+  ? incomingReels.length > 0
+  : sessionReels.length > 0;
+
+if (!hasReels) {
   startScan.classList.remove('midSession');
 }
   }
