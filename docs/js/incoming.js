@@ -424,7 +424,7 @@ if (scanningReturnReel) {
         startScan.disabled = false;
         startScan.textContent = 'Scan Next';
         startScan.classList.add('midSession');
-        armed = true;
+        armed = false;
       });
 
       // Grab underlying stream for torch support
