@@ -13,12 +13,17 @@
   const incomingSection = $('incomingSection');
 
   // Incoming / New fields
+const incomingState = $('incomingState');
 const incomingYard = $('incomingYard');
-const incomingGoScan = $('incomingGoScan');
+const incomingBaba = $('incomingBaba');
+const incomingIntakeCard = $('incomingIntakeCard');
 
 const incomingGoScan = $('incomingGoScan');
 const incomingManualReelInput = $('incomingManualReelInput');
 const incomingManualAddBtn = $('incomingManualAddBtn');
+
+const incomingReelList = $('incomingReelList');
+const incomingReelCount = $('incomingReelCount');
 
 const incomingNotes = $('incomingNotes');
 
@@ -56,6 +61,7 @@ const returnEntryWrap = $('returnEntryWrap');
   ? $('incomingClearSession')
   : $('clearSession');
   const exportPickupCsv = $('exportPickupCsv');
+  const incomingExport = document.getElementById('incomingExport');
   const copyAllReels = $('copyAllReels');
   const manualReelInput = $('manualReelInput');
   const manualAddBtn = $('manualAddBtn');
