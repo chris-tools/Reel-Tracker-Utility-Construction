@@ -1362,13 +1362,13 @@ function showHowtoForMode(modeName) {
   collapseHowtos();
 }
 
-  function updateIncomingAddState(){
+ function updateIncomingAddState(){
+  if (!incomingYard || !incomingGoScan) return;
 
-    const ready =
-    incomingYard.value.trim() !== '';
+  const ready = incomingYard.value.trim() !== '';
 
-    incomingGoScan.disabled = !ready;
-    incomingGoScan.hidden = false;
+  incomingGoScan.disabled = !ready;
+  incomingGoScan.hidden = false;
 }
   
   function handleIncomingManualAdd(){
