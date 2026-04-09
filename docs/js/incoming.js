@@ -398,7 +398,6 @@ if (scanningReturnReel) {
  sessionSet.add(v);
 sessionReels.unshift(v);
 renderSession();
-  }
 
 } else {
 
