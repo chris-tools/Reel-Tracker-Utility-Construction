@@ -395,16 +395,9 @@ if (scanningReturnReel) {
 
   if (mode === 'incoming') {
 
-  incomingReels.unshift(v);
-
-  const row = document.createElement('div');
-  row.textContent = v;
-  incomingReelList.appendChild(row);
-
-  incomingReelCount.textContent = `(${incomingReels.length})`;
-
-  if (incomingExport) {
-    incomingExport.disabled = incomingReels.length === 0;
+ sessionSet.add(v);
+sessionReels.unshift(v);
+renderSession();
   }
 
 } else {
