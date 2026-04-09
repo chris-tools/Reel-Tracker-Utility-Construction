@@ -7,7 +7,7 @@
   const modeIncomingBtn = $('modeIncomingBtn');
   
   // Section
-  const pickupSection = $('pickupSection');
+  const pickupSection = $('incomingSection');
   const returnSection = $('returnSection');
   const scanSection = $('scanSection');
   const incomingSection = $('incomingSection');
