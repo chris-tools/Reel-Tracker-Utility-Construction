@@ -639,19 +639,9 @@ function handleClearSessionClick(){
     return;
   }
 
-  if(mode === 'incoming'){
-  incomingReels.unshift(v);
-
-  const row = document.createElement('div');
-  row.textContent = v;
-  incomingReelList.appendChild(row);
-
-  incomingReelCount.textContent = `(${incomingReels.length})`;
-}else{
-  sessionSet.add(v);
-  sessionReels.unshift(v);
-  renderSession();
-}
+ sessionSet.add(v);
+sessionReels.unshift(v);
+renderSession();
 
   setBanner('ok', 'Added to session');
   beep(2000, 120, 0.9);
