@@ -733,3 +733,7 @@ button.active {
   transform: scale(0.96);
   filter: brightness(1.2);
 }
+button.copied {
+  background-color: #2e7d32 !important;
+  color: #fff !important;
+}
