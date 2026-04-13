@@ -256,6 +256,7 @@ const entryOk =
     const hasAny = sessionReels.length > 0;
     exportPickupCsv.disabled = !(hasAny && mode === 'pickup');
     clearSession.disabled = !hasAny;
+    copyEmailBtn.disabled = !hasAny;
 
     reelCount.textContent = `(${sessionReels.length})`;
   }
