@@ -256,7 +256,14 @@
 
         <div id="reelList" class="list"></div>
           
-       <div class="card" style="margin-top:10px;">
+<div class="row exportRow">
+  <button id="exportPickupCsv" class="primary" disabled>Export Pick Up / Deliver CSV</button>
+  <button id="clearSession" class="ghost danger clearBtn" disabled>
+    🗑 <span>Clear Session</span>
+  </button>
+</div>
+
+ <div class="card" style="margin-top:10px;">
   <div class="row" style="align-items:center; gap:10px; flex-wrap:wrap;">
     
     <button id="copyEmailBtn" class="primary" disabled>
@@ -272,15 +279,7 @@
     <b>Send to:</b> chris.gagnon@fidium.com
   </div>
 </div>
-
-          
-<div class="row exportRow">
-  <button id="exportPickupCsv" class="primary" disabled>Export Pick Up / Deliver CSV</button>
-  <button id="clearSession" class="ghost danger clearBtn" disabled>
-    🗑 <span>Clear Session</span>
-  </button>
-</div>
-          
+         
       </div>
 
     </section>
