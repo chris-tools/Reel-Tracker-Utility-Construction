@@ -61,6 +61,7 @@ const returnEntryWrap = $('returnEntryWrap');
   ? $('incomingClearSession')
   : $('clearSession');
   const exportPickupCsv = $('exportPickupCsv');
+  const copyEmailBtn = $('copyEmailBtn');
   const incomingExport = document.getElementById('incomingExport');
   const copyAllReels = $('copyAllReels');
   const manualReelInput = $('manualReelInput');
@@ -1290,6 +1291,27 @@ returnExport?.addEventListener('click', ()=>{
   incomingExport?.addEventListener('click', ()=>{
   if(incomingExport.disabled) return;
   exportIncoming();
+});
+  
+  copyEmailBtn?.addEventListener('click', () => {
+
+  const email = 'chris.gagnon@fidium.com';
+
+  navigator.clipboard?.writeText(email).then(() => {
+
+    setBanner('ok', 'Email address copied');
+
+    // 🔹 Quick visual feedback (like TAU)
+    copyEmailBtn.classList.add('active');
+
+    setTimeout(() => {
+      copyEmailBtn.classList.remove('active');
+    }, 200);
+
+  }).catch(() => {
+    setBanner('bad', 'Copy failed');
+  });
+
 });
 
   undoBtn?.addEventListener('click', () => {
