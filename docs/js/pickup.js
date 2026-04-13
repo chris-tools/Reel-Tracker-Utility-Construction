@@ -1302,12 +1302,14 @@ returnExport?.addEventListener('click', ()=>{
 
     setBanner('ok', 'Email address copied');
 
-    // 🔹 Quick visual feedback (like TAU)
-    copyEmailBtn.classList.add('active');
+   // 🔹 TAU-style feedback
+copyEmailBtn.textContent = 'Copied ✓';
+copyEmailBtn.classList.add('copied');
 
-    setTimeout(() => {
-      copyEmailBtn.classList.remove('active');
-    }, 200);
+setTimeout(() => {
+  copyEmailBtn.textContent = 'Copy Email';
+  copyEmailBtn.classList.remove('copied');
+}, 1500);
 
   }).catch(() => {
     setBanner('bad', 'Copy failed');
