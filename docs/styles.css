@@ -729,3 +729,7 @@ box-shadow: var(--bevel-inset), var(--bevel-soft);
 .backBtn:hover{
   background:#2c3f5c;
 }
+button.active {
+  transform: scale(0.96);
+  filter: brightness(1.2);
+}
