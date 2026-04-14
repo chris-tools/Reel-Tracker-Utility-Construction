@@ -62,6 +62,7 @@ const returnEntryWrap = $('returnEntryWrap');
   : $('clearSession');
   const exportPickupCsv = $('exportPickupCsv');
   const incomingExport = document.getElementById('incomingExport');
+  const copyIncomingEmail = $('copyIncomingEmail');
   const copyAllReels = $('copyAllReels');
   const manualReelInput = $('manualReelInput');
   const manualAddBtn = $('manualAddBtn');
@@ -253,6 +254,7 @@ const entryOk =
    if (dismissLastScanned) dismissLastScanned.disabled = !lastScan;
 
     const hasAny = sessionReels.length > 0;
+    if (copyIncomingEmail) copyIncomingEmail.disabled = !hasAny;
     exportPickupCsv.disabled = !(hasAny && mode === 'pickup');
     clearSession.disabled = !hasAny;
 
@@ -1259,6 +1261,23 @@ returnExport?.addEventListener('click', ()=>{
   incomingExport?.addEventListener('click', ()=>{
   if(incomingExport.disabled) return;
   exportIncoming();
+});
+
+  copyIncomingEmail?.addEventListener('click', () => {
+  const email = 'chris.gagnon@fidium.com';
+
+  navigator.clipboard.writeText(email).then(() => {
+
+    const originalText = copyIncomingEmail.textContent;
+    copyIncomingEmail.textContent = '✔ Copied';
+
+    setTimeout(() => {
+      copyIncomingEmail.textContent = originalText;
+    }, 1200);
+
+  }).catch(() => {
+    setBanner('bad', 'Clipboard copy failed');
+  });
 });
 
   undoBtn?.addEventListener('click', () => {
