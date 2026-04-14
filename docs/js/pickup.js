@@ -48,6 +48,7 @@ const outsideFt = $('outsideFt');
 const totalFt = $('totalFt');
 const returnExport = $('returnExport');
 const returnAdd = $('returnAdd');
+const copyReturnEmail = $('copyReturnEmail');
 const returnSessionList = $('returnSessionList');
 const returnSessionCount = $('returnSessionCount');
 const returnEntryWrap = $('returnEntryWrap');
@@ -248,6 +249,7 @@ const entryOk =
 
   // Done (Export) is enabled when there's at least 1 entry in the session
   if (returnExport) returnExport.disabled = !(returnSession.length > 0);
+  if (copyReturnEmail) copyReturnEmail.disabled = !(returnSession.length > 0);
 }
 
   function updateScanUI(){
@@ -1227,6 +1229,29 @@ returnExport?.addEventListener('click', ()=>{
   exportReturn();
 });
 
+  returnExport?.addEventListener('click', ()=>{
+  if(returnExport.disabled) return;
+  exportReturn();
+});
+
+copyReturnEmail?.addEventListener('click', () => {
+  const email = 'chris.gagnon@fidium.com';
+
+  navigator.clipboard.writeText(email).then(() => {
+
+    // Visual feedback (checkmark)
+    const originalText = copyReturnEmail.textContent;
+    copyReturnEmail.textContent = '✔ Copied';
+
+    setTimeout(() => {
+      copyReturnEmail.textContent = originalText;
+    }, 1200);
+
+  }).catch(() => {
+    setBanner('bad', 'Clipboard copy failed');
+  });
+});
+
 
  startScan?.addEventListener('click', async ()=>{
   startScan.disabled = true;
@@ -1421,15 +1446,11 @@ function showHowtoForMode(modeName) {
   if(!reel) return;
 
   incomingReels.push(reel);
-
   const row = document.createElement('div');
   row.textContent = reel;
   incomingReelList.appendChild(row);
-
   incomingReelCount.textContent = `(${incomingReels.length})`;
-
   incomingManualReelInput.value = '';
-
   incomingExport.disabled = incomingReels.length === 0;
 }
 
