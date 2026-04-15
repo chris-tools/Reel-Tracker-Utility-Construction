@@ -908,10 +908,29 @@ function exportIncoming() {
 
   const range = XLSX.utils.decode_range(ws["!ref"]);
 
+// Header row
+for (let c = range.s.c; c <= range.e.c; c++) {
+  const addr = XLSX.utils.encode_cell({ r: 0, c });
+  if (ws[addr]) ws[addr].s = headerStyle;
+}
+
+// Data rows (fix tall rows issue)
+for (let r = 1; r <= range.e.r; r++) {
   for (let c = range.s.c; c <= range.e.c; c++) {
-    const addr = XLSX.utils.encode_cell({ r: 0, c });
-    if (ws[addr]) ws[addr].s = headerStyle;
+    const addr = XLSX.utils.encode_cell({ r, c });
+    if (!ws[addr]) continue;
+
+    ws[addr].s = {
+      alignment: { vertical: "center", horizontal: "left", wrapText: false },
+      border: {
+        top: { style: "thin" },
+        bottom: { style: "thin" },
+        left: { style: "thin" },
+        right: { style: "thin" }
+      }
+    };
   }
+}
 
   // Auto column width
  const colWidths = new Array(headers.length).fill(10);
