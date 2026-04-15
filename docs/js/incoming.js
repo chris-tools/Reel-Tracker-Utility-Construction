@@ -914,11 +914,19 @@ function exportIncoming() {
   }
 
   // Auto column width
-  ws["!cols"] = [
-    { wch: 25 }, // Storage Yard
-    { wch: 15 }, // Date
-    { wch: 20 }  // Reel ID
-  ];
+ const colWidths = new Array(headers.length).fill(10);
+
+for (let c = 0; c < headers.length; c++) {
+  let maxLen = 0;
+  for (let r = 0; r < data.length; r++) {
+    const v = data[r][c];
+    const s = (v ?? "").toString();
+    maxLen = Math.max(maxLen, s.length);
+  }
+  colWidths[c] = Math.min(Math.max(10, maxLen + 2), 45);
+}
+
+ws["!cols"] = colWidths.map(wch => ({ wch }));
 
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Incoming");
