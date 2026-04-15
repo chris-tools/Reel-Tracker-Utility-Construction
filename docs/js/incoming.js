@@ -859,20 +859,40 @@ function exportIncoming() {
   const now = new Date();
 
   const headers = [
-    "Storage Yard",     // Column B
-    "Date Received",    // Column C
-    "Reel ID #"         // Column D
-  ];
+  "Mode","Name","Storage State","Storage Yard","Date Received",
+  "Reel ID #","Size","Footage","BABA?","Manufacturer",
+  "Assigned Y/N","Date Assigned","State Assigned","Assignment",
+  "Contractor","Field Bin Y/N","Picked Up Y/N","Date Picked Up",
+  "Notes","Notes 2","Helper"
+];
 
   const data = [headers];
 
-  for (const reel of sessionReels) {
-    data.push([
-      incomingYard.value.trim(),
-      mmddyyyy(now),
-      reel
-    ]);
-  }
+ for (const reel of sessionReels) {
+  data.push([
+    null,                              // A
+    null,                              // B
+    null,                              // C
+    incomingYard.value.trim(),         // D
+    mmddyyyy(now),                     // E
+    reel,                              // F
+    null,                              // G
+    null,                              // H
+    null,                              // I
+    null,                              // J
+    null,                              // K
+    null,                              // L
+    null,                              // M
+    null,                              // N
+    null,                              // O
+    null,                              // P
+    null,                              // Q
+    null,                              // R
+    null,                              // S
+    null,                              // T
+    null                               // U
+  ]);
+}
 
   const ws = XLSX.utils.aoa_to_sheet(data);
 
