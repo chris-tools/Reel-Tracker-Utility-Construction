@@ -1,3 +1,4 @@
+console.log("Incoming export running", sessionReels);
 (function(){
   const $ = (id)=>document.getElementById(id);
 
