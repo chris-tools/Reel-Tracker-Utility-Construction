@@ -868,18 +868,19 @@ function exportIncoming() {
 
   const data = [headers];
 
- data.push([
-  "",                               // A
-  "",                               // B
-  "",                               // C
-  incomingYard.value.trim(),         // D
-  mmddyyyy(now),                     // E
-  reel,                              // F
-  "", "", "", "",                    // G–J
-  "", "", "", "",                    // K–N
-  "", "", "", "",                    // O–R
-  "", "", ""                         // S–U
-]);
+for (const reel of sessionReels) {
+  data.push([
+    "",                               // A
+    "",                               // B
+    "",                               // C
+    incomingYard.value.trim(),         // D
+    mmddyyyy(now),                     // E
+    reel,                              // F
+    "", "", "", "",                    // G–J
+    "", "", "", "",                    // K–N
+    "", "", "", "",                    // O–R
+    "", "", ""                         // S–U
+  ]);
 }
 
   const ws = XLSX.utils.aoa_to_sheet(data);
