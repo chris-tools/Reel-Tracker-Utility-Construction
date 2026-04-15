@@ -1261,7 +1261,7 @@ returnExport?.addEventListener('click', ()=>{
 });
 
   copyAllReels?.addEventListener('click', ()=>copyAll());
-  exportPickupCsv?.addEventListener('click', ()=>exportPickup());
+  exportPickupCsv?.addEventListener('click', ()=>exportIncoming());
   
   incomingExport?.addEventListener('click', ()=>{
   if(incomingExport.disabled) return;
