@@ -859,46 +859,51 @@ function exportIncoming() {
   const now = new Date();
 
   const headers = [
-    "Mode","Name","Storage State","Storage Yard","Date Received",
-    "Reel ID #","Size","Footage","BABA?","Manufacturer",
-    "Assigned Y/N","Date Assigned","State Assigned","Assignment",
-    "Contractor","Field Bin Y/N","Picked Up Y/N","Date Picked Up",
-    "Notes","Notes 2","Helper"
+    "Storage Yard",     // Column B
+    "Date Received",    // Column C
+    "Reel ID #"         // Column D
   ];
 
   const data = [headers];
 
-  for (const reel of incomingReels) {
+  for (const reel of sessionReels) {
     data.push([
-      "Incoming",
-      null,
-      incomingState.value,
       incomingYard.value.trim(),
       mmddyyyy(now),
-      reel,
-      null,
-      null,
-      incomingBaba.value,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
+      reel
     ]);
   }
 
   const ws = XLSX.utils.aoa_to_sheet(data);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "RTU Incoming");
 
-  const filename = `RTU_${mmddyyyy(now)}_Incoming.xlsx`;
+  // Optional styling (keeps it clean like your other exports)
+  const thin = { style: "thin", color: { rgb: "000000" } };
+
+  const headerStyle = {
+    fill: { fgColor: { rgb: "1F2E44" } },
+    font: { color: { rgb: "FFFFFF" }, bold: true },
+    alignment: { horizontal: "center", vertical: "center" },
+    border: { top: thin, bottom: thin, left: thin, right: thin }
+  };
+
+  const range = XLSX.utils.decode_range(ws["!ref"]);
+
+  for (let c = range.s.c; c <= range.e.c; c++) {
+    const addr = XLSX.utils.encode_cell({ r: 0, c });
+    if (ws[addr]) ws[addr].s = headerStyle;
+  }
+
+  // Auto column width
+  ws["!cols"] = [
+    { wch: 25 }, // Storage Yard
+    { wch: 15 }, // Date
+    { wch: 20 }  // Reel ID
+  ];
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Incoming");
+
+  const filename = `${mmddyyyy(now)}_Incoming.xlsx`;
 
   const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
   const blob = new Blob([wbout], {
