@@ -255,7 +255,7 @@ const entryOk =
 
     const hasAny = sessionReels.length > 0;
     if (copyIncomingEmail) copyIncomingEmail.disabled = !hasAny;
-    exportPickupCsv.disabled = !(hasAny && mode === 'pickup');
+    exportPickupCsv.disabled = !hasAny;
     clearSession.disabled = !hasAny;
 
     reelCount.textContent = `(${sessionReels.length})`;
