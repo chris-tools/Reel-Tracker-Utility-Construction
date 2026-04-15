@@ -1,4 +1,3 @@
-console.log("Incoming export running", sessionReels);
 (function(){
   const $ = (id)=>document.getElementById(id);
 
@@ -1291,11 +1290,6 @@ returnExport?.addEventListener('click', ()=>{
 
   copyAllReels?.addEventListener('click', ()=>copyAll());
   exportPickupCsv?.addEventListener('click', ()=>exportIncoming());
-  
-  incomingExport?.addEventListener('click', ()=>{
-  if(incomingExport.disabled) return;
-  exportIncoming();
-});
 
   copyIncomingEmail?.addEventListener('click', () => {
   const email = 'chris.gagnon@fidium.com';
