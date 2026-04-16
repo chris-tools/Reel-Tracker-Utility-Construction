@@ -859,33 +859,30 @@ function exportIncoming() {
   const now = new Date();
 
   const headers = [
-  "Mode","Name","Storage State","Storage Yard","Date Received",
-  "Reel ID #","Size","Footage","BABA?","Manufacturer",
-  "Assigned Y/N","Date Assigned","State Assigned","Assignment",
-  "Contractor","Field Bin Y/N","Picked Up Y/N","Date Picked Up",
-  "Notes","Notes 2","Helper"
-];
+    "Storage State","Storage Yard","Date Received",
+    "Reel ID #","Size","Footage","BABA?","Manufacturer",
+    "Assigned Y/N","Date Assigned","State Assigned","Assignment",
+    "Contractor","Field Bin Y/N","Picked Up Y/N","Date Picked Up",
+    "Notes","Notes 2","Helper"
+  ];
 
   const data = [headers];
 
-for (const reel of sessionReels) {
-  data.push([
-    "",                               // A
-    "",                               // B
-    "",                               // C
-    incomingYard.value.trim(),         // D
-    mmddyyyy(now),                     // E
-    reel,                              // F
-    "", "", "", "",                    // G–J
-    "", "", "", "",                    // K–N
-    "", "", "", "",                    // O–R
-    "", "", ""                         // S–U
-  ]);
-}
+  for (const reel of sessionReels) {
+    data.push([
+      "",                              // A  Storage State
+      incomingYard.value.trim(),       // B  Storage Yard
+      mmddyyyy(now),                   // C  Date Received
+      reel,                            // D  Reel ID #
+      "", "", "", "",                  // E–H
+      "", "", "", "",                  // I–L
+      "", "", "", "",                  // M–P
+      "", "", ""                       // Q–S
+    ]);
+  }
 
   const ws = XLSX.utils.aoa_to_sheet(data);
 
-  // Optional styling (keeps it clean like your other exports)
   const thin = { style: "thin", color: { rgb: "000000" } };
 
   const headerStyle = {
@@ -897,44 +894,50 @@ for (const reel of sessionReels) {
 
   const range = XLSX.utils.decode_range(ws["!ref"]);
 
-// Header row
-for (let c = range.s.c; c <= range.e.c; c++) {
-  const addr = XLSX.utils.encode_cell({ r: 0, c });
-  if (ws[addr]) ws[addr].s = headerStyle;
-}
-
-// Data rows (fix tall rows issue)
-for (let r = 1; r <= range.e.r; r++) {
+  // Header row
   for (let c = range.s.c; c <= range.e.c; c++) {
-    const addr = XLSX.utils.encode_cell({ r, c });
-    if (!ws[addr]) continue;
-
-    ws[addr].s = {
-      alignment: { vertical: "center", horizontal: "left", wrapText: false },
-      border: {
-        top: { style: "thin" },
-        bottom: { style: "thin" },
-        left: { style: "thin" },
-        right: { style: "thin" }
-      }
-    };
+    const addr = XLSX.utils.encode_cell({ r: 0, c });
+    if (ws[addr]) ws[addr].s = headerStyle;
   }
-}
+
+  // Data rows
+  for (let r = 1; r <= range.e.r; r++) {
+    for (let c = range.s.c; c <= range.e.c; c++) {
+      const addr = XLSX.utils.encode_cell({ r, c });
+      if (!ws[addr]) continue;
+
+      ws[addr].s = {
+        alignment: { vertical: "center", horizontal: "left", wrapText: false },
+        border: {
+          top: { style: "thin" },
+          bottom: { style: "thin" },
+          left: { style: "thin" },
+          right: { style: "thin" }
+        }
+      };
+    }
+
+    // Force Date Received column (C) to stay as text exactly as written
+    const dateAddr = XLSX.utils.encode_cell({ r, c: 2 });
+    if (ws[dateAddr]) {
+      ws[dateAddr].t = "s";
+    }
+  }
 
   // Auto column width
- const colWidths = new Array(headers.length).fill(10);
+  const colWidths = new Array(headers.length).fill(10);
 
-for (let c = 0; c < headers.length; c++) {
-  let maxLen = 0;
-  for (let r = 0; r < data.length; r++) {
-    const v = data[r][c];
-    const s = (v ?? "").toString();
-    maxLen = Math.max(maxLen, s.length);
+  for (let c = 0; c < headers.length; c++) {
+    let maxLen = 0;
+    for (let r = 0; r < data.length; r++) {
+      const v = data[r][c];
+      const s = (v ?? "").toString();
+      maxLen = Math.max(maxLen, s.length);
+    }
+    colWidths[c] = Math.min(Math.max(10, maxLen + 2), 45);
   }
-  colWidths[c] = Math.min(Math.max(10, maxLen + 2), 45);
-}
 
-ws["!cols"] = colWidths.map(wch => ({ wch }));
+  ws["!cols"] = colWidths.map(wch => ({ wch }));
 
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Incoming");
