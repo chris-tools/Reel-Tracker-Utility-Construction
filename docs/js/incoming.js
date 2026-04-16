@@ -1305,17 +1305,20 @@ returnExport?.addEventListener('click', ()=>{
   copyIncomingEmail?.addEventListener('click', () => {
   const email = 'chris.gagnon@fidium.com';
 
-  navigator.clipboard.writeText(email).then(() => {
+  navigator.clipboard?.writeText(email).then(() => {
 
-    const originalText = copyIncomingEmail.textContent;
-    copyIncomingEmail.textContent = '✔ Copied';
+  setBanner('ok', 'Email address copied');
 
-    setTimeout(() => {
-      copyIncomingEmail.textContent = originalText;
-    }, 1200);
+  copyIncomingEmail.textContent = 'Copied ✓';
+  copyIncomingEmail.classList.add('copied');
 
-  }).catch(() => {
-    setBanner('bad', 'Clipboard copy failed');
+  setTimeout(() => {
+    copyIncomingEmail.textContent = 'Copy Email';
+    copyIncomingEmail.classList.remove('copied');
+  }, 1500);
+
+    }).catch(() => {
+    setBanner('bad', 'Copy failed');
   });
 });
 
