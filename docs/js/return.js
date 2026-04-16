@@ -247,6 +247,7 @@ const entryOk =
 
   // Done (Export) is enabled when there's at least 1 entry in the session
   if (returnExport) returnExport.disabled = !(returnSession.length > 0);
+  if (copyReturnEmail) copyReturnEmail.disabled = !(returnSession.length > 0);
 }
 
   function updateScanUI(){
