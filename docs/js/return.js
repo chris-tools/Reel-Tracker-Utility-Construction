@@ -1286,6 +1286,31 @@ returnExport?.addEventListener('click', ()=>{
 
   copyAllReels?.addEventListener('click', ()=>copyAll());
   exportPickupCsv?.addEventListener('click', ()=>exportPickup());
+
+  const copyReturnEmail = $('copyReturnEmail');
+
+copyReturnEmail?.addEventListener('click', () => {
+
+  const email = 'chris.gagnon@fidium.com';
+
+  navigator.clipboard?.writeText(email).then(() => {
+
+    setBanner('ok', 'Email address copied');
+
+    // Match Pickup behavior
+    copyReturnEmail.textContent = 'Copied ✓';
+    copyReturnEmail.classList.add('copied');
+
+    setTimeout(() => {
+      copyReturnEmail.textContent = 'Copy Email';
+      copyReturnEmail.classList.remove('copied');
+    }, 1500);
+
+  }).catch(() => {
+    setBanner('bad', 'Copy failed');
+  });
+
+});
   
   incomingExport?.addEventListener('click', ()=>{
   if(incomingExport.disabled) return;
