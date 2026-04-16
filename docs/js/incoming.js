@@ -711,11 +711,11 @@ function updateManualAddState(){
     setTimeout(()=>URL.revokeObjectURL(url), 1000);
   }
 
- function mmddyyyy(d){
-  const mm = d.getMonth() + 1;       // no padStart
-  const dd = d.getDate();            // no padStart
-  const yy = String(d.getFullYear()).slice(-2); // last 2 digits
-  return `${mm}/${dd}/${yy}`;
+function mmddyyyy(d){
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const yyyy = d.getFullYear();
+  return `${mm}/${dd}/${yyyy}`;
 }
 
  function exportPickup() {
