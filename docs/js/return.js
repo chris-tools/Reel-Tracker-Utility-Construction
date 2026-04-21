@@ -729,10 +729,10 @@ function updateManualAddState(){
   }
 
  function mmddyyyy(d){
-  const mm = d.getMonth() + 1;       // no padStart
-  const dd = d.getDate();            // no padStart
-  const yy = String(d.getFullYear()).slice(-2); // last 2 digits
-  return `${mm}/${dd}/${yy}`;
+  const mm = d.getMonth()+1;
+  const dd = d.getDate();
+  const yyyy = d.getFullYear();
+  return `${mm}/${dd}/${yyyy}`;
 }
 
  function exportPickup() {
