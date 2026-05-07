@@ -1168,11 +1168,9 @@ function wireAutoNext(fields){
 }
 
 wireAutoNext([
-  returnName,
   returnCompany,
   returnReelName,
   fiberCount,
-  returnLocation,
   insideFt,
   outsideFt
 ]);
