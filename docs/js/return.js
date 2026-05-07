@@ -34,13 +34,11 @@ const incomingNotes = $('incomingNotes');
   const pickupGoScan = $('pickupGoScan');
 
    // Return fields
-const returnName = $('returnName');
 const returnCompany = $('returnCompany');
 const returnSummaryCard = $('returnSummaryCard');
 const returnSummaryText = $('returnSummaryText');
 const returnReelName = $('returnReelName');
 const fiberCount = $('fiberCount');
-const returnLocation = $('returnLocation');
 const returnNext = $('returnNext');
 
 const insideFt = $('insideFt');
@@ -203,9 +201,7 @@ function updateReturn(){
   }
 
   const sessionOk =
-  (returnName?.value.trim() || '') &&
-  (returnCompany?.value.trim() || '') &&
-  (returnLocation?.value.trim() || '');
+  (returnCompany?.value.trim() || '');
 
   if (returnNext) {
   returnNext.hidden = !sessionOk;
@@ -215,10 +211,8 @@ function updateReturn(){
 
   if (returnSummaryText) {
     returnSummaryText.innerHTML = `
-      <div><span class="sessionLabel">Name:</span> <span class="sessionValue">${returnName.value}</span></div>
-      <div><span class="sessionLabel">Company / Garage:</span> <span class="sessionValue">${returnCompany.value}</span></div>
-      <div><span class="sessionLabel">Location:</span> <span class="sessionValue">${returnLocation.value}</span></div>
-    `;
+  <div><span class="sessionLabel">Company / Garage:</span> <span class="sessionValue">${returnCompany.value}</span></div>
+`;
   }
 
   if (returnSummaryCard) {
@@ -945,29 +939,27 @@ function exportReturn(){
   const now = new Date();
 
   const headers = [
-    'Name',
-    'Company/Garage',
-    'Location',
-    'Reel Name',
-    'Fiber Count',
-    'Inside Footage',
-    'Outside Footage',
-    'Total Footage'
-  ];
+  'Company Garage',
+  'Reel ID',
+  'Fiber Count',
+  'Inside Footage',
+  'Outside Footage',
+  'Total Footage',
+  'Scrapped'
+];
 
   const data = [
-    headers,
-    ...returnSession.map(e => ([
-      e.name,
-      e.company,
-      e.location,
-      e.reel,
-      Number(e.fiber),
-      Number(e.inside),
-      Number(e.outside),
-      Number(e.total)
-    ]))
-  ];
+  headers,
+  ...returnSession.map(e => ([
+    e.company,
+    e.reel,
+    Number(e.fiber),
+    Number(e.inside),
+    Number(e.outside),
+    Number(e.total),
+    'Y'
+  ]))
+];
 
   const ws = XLSX.utils.aoa_to_sheet(data);
 
@@ -1198,15 +1190,13 @@ wireAutoNext([
   if(returnAdd.disabled) return;
 
   const entry = {
-    name: (returnName?.value || '').trim(),
-    company: (returnCompany?.value || '').trim(),
-    reel: (returnReelName?.value || '').trim(),
-    fiber: (fiberCount?.value || '').trim(),
-    location: (returnLocation?.value || '').trim(),
-    inside: (insideFt?.value || '').trim(),
-    outside: (outsideFt?.value || '').trim(),
-    total: (totalFt?.value || '').trim()
-  };
+  company: (returnCompany?.value || '').trim(),
+  reel: (returnReelName?.value || '').trim(),
+  fiber: (fiberCount?.value || '').trim(),
+  inside: (insideFt?.value || '').trim(),
+  outside: (outsideFt?.value || '').trim(),
+  total: (totalFt?.value || '').trim()
+};
 
   returnSession.unshift(entry);
   renderReturnSession();
