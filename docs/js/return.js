@@ -1028,11 +1028,16 @@ function exportReturn(){
   const file = new File([blob], filename, { type: blob.type });
 
   // Share Sheet if supported, otherwise download
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    navigator.share({ files: [file], title: filename })
-      .then(() => setBanner("ok", "Export created"))
-      .catch(() => setBanner("info", "Share canceled"));
-  } else {
+ if (navigator.canShare && navigator.canShare({ files: [file] })) {
+  navigator.share({
+    files: [file],
+    title: filename,
+    text: "Scrap Reel Log"
+  })
+    .then(() => setBanner("ok", "Export created"))
+    .catch(() => setBanner("info", "Share canceled"));
+}
+  else {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
