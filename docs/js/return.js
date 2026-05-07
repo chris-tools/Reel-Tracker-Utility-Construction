@@ -1140,8 +1140,9 @@ function exportReturn(){
   if (returnEntryWrap) returnEntryWrap.hidden = false;
 
 });
- 
-returnReelName?.addEventListener('input', () => {
+
+  returnCompany?.addEventListener('input', updateReturn);
+  returnReelName?.addEventListener('input', () => {
   returnReelName.value = returnReelName.value.toUpperCase();
 });
 
