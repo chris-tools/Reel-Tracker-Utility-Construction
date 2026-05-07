@@ -1130,9 +1130,7 @@ function exportReturn(){
 });
 
  // Return listeners
-returnName?.addEventListener('input', updateReturn);
-returnCompany?.addEventListener('input', updateReturn);
-  
+ 
  returnNext?.addEventListener('click', () => {
 
   const sessionCard = returnNext.closest('.card');
