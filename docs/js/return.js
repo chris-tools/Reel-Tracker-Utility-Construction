@@ -1149,7 +1149,6 @@ returnReelName?.addEventListener('input', () => {
 returnReelName?.addEventListener('input', updateReturn);
 
 fiberCount?.addEventListener('input', updateReturn);
-returnLocation?.addEventListener('input', updateReturn);
 insideFt?.addEventListener('input', updateReturn);
 outsideFt?.addEventListener('input', updateReturn);
 
