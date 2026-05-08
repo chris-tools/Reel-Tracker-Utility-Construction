@@ -1024,6 +1024,8 @@ async function exportReturn(){
 
   // Share Sheet if supported, otherwise download
 if (navigator.share) {
+  try {
+    
   await navigator.share({
   files: [file],
   title: filename,
