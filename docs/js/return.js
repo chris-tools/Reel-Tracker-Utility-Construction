@@ -1033,14 +1033,24 @@ function exportReturn(){
 
   setBanner("ok", "Export created");
 
-  // Clear session ONLY after successful share
-  returnSession = [];
-  renderReturnSession();
-  updateReturn();
-
-})
+ })
 .catch(() => {
-  setBanner("info", "Share canceled");
+
+  // Fallback download for Samsung / unsupported share behavior
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+  setBanner("ok", "Export downloaded");
+
 });
    
 }
@@ -1055,10 +1065,6 @@ function exportReturn(){
     URL.revokeObjectURL(url);
     setBanner("ok", "Export created");
 
-    // Clear session after successful download
-returnSession = [];
-renderReturnSession();
-updateReturn();
   }
 
  }
