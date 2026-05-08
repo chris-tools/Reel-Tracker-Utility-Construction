@@ -1025,12 +1025,24 @@ function exportReturn(){
   // Share Sheet if supported, otherwise download
  if (navigator.canShare && navigator.canShare({ files: [file] })) {
   navigator.share({
-    files: [file],
-    title: filename,
-    text: "Scrap Reel Log"
-  })
-    .then(() => setBanner("ok", "Export created"))
-    .catch(() => setBanner("info", "Share canceled"));
+  files: [file],
+  title: filename,
+  text: "Scrap Reel Log"
+})
+.then(() => {
+
+  setBanner("ok", "Export created");
+
+  // Clear session ONLY after successful share
+  returnSession = [];
+  renderReturnSession();
+  updateReturn();
+
+})
+.catch(() => {
+  setBanner("info", "Share canceled");
+});
+   
 }
   else {
     const url = URL.createObjectURL(blob);
@@ -1042,13 +1054,14 @@ function exportReturn(){
     a.remove();
     URL.revokeObjectURL(url);
     setBanner("ok", "Export created");
+
+    // Clear session after successful download
+returnSession = [];
+renderReturnSession();
+updateReturn();
   }
 
-  // Clear session after Done (Export)
-  returnSession = [];
-  renderReturnSession();
-  updateReturn();
-}
+ }
   // --- Mode switching ---
   function showMode(next){
     mode = next;
