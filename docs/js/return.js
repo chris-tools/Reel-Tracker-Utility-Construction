@@ -938,7 +938,7 @@ function exportIncoming() {
   }
 }
 
-function exportReturn(){
+async function exportReturn(){
   const now = new Date();
 
   const headers = [
@@ -1023,35 +1023,17 @@ function exportReturn(){
   const file = new File([blob], filename, { type: blob.type });
 
   // Share Sheet if supported, otherwise download
- if (navigator.canShare && navigator.canShare({ files: [file] })) {
-  navigator.share({
+if (navigator.share) {
+  await navigator.share({
   files: [file],
   title: filename,
-  text: "Scrap Reel Log"
-})
-.then(() => {
-
-  setBanner("ok", "Export created");
-
- })
-.catch(() => {
-
-  // Fallback download for Samsung / unsupported share behavior
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-
-  URL.revokeObjectURL(url);
-
-  setBanner("ok", "Export downloaded");
-
+  text: "RTU Scrap Export"
 });
+
+setBanner("ok", "Export created");
+} catch (e) {
+  // fall through to download
+}
    
 }
   else {
