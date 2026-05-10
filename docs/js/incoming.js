@@ -855,7 +855,7 @@ function mmddyyyy(d){
   }
 }
 
-function exportIncoming() {
+async function exportIncoming() {
   const now = new Date();
 
   const headers = [
@@ -942,30 +942,62 @@ function exportIncoming() {
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Incoming");
 
-  const filename = `${mmddyyyy(now)}_Incoming.xlsx`;
+ const filename = `${mmddyyyy(now)}_Incoming.xlsx`;
 
-  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-  const blob = new Blob([wbout], {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  });
+const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+const blob = new Blob([wbout], {
+  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+});
 
-  const file = new File([blob], filename, { type: blob.type });
+const file = new File([blob], filename, { type: blob.type });
 
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    navigator.share({ files: [file], title: filename })
-      .then(() => setBanner("ok", "Export created"))
-      .catch(() => setBanner("info", "Share canceled"));
-  } else {
+// Share Sheet if supported, otherwise download
+if (navigator.share) {
+  try {
+
+    await navigator.share({
+      files: [file],
+      title: filename,
+      text: "RTU Incoming Export"
+    });
+
+    setBanner("ok", "Export created");
+
+  } catch (e) {
+
     const url = URL.createObjectURL(blob);
+
     const a = document.createElement("a");
     a.href = url;
     a.download = filename;
+
     document.body.appendChild(a);
     a.click();
     a.remove();
+
     URL.revokeObjectURL(url);
-    setBanner("ok", "Export created");
+
+    setBanner("ok", "Export downloaded");
+
   }
+
+} else {
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+  setBanner("ok", "Export created");
+
+}
 }
 
 function exportReturn(){
