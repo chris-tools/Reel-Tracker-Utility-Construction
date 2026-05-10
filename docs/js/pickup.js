@@ -738,7 +738,7 @@ function mmddyyyy(d){
   return `${mm}/${dd}/${yyyy}`;
 }
 
- function exportPickup() {
+ async function exportPickup() {
   const now = new Date();
 
   const headers = [
@@ -858,21 +858,54 @@ function mmddyyyy(d){
   const file = new File([blob], filename, { type: blob.type });
 
   // Share Sheet if supported, otherwise download fallback
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    navigator.share({ files: [file], title: filename })
-      .then(() => setBanner("ok", "Export created"))
-      .catch(() => setBanner("info", "Share canceled"));
-  } else {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    setBanner("ok", "Export created");
-  }
+    // Share Sheet if supported, otherwise download
+if (navigator.share) {
+  try {
+
+  await navigator.share({
+  files: [file],
+  title: filename,
+  text: "RTU Pickup Export"
+});
+
+setBanner("ok", "Export created");
+
+} catch (e) {
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+  setBanner("ok", "Export downloaded");
+
+}
+
+}
+else {
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+
+  setBanner("ok", "Export created");
+
+}
 }
 
 function exportIncoming() {
