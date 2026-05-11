@@ -971,9 +971,32 @@ async function exportReturn(){
 
   const filename = `RTU_${mmddyyyy(now)}_Return.csv`;
 
-  downloadText(filename, csv, 'text/csv');
+  const blob = new Blob([csv], { type: 'text/csv' });
+const file = new File([blob], filename, { type: 'text/csv' });
 
-  setBanner('ok', 'CSV export created');
+if (navigator.canShare && navigator.canShare({ files: [file] })) {
+
+  navigator.share({
+    files: [file],
+    title: filename,
+    text: 'RTU Scrap Export'
+  })
+  .then(() => {
+    setBanner('ok', 'CSV export created');
+  })
+  .catch(() => {
+
+    downloadText(filename, csv, 'text/csv');
+    setBanner('ok', 'CSV export downloaded');
+
+  });
+
+} else {
+
+  downloadText(filename, csv, 'text/csv');
+  setBanner('ok', 'CSV export downloaded');
+
+}
 }
   // --- Mode switching ---
   function showMode(next){
