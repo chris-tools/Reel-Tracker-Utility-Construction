@@ -939,133 +939,42 @@ function exportIncoming() {
 }
 
 async function exportReturn(){
+
   const now = new Date();
 
   const headers = [
-  'Company Garage',
-  'Reel ID',
-  'Fiber Count',
-  'Inside Footage',
-  'Outside Footage',
-  'Total Footage',
-  'Scrapped'
-];
+    'Company Garage',
+    'Reel ID',
+    'Fiber Count',
+    'Inside Footage',
+    'Outside Footage',
+    'Total Footage',
+    'Scrapped'
+  ];
 
-  const data = [
-  headers,
-  ...returnSession.map(e => ([
+  const rows = returnSession.map(e => ([
     e.company,
     e.reel,
-    Number(e.fiber),
-    Number(e.inside),
-    Number(e.outside),
-    Number(e.total),
-''
-  ]))
-];
+    e.fiber,
+    e.inside,
+    e.outside,
+    e.total,
+    ''
+  ]));
 
-  const ws = XLSX.utils.aoa_to_sheet(data);
+  const csv = [
+    headers,
+    ...rows
+  ]
+  .map(row => row.map(csvEscape).join(','))
+  .join('\n');
 
-  // Styling (simple + consistent)
-  const thin = { style: "thin", color: { rgb: "000000" } };
+  const filename = `RTU_${mmddyyyy(now)}_Return.csv`;
 
-  const headerStyle = {
-    fill: { fgColor: { rgb: "1F2E44" } },
-    font: { color: { rgb: "FFFFFF" }, bold: true },
-    alignment: { horizontal: "center", vertical: "center" },
-    border: { top: thin, bottom: thin, left: thin, right: thin }
-  };
+  downloadText(filename, csv, 'text/csv');
 
-  const borderStyle = {
-    border: { top: thin, bottom: thin, left: thin, right: thin }
-  };
-
-  const range = XLSX.utils.decode_range(ws["!ref"]);
-
-  // Header row style
-  for (let c = range.s.c; c <= range.e.c; c++) {
-    const addr = XLSX.utils.encode_cell({ r: 0, c });
-    if (ws[addr]) ws[addr].s = headerStyle;
-  }
-
-  // Borders on data cells
-  for (let r = 1; r <= range.e.r; r++) {
-    for (let c = range.s.c; c <= range.e.c; c++) {
-      const addr = XLSX.utils.encode_cell({ r, c });
-      if (!ws[addr]) continue;
-      ws[addr].s = { ...(ws[addr].s || {}), ...borderStyle };
-    }
-  }
-
-  // Auto-width columns
-  const colWidths = new Array(headers.length).fill(10);
-  for (let c = 0; c < headers.length; c++) {
-    let maxLen = 0;
-    for (let r = 0; r < data.length; r++) {
-      const v = data[r][c];
-      const s = (v ?? '').toString();
-      maxLen = Math.max(maxLen, s.length);
-    }
-    colWidths[c] = Math.min(Math.max(10, maxLen + 2), 45);
-  }
-  ws["!cols"] = colWidths.map(wch => ({ wch }));
-
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "RTU Return");
-
-  const filename = `RTU_${mmddyyyy(now)}_Return.xlsx`;
-
-  // Write workbook to blob
-  const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-  const blob = new Blob([wbout], {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  });
-  const file = new File([blob], filename, { type: blob.type });
-
-  // Share Sheet if supported, otherwise download
-if (navigator.share) {
-  try {
-    
-  await navigator.share({
-  files: [file],
-  title: filename,
-  text: "RTU Scrap Export"
-});
-
-setBanner("ok", "Export created");
-} catch (e) {
-
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-
-  URL.revokeObjectURL(url);
-
-  setBanner("ok", "Export downloaded");
-
+  setBanner('ok', 'CSV export created');
 }
-   
-}
-  else {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    setBanner("ok", "Export created");
-
-  }
-
- }
   // --- Mode switching ---
   function showMode(next){
     mode = next;
