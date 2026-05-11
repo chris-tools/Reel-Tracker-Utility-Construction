@@ -960,7 +960,6 @@ async function exportReturn(){
     Number(e.inside),
     Number(e.outside),
     Number(e.total),
-    'Y'
   ]))
 ];
 
