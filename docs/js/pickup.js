@@ -764,13 +764,13 @@ function mmddyyyy(d){
   null,                              // I
   null,                              // J
   "Y",                               // K
-  mmddyyyy(now),                     // L
+  new Date(now),                     // L
   null,                              // M
   build.value.trim(),                // N
   company.value.trim(),              // O
   null,                              // P
   "Y",                               // Q
-  mmddyyyy(now),                     // R
+  new Date(now),                     // R
   null,                              // S
   null,                              // T
   null                               // U
@@ -800,7 +800,7 @@ function mmddyyyy(d){
   const leftDateStyle = (base) => ({
     ...(base || {}),
     alignment: { horizontal: "left", vertical: "center" },
-    numFmt: "m/d/yyyy"
+    numFmt: "mm/d/yyyy"
   });
 
   const range = XLSX.utils.decode_range(ws["!ref"]);
