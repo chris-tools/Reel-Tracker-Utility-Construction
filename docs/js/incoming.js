@@ -872,7 +872,7 @@ async function exportIncoming() {
     data.push([
       "",                              // A  Storage State
       incomingYard.value.trim(),       // B  Storage Yard
-      mmddyyyy(now),                   // C  Date Received
+      new Date(now),                   // C  Date Received
       reel,                            // D  Reel ID #
       "", "", "", "",                  // E–H
       "", "", "", "",                  // I–L
@@ -917,12 +917,7 @@ async function exportIncoming() {
       };
     }
 
-    // Force Date Received column (C) to stay as text exactly as written
-    const dateAddr = XLSX.utils.encode_cell({ r, c: 2 });
-    if (ws[dateAddr]) {
-      ws[dateAddr].t = "s";
-    }
-  }
+   }
 
   // Auto column width
   const colWidths = new Array(headers.length).fill(10);
